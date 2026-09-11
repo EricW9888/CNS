@@ -1,0 +1,26 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.env.*
+!.env.example
+*.token
+*.key
+*.pem
+*.log
+.cache/
+cache/
+
+# All downloaded/raw connectome files and local data products
+data/*
+!data/.gitkeep
+data/*.feather
+data/*.xlsx
+data/*.csv
+data/*.parquet
+
+# Generated experiment materializations and results
+data/malecns_visual_subgraph/
+results/*
+!results/.gitkeep
