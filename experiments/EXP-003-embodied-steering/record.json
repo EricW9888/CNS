@@ -1,0 +1,94 @@
+{
+  "experiment_id": "EXP-003",
+  "title": "Initial embodied steering from the frozen MaleCNS visual circuit",
+  "status": "initial_validation_direction_dependent_but_not_opposite",
+  "parent_commit": "7a3c620",
+  "question": "Does the validated MaleCNS-derived visual-motion signal drive a different steering response when the same two-column motion order is reversed?",
+  "preserved_history": {
+    "EXP-001": "unchanged strict-LIF baseline; L1 responded, Mi1/Tm3 was subthreshold, and T4 did not spike",
+    "EXP-002": "unchanged and frozen graded local T4 direction-selectivity experiment",
+    "technical_diagnostics": "Brian2/NumPy and MaleCNS annotation diagnostics remain provenance records, not biological experiments"
+  },
+  "anatomy": {
+    "visual_circuit_bundle": "data/malecns_exp002_local_circuit",
+    "visual_circuit_nodes": 187,
+    "visual_circuit_edges": 958,
+    "downstream_bundle": "data/malecns_visual_subgraph",
+    "downstream_nodes": 137,
+    "downstream_edges": 356,
+    "downstream_path": "T4 -> HSS/VS/VST2/VSm -> descending_neuron",
+    "selected_motion_columns": [
+      {"suffix": "01_07", "column": "ME_R_col_01_07", "l1_body_id": 94444},
+      {"suffix": "01_08", "column": "ME_R_col_01_08", "l1_body_id": 65625}
+    ],
+    "T4_downstream_edge_support": {
+      "T4a": {"with_outgoing_edges": 6, "without_outgoing_edges": 6},
+      "T4b": {"with_outgoing_edges": 0, "without_outgoing_edges": 12},
+      "T4c": {"with_outgoing_edges": 0, "without_outgoing_edges": 13},
+      "T4d": {"with_outgoing_edges": 6, "without_outgoing_edges": 0}
+    }
+  },
+  "model": {
+    "EXP002_parameters_frozen": true,
+    "graded_activity_proxy": true,
+    "parameters": {
+      "dt_ms": 0.1,
+      "tau_l1_ms": 5.0,
+      "tau_tm3_ms": 12.0,
+      "tau_mi1_ms": 20.0,
+      "tau_inhibitory_ms": 30.0,
+      "tau_t4_ms": 10.0,
+      "inhibitory_delay_ms": 15.0
+    },
+    "downstream_dynamics": "instantaneous synapse-count-normalized linear T4-to-wide-field-to-descending readout; not interpreted as downstream membrane voltage"
+  },
+  "body_layer": {
+    "backend": "FlyGym 1.2.1 / MuJoCo 3.2.7",
+    "controller": "FlyGym HybridTurningFly with its existing low-level CPG and contact rules",
+    "duration_s": 0.25,
+    "closed_loop_visual_transform": "fly yaw shifts the timing of the two-column retinal pulses by 100 ms per radian",
+    "geometry_status": "The MaleCNS workbook suffix-to-visual-axis mapping is unresolved; conditions are named forward/reverse order only, not front/back or left/right."
+  },
+  "temporary_motor_bridge": {
+    "biological_input": "descending activity from the materialized MaleCNS downstream graph",
+    "readout": "normalized path mass from T4a-dominant descending targets minus T4d-dominant descending targets",
+    "controller_mapping": "action = [1.0 + 0.35*clip(raw/0.01,-1,1), 1.0 - 0.35*clip(raw/0.01,-1,1)]",
+    "status": "explicit artificial actuator bridge; fixed before the final run; not learned and not a direct stimulus-direction lookup"
+  },
+  "control": {
+    "name": "T4-to-wide-field projection ablation",
+    "operation": "remove all selected T4-to-wide-field matrix entries before descending readout",
+    "purpose": "test whether steering disappears when the relevant MaleCNS downstream path is disconnected"
+  },
+  "result": {
+    "full_forward_final_yaw_rad": 0.1511961903159932,
+    "full_reverse_final_yaw_rad": 0.1399584762368169,
+    "full_absolute_final_yaw_order_contrast_rad": 0.011237714079176314,
+    "full_max_absolute_raw_bridge_order_contrast": 0.006123738480235415,
+    "ablated_forward_final_yaw_rad": 0.11310536315613172,
+    "ablated_reverse_final_yaw_rad": 0.11310536315613172,
+    "ablated_absolute_final_yaw_order_contrast_rad": 0.0,
+    "ablated_max_absolute_raw_bridge_order_contrast": 0.0,
+    "interpretation": "The embodied system turns differently in magnitude when order is reversed, and the difference disappears under T4-to-wide-field ablation. It does not yet produce opposite-signed turns, so the EXP-003 qualitative success criterion is not fully met."
+  },
+  "outputs": {
+    "script": "scripts/run_exp003.py",
+    "figures": [
+      "results/exp003/exp003_signal_to_yaw.png",
+      "results/exp003/exp003_ablation_control.png"
+    ],
+    "videos": [
+      "results/exp003/exp003_full_conditions.mp4",
+      "results/exp003/exp003_full_conditions.gif",
+      "results/exp003/exp003_full_forward.mp4",
+      "results/exp003/exp003_full_reverse.mp4"
+    ],
+    "traces": [
+      "results/exp003/full_forward.csv",
+      "results/exp003/full_reverse.csv",
+      "results/exp003/ablated_forward.csv",
+      "results/exp003/ablated_reverse.csv",
+      "results/exp003/downstream_bridge_weights.csv"
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+# Optional EXP-003 body/environment layer for Python 3.11 on Windows.
+flygym==1.2.1
+mujoco==3.2.7
+networkx>=3,<4
