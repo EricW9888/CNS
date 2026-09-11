@@ -1,0 +1,156 @@
+{
+  "experiment_id": "EXP-003-downstream-audit",
+  "title": "Audit and reconstruction of the frozen EXP-003 T4 downstream pathway",
+  "status": "completed_corrected_graph_preserves_all_t4_paths_but_does_not_reverse_motor_sign",
+  "parent_frozen_commit": "aeccf1c",
+  "question": "Are T4b and T4c absent from the EXP-003 downstream materialization because MaleCNS lacks their outputs, or because the target selection is incomplete?",
+  "preserved_baselines": {
+    "EXP-001": "unchanged strict-LIF baseline",
+    "EXP-002": "unchanged frozen graded T4 experiment",
+    "EXP-003": "unchanged initial embodied result from aeccf1c; this audit is a separate comparison record"
+  },
+  "frozen_model_constraints": {
+    "exp002_parameters_changed": false,
+    "exp002_visual_graph_changed": false,
+    "steering_bridge_changed": false,
+    "flygym_or_mujoco_changed": false,
+    "bridge": {
+      "activity_reference": 0.01,
+      "max_asymmetry": 0.35,
+      "baseline": 1.0,
+      "readout": "descending activity weighted by normalized T4a path mass minus normalized T4d path mass"
+    }
+  },
+  "audit": {
+    "root_cause": "The original query retained only HSE, HSN, HSS, HST, VS, VST1, VST2, and VSm as direct T4 targets. That target-type filter excluded the direct T4b/T4c lobula-plate paths.",
+    "target_filtering_mistake": true,
+    "subtype_or_layer_naming_mismatch": false,
+    "side_or_eye_restriction_cause": false,
+    "insufficient_query_depth_cause": false,
+    "incomplete_hse_hs_vs_population": true,
+    "legitimate_biological_absence": false,
+    "evidence": {
+      "all_target_direct_edges": 2585,
+      "all_target_unique_cells_by_subtype": {
+        "T4a": 298,
+        "T4b": 250,
+        "T4c": 204,
+        "T4d": 144
+      },
+      "relevant_direct_edge_rows": 902,
+      "relevant_target_cells": 137,
+      "relevant_target_to_descending_edge_rows": 664,
+      "two_hop_paths_by_subtype": {
+        "T4a": {"path_rows": 799, "middle_cells": 32, "descending_cells": 129},
+        "T4b": {"path_rows": 986, "middle_cells": 30, "descending_cells": 108},
+        "T4c": {"path_rows": 630, "middle_cells": 31, "descending_cells": 83},
+        "T4d": {"path_rows": 840, "middle_cells": 31, "descending_cells": 118}
+      }
+    }
+  },
+  "literature_basis": [
+    {
+      "source": "https://www.janelia.org/publication/neuronal-circuits-integrating-visual-motion-information-in-drosophila-melanogaster",
+      "use": "T4 axons terminate in one of four retinotopic lobula-plate layers, and T4/T5 synaptic partners include common same-layer motion-integration pathways."
+    },
+    {
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7069908/",
+      "use": "T4a-d are four cardinal direction channels whose signals are integrated by lobula-plate tangential cells through direct excitation and indirect LPi inhibition."
+    },
+    {
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6797552/",
+      "use": "All four T4 subtypes project to their own lobula-plate layer, supporting an all-subtype downstream audit rather than treating T4b/c absence as biological."
+    }
+  ],
+  "corrected_materialization": {
+    "dataset": "male-cns:v1.0",
+    "parent_visual_bundle": "data/malecns_exp002_local_circuit",
+    "direct_target_rule": "post superclass in {visual_projection, visual_centrifugal} OR post type starts with LPi",
+    "continuation_rule": "selected target post superclass = descending_neuron",
+    "path_depth_edges": 2,
+    "original_graph": {"nodes": 137, "edges": 356, "target_types": ["HSS", "VS", "VST2", "VSm"]},
+    "corrected_graph": {"nodes": 405, "edges": 1566, "t4_nodes": 43, "lobula_plate_target_nodes": 137, "descending_nodes": 225},
+    "added_target_types": [
+      "LLPC1", "LLPC2", "LLPC3", "LPC1", "LPC2", "LPLC1", "LPLC2", "LPLC4", "LPLC_unclear",
+      "LPT114", "LPT116", "LPT21", "LPT22", "LPT23", "LPT27", "LPT30", "LPT31", "LPT52",
+      "LPi12", "LPi14", "LPi21", "LPi2b", "LPi2c", "LPi2d", "LPi2e", "LPi34", "LPi3412",
+      "LPi3a", "LPi3b", "LPi3c", "LPi43", "LPi4a", "LPi4b", "Nod1", "Nod2", "Nod3", "Nod4",
+      "OA-AL2i1", "OLVC2", "OLVC6", "OLVC7", "TmY14", "V1", "VCH", "vCal1", "vCal3"
+    ],
+    "materialization_script": "scripts/query_exp003_corrected_downstream.py",
+    "generated_bundle": "data/malecns_exp003_corrected_downstream"
+  },
+  "subtype_coverage": {
+    "before": {
+      "T4a": {"total": 12, "direct_target": 6, "two_hop_descending": 6},
+      "T4b": {"total": 12, "direct_target": 0, "two_hop_descending": 0},
+      "T4c": {"total": 13, "direct_target": 0, "two_hop_descending": 0},
+      "T4d": {"total": 6, "direct_target": 6, "two_hop_descending": 6}
+    },
+    "after": {
+      "T4a": {"total": 12, "direct_target": 12, "two_hop_descending": 12},
+      "T4b": {"total": 12, "direct_target": 12, "two_hop_descending": 12},
+      "T4c": {"total": 13, "direct_target": 13, "two_hop_descending": 13},
+      "T4d": {"total": 6, "direct_target": 6, "two_hop_descending": 6}
+    }
+  },
+  "frozen_condition_run": {
+    "duration_s": 0.25,
+    "columns": ["01_07", "01_08"],
+    "order_labels": ["forward", "reverse"],
+    "flygym": "1.2.1",
+    "mujoco": "3.2.7",
+    "open_loop_raw_command": {
+      "original_forward": {"min": -0.008278084581472124, "max": 0.0003511354613341532, "signed_area_command_ms": -0.18729601273075672},
+      "original_reverse": {"min": -0.009405051288822701, "max": 0.0005766817790670008, "signed_area_command_ms": -0.18741004694183205},
+      "corrected_forward": {"min": -0.01153993395126988, "max": 0.0, "signed_area_command_ms": -0.6299775378678355},
+      "corrected_reverse": {"min": -0.011833886934643366, "max": 0.0, "signed_area_command_ms": -0.6299196935787117}
+    },
+    "final_yaw_rad": {
+      "original_forward": 0.1511961903159932,
+      "original_reverse": 0.1399584762368169,
+      "corrected_forward": 0.15314077131563475,
+      "corrected_reverse": 0.15669273624108562
+    },
+    "order_contrast": {
+      "original_raw_max_abs_forward_minus_reverse": 0.006123738480235415,
+      "corrected_raw_max_abs_forward_minus_reverse": 0.0021212283098402535,
+      "original_final_yaw_abs_forward_minus_reverse": 0.011237714079176314,
+      "corrected_final_yaw_abs_forward_minus_reverse": 0.0035519649254508734
+    },
+    "pathway_ablation": {
+      "operation": "remove all corrected T4 -> lobula_plate_target matrix entries before descending readout",
+      "corrected_raw_max_abs_forward_minus_reverse": 0.0,
+      "corrected_final_yaw_abs_forward_minus_reverse": 0.0,
+      "corrected_forward_final_yaw_rad": 0.11310536315613172,
+      "corrected_reverse_final_yaw_rad": 0.11310536315613172
+    }
+  },
+  "interpretation": {
+    "pre_body_command_sign": "The corrected forward and reverse commands are both predominantly negative; neither condition produces an opposite-signed command. The corrected path changes timing and magnitude, not sign.",
+    "body_sign": "Both corrected conditions still produce positive final yaw, with reverse slightly larger than forward.",
+    "causal_result": "Corrected-path ablation removes the corrected order contrast, so the remaining small embodied difference is downstream-path-dependent under this frozen bridge.",
+    "subtype_information": "MaleCNS connectivity now preserves all four subtype-specific T4 paths into selected lobula-plate targets and descending neurons. The frozen motor bridge still explicitly contrasts T4a and T4d path mass; T4b/T4c are not given new hand-coded motor signs in this audit.",
+    "claim_limit": "This is a downstream graph audit and a dimensionless graded activity-proxy result, not evidence of canonical left/right or front/back steering.",
+    "unresolved_biological_ambiguity": "The workbook mapping from 01_07 -> 01_08 to canonical visual/body direction remains unresolved. The conservative corrected graph is two hops; additional LPi-mediated multi-hop integration may matter but was not added here."
+  },
+  "outputs": {
+    "audit_script": "scripts/run_exp003_downstream_audit.py",
+    "corrected_model": "src/exp003_corrected.py",
+    "tests": "tests/test_exp003_corrected.py",
+    "summary": "results/exp003_downstream_audit/summary.json",
+    "figures": [
+      "results/exp003_downstream_audit/downstream_audit_comparison.png",
+      "results/exp003_downstream_audit/order_contrast_ablation.png",
+      "results/exp003_downstream_audit/original/signal_to_yaw.png",
+      "results/exp003_downstream_audit/corrected/signal_to_yaw.png"
+    ],
+    "traces": "results/exp003_downstream_audit/{original,corrected}/{open_loop,body}_*.csv",
+    "videos": [
+      "results/exp003_downstream_audit/original/full_forward.mp4",
+      "results/exp003_downstream_audit/original/full_reverse.mp4",
+      "results/exp003_downstream_audit/corrected/full_forward.mp4",
+      "results/exp003_downstream_audit/corrected/full_reverse.mp4"
+    ]
+  }
+}
