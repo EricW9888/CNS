@@ -41,6 +41,24 @@ counts and direct Mi1/Tm3/Mi4/Mi9/C3/CT1 inputs, and tests an inhibitory-input
 ablation. Its compact public result record is
 [`experiments/EXP-002-graded-t4-motion/record.json`](experiments/EXP-002-graded-t4-motion/record.json).
 
+EXP-002 is frozen at implementation commit `59afc68`. The validation pass
+samples four held-out adjacent pairs along each workbook grid index, reversing
+the same two events for every pair, and runs a same-count T4-to-downstream
+structural null. The second grid index reproduces the T4a-forward/T4b-reverse
+pattern in all four sampled pairs; the first index shows the complementary
+T4c/T4d pattern. The workbook does not publish a mapping from its suffix
+indices to front/back or dorsal/ventral, so those labels are intentionally not
+used. Re-run the validation with:
+
+```powershell
+.venv\Scripts\python.exe scripts/run_exp002_validation.py
+```
+
+The validation summary is written to the ignored `results/exp002_validation/`
+directory. The primary figure shows separate column inputs, both temporal
+orders, subtype-grouped full and ablated responses, and peak order contrast
+before versus after inhibitory ablation.
+
 ## Sources and exact files
 
 * MaleCNS v1.0: <https://male-cns.janelia.org/>

@@ -5,9 +5,11 @@
   "execution_status": "completed",
   "status": "supported_in_model",
   "implementation_commit": "59afc68",
+  "frozen_parameter_commit": "59afc68",
   "question": "Can a MaleCNS-derived T4 motion circuit distinguish the direction of a moving visual stimulus in the biologically expected way?",
   "result_sentence": "For the selected adjacent-column edge, the graded MaleCNS circuit produces stronger forward than reverse T4a activity and stronger reverse than forward T4b activity; removing the direct inhibitory T4-input pathway reduces the order contrast by 82.3%.",
   "scope_qualification": "This supports direction selectivity within the stated reduced model; it is not yet an experimental validation of fly T4 voltage or behavior.",
+  "validation_scope": "Frozen-parameter spatial validation only; no dynamics, connectivity-selection, sign, stimulus, or node-set changes were made.",
   "parent_experiment": "EXP-001",
   "changed_from_exp001": [
     "Replaced spike-gated propagation with continuous graded state propagation.",
@@ -37,6 +39,42 @@
     "contrast_amplitude": 1.0,
     "duration_ms": 150.0,
     "dt_ms": 0.1
+  },
+  "frozen_parameters": {
+    "dt_ms": 0.1,
+    "tau_l1_ms": 5.0,
+    "tau_tm3_ms": 12.0,
+    "tau_mi1_ms": 20.0,
+    "tau_inhibitory_ms": 30.0,
+    "tau_t4_ms": 10.0,
+    "inhibitory_delay_ms": 15.0,
+    "stimulus_amplitude": 1.0,
+    "pulse_duration_ms": 10.0,
+    "event_starts_ms": [10.0, 20.0]
+  },
+  "answer_leakage_audit": {
+    "files_inspected": ["src/graded_model.py", "run_exp002.py", "scripts/query_exp002_circuit.py"],
+    "explicit_t4_subtype_preferred_direction_rule": false,
+    "condition_dependent_model_logic": false,
+    "pair_specific_parameter_or_sign_rule": false,
+    "contrast_manufacturing_output_normalization": false,
+    "normalization_rule": "Each postsynaptic node divides fixed signed MaleCNS synapse-count mass by its total modeled input mass; the denominator is identical across temporal-order conditions.",
+    "class_specific_rules": [
+      {"rule": "L1 -> Mi1/Tm3 is receptor-inverted from negative ON-edge release deviation to positive postsynaptic drive.", "source": "https://elifesciences.org/articles/49373"},
+      {"rule": "Mi1/Tm3 are positive T4 inputs; Mi4/C3/CT1 are negative T4 inputs; Mi9 is treated as a negative receptor pathway and is not directly driven by the ON-only event.", "source": "https://elifesciences.org/articles/24394"},
+      {"rule": "Tm3 and Mi1 use different fixed time constants, with Mi1 slower/delayed than Tm3; inhibitory drive uses one fixed delay and time constant.", "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4243710/"},
+      {"rule": "Fast excitation and delayed inhibition are represented as separate spatially weighted channels.", "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5967973/"}
+    ],
+    "conclusion": "No explicit T4a/T4b/T4c/T4d answer key, condition branch, pair-specific tuning, or fitted output transform was found. The observed preference is emergent within the retained MaleCNS connectivity and these independently motivated class rules. It is not a full-connectome result because the inhibitory visual drive is an exogenous delayed channel and not every upstream branch is materialized.",
+    "numeric_parameter_caveat": "The cited literature motivates qualitative sign and timing relationships; the exact frozen time constants and 15 ms delay are explicit phenomenological assumptions, not measured biophysical constants and not fit to validation results."
+  },
+  "geometry_validation": {
+    "primary_pair": "ME_R_col_01_07 -> ME_R_col_01_08",
+    "workbook_mapping": "positive step in the second ROW_COL grid index on the right-eye optic-column assignment workbook",
+    "canonical_visual_direction": null,
+    "reason_unresolved": "The official MaleCNS supplemental workbook publishes column identifiers, L1 IDs, and column annotations, but not a mapping from the two suffix indices to front/back, dorsal/ventral, or the T4a-d cardinal labels. Therefore the experiment is reported in workbook-grid coordinates only.",
+    "known_t4_reference": "Primary literature describes T4a-d as four cardinal direction channels near the central eye, but that does not by itself map this MaleCNS workbook axis to a body-axis label.",
+    "grid_axis_result": "The second-index direction favors T4a over T4b; the first-index direction favors T4c over T4d in the held-out means, with one small T4d exception."
   },
   "physiology_basis": [
     {
@@ -72,6 +110,8 @@
     "mean_abs_peak_difference": 0.00498882199902911,
     "mean_abs_peak_difference_after_inhibitory_ablation": 0.0008815844478302203,
     "inhibitory_ablation_reduction_fraction": 0.8232880531713122,
+    "mean_peak_order_contrast": 0.004988821999029105,
+    "mean_peak_order_contrast_after_inhibitory_ablation": 0.0008815844478302203,
     "mean_peak_by_type": {
       "T4a": {"forward": 0.021417778611066685, "reverse": 0.01910013581073141},
       "T4b": {"forward": 0.026647727592110888, "reverse": 0.02965268033828272},
@@ -84,17 +124,59 @@
     {"pair": "02_06->02_07", "t4_count": 63, "mean_abs_peak_difference": 0.005387473947762153, "ablated": 0.000552664436991254, "reduction_fraction": 0.8974134852249533, "t4a_forward_gt_reverse": true, "t4b_reverse_gt_forward": true},
     {"pair": "02_07->02_08", "t4_count": 79, "mean_abs_peak_difference": 0.0054995529738599645, "ablated": 0.0004966323104793164, "reduction_fraction": 0.909698178833204, "t4a_forward_gt_reverse": true, "t4b_reverse_gt_forward": true}
   ],
+  "held_out_spatial_validation": {
+    "pair_count": 8,
+    "axes": ["first_index", "second_index"],
+    "summary_output": "results/exp002_validation/validation_summary.json",
+    "table_output": "results/exp002_validation/held_out_pair_summary.csv",
+    "second_index": {
+      "pairs": ["02_05->02_06", "14_20->14_21", "24_11->24_12", "36_34->36_35"],
+      "mean_peak_preference_by_type": {
+        "T4a": "forward > reverse in 4/4 pairs",
+        "T4b": "reverse > forward in 4/4 pairs",
+        "T4c": "forward > reverse in 3/4 pairs",
+        "T4d": "reverse > forward in 4/4 pairs"
+      }
+    },
+    "first_index": {
+      "pairs": ["01_07->02_07", "14_06->15_06", "23_22->24_22", "35_35->36_35"],
+      "mean_peak_preference_by_type": {
+        "T4a": "reverse > forward in 4/4 pairs",
+        "T4b": "forward > reverse in 4/4 pairs",
+        "T4c": "forward > reverse in 4/4 pairs",
+        "T4d": "reverse > forward in 3/4 pairs"
+      }
+    },
+    "interpretation": "The original T4a/T4b pattern generalizes across the sampled second-index pairs, while the orthogonal first-index pairs show the complementary T4c/T4d pattern. This is spatially structured but cannot be named front/back or dorsal/ventral from the MaleCNS workbook alone."
+  },
+  "matched_control": {
+    "control": "same-count T4 -> downstream structural null; these edges have no sign in the frozen feed-forward T4 readout",
+    "inhibitory_edge_count": 484,
+    "neutral_edge_count": 484,
+    "neutral_edge_count_fraction_of_inhibitory": 1.0,
+    "full_mean_peak_order_contrast": 0.004988821999029105,
+    "inhibitory_ablation_mean_peak_order_contrast": 0.0008815844478302203,
+    "neutral_control_mean_peak_order_contrast": 0.004988821999029105,
+    "neutral_minus_full": 0.0,
+    "output": "results/exp002_validation/matched_control/matched_control_metrics.json",
+    "qualification": "This is a matched negative control for the current feed-forward readout, not a claim that downstream T4 connectivity is biologically irrelevant in a larger model."
+  },
   "controls": [
     "Reverse the identical two-column stimulus order.",
     "Remove all modeled Mi4/Mi9/C3/CT1 -> T4 inhibitory edges while leaving the MaleCNS excitatory graph unchanged.",
-    "Repeat across three additional adjacent row-2 column pairs."
+    "Repeat across three additional adjacent row-2 column pairs.",
+    "Repeat across four held-out first-index pairs and four held-out second-index pairs.",
+    "Remove a matched count of T4-to-downstream structural edges; peak order contrast is unchanged."
   ],
   "outputs": {
     "primary_figure": "results/exp002/figures/exp002_direction_selectivity.png",
     "ranked_t4_figure": "results/exp002/figures/exp002_t4_ranked_difference.png",
     "t4_comparison": "results/exp002/t4_direction_comparison.csv",
     "metrics": "results/exp002/metrics.json",
-    "raw_traces": "results/exp002/graded_traces_*.csv"
+    "raw_traces": "results/exp002/graded_traces_*.csv",
+    "validation_summary": "results/exp002_validation/validation_summary.json",
+    "validation_table": "results/exp002_validation/held_out_pair_summary.csv",
+    "matched_control": "results/exp002_validation/matched_control/matched_control_metrics.json"
   },
   "limitations": [
     "Absolute visual-axis mapping of workbook coordinates to canonical T4a/b/c/d directions is not yet independently calibrated.",
