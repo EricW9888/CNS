@@ -34,6 +34,13 @@ for all six Mi1/Tm3 neurons and all 43 T4 neurons, then compares forward and
 reverse T4 traces neuron-by-neuron. It writes figures and raw diagnostics under
 `results/first_experiment/figures/` without changing the experiment.
 
+The next milestone is EXP-002: can a MaleCNS-derived T4 motion circuit
+distinguish opposite directions? EXP-002 replaces the EXP-001 spike-gated
+abstraction with a continuous graded local T4 model, retains MaleCNS synapse
+counts and direct Mi1/Tm3/Mi4/Mi9/C3/CT1 inputs, and tests an inhibitory-input
+ablation. Its compact public result record is
+[`experiments/EXP-002-graded-t4-motion/record.json`](experiments/EXP-002-graded-t4-motion/record.json).
+
 ## Sources and exact files
 
 * MaleCNS v1.0: <https://male-cns.janelia.org/>
@@ -98,6 +105,13 @@ Run the three narrow conditions:
 
 ```powershell
 .venv\Scripts\python.exe run_experiment.py
+```
+
+Materialize and run EXP-002 separately:
+
+```powershell
+.venv\Scripts\python.exe scripts/query_exp002_circuit.py
+.venv\Scripts\python.exe run_exp002.py
 ```
 
 The amplitude is an exposed sensitivity parameter, not a fitted biological
@@ -166,5 +180,5 @@ The repository is initialized locally only. `.gitignore` excludes `.venv`, raw
 MaleCNS downloads, Parquet/CSV data, generated results, caches, `.env` files,
 and common token/key/certificate suffixes. Before committing, inspect both
 `git status --short --ignored` and `git ls-files`, run the repository secret
-scan, and stage only source/docs/tests. No neuPrint credential belongs in this
+scan, and stage only source/docs/tests/experiment-records. No neuPrint credential belongs in this
 repository. No public remote is created or pushed by the prototype setup.

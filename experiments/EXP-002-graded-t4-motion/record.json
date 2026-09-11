@@ -1,0 +1,107 @@
+{
+  "experiment_id": "EXP-002",
+  "title": "MaleCNS-derived graded T4 direction-selectivity circuit",
+  "kind": "biological_model_experiment",
+  "execution_status": "completed",
+  "status": "supported_in_model",
+  "implementation_commit": "59afc68",
+  "question": "Can a MaleCNS-derived T4 motion circuit distinguish the direction of a moving visual stimulus in the biologically expected way?",
+  "result_sentence": "For the selected adjacent-column edge, the graded MaleCNS circuit produces stronger forward than reverse T4a activity and stronger reverse than forward T4b activity; removing the direct inhibitory T4-input pathway reduces the order contrast by 82.3%.",
+  "scope_qualification": "This supports direction selectivity within the stated reduced model; it is not yet an experimental validation of fly T4 voltage or behavior.",
+  "parent_experiment": "EXP-001",
+  "changed_from_exp001": [
+    "Replaced spike-gated propagation with continuous graded state propagation.",
+    "Represented an ON-edge L1 release deviation with receptor-mediated sign inversion into Mi1/Tm3.",
+    "Added the MaleCNS direct T4 input classes Mi4, Mi9, C3, and CT1 alongside Mi1/Tm3.",
+    "Integrated excitatory Mi1/Tm3 and inhibitory Mi4/Mi9/C3/CT1 signals continuously at T4.",
+    "Added a direct inhibitory-input ablation control."
+  ],
+  "why_changed": "EXP-001 executed correctly but its spike-gated abstraction stopped at subthreshold Mi1/Tm3 activity, so T4 direction selectivity could not be evaluated.",
+  "anatomy": {
+    "dataset": "male-cns:v1.0",
+    "release": "MaleCNS v1.0",
+    "primary_columns": [
+      {"name": "ME_R_col_01_07", "l1_body_id": 94444},
+      {"name": "ME_R_col_01_08", "l1_body_id": 65625}
+    ],
+    "direct_t4_input_types": ["Mi1", "Tm3", "Mi4", "Mi9", "C3", "CT1"],
+    "primary_node_count": 187,
+    "primary_edge_count": 958,
+    "primary_t4_count": 43,
+    "edge_weight": "MaleCNS synapse_count, normalized by total modeled input mass per postsynaptic node"
+  },
+  "stimulus": {
+    "primary_forward": "01_07 at 10 ms, then 01_08 at 20 ms",
+    "primary_reverse": "01_08 at 10 ms, then 01_07 at 20 ms",
+    "pulse_duration_ms": 10.0,
+    "contrast_amplitude": 1.0,
+    "duration_ms": 150.0,
+    "dt_ms": 0.1
+  },
+  "physiology_basis": [
+    {
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4243710/",
+      "use": "Mi1 and Tm3 are graded ON-pathway responses with different temporal dynamics; Mi1 is delayed relative to Tm3."
+    },
+    {
+      "source": "https://elifesciences.org/articles/49373",
+      "use": "L1 glutamatergic input is sign-inverted in Mi1/Tm3 through receptor-mediated physiology rather than a simple body-level transmitter sign."
+    },
+    {
+      "source": "https://elifesciences.org/articles/24394",
+      "use": "Mi1/Tm3 provide major excitatory T4 input; Mi4/C3/CT1 provide inhibitory input; Mi9 is glutamatergic and receptor-sign dependent; input locations are spatially segregated across T4 dendrites."
+    },
+    {
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5967973/",
+      "use": "T4 direction selectivity combines fast excitation with spatially offset, delayed inhibition."
+    },
+    {
+      "source": "https://www.nature.com/articles/s41586-024-07939-3",
+      "use": "Connectome-constrained mechanistic models can use measured connectivity plus explicit dynamics, while unknown physiology must remain a model assumption rather than being hidden in weights."
+    }
+  ],
+  "model_assumptions": [
+    "L1 ON-edge release is represented as a negative graded release deviation, followed by a negative receptor transform into a positive Mi1/Tm3 response.",
+    "Mi1/Tm3 are excitatory at T4; Mi4/C3/CT1 are inhibitory at T4; Mi9 is treated as an inhibitory receptor pathway but is not directly driven by the ON-only stimulus.",
+    "The retained MaleCNS L1->Mi1/Tm3 and input->T4 paths provide a two-column coordinate; missing coordinates use a midpoint fallback.",
+    "Direct inhibitory T4 inputs are driven by a delayed, low-pass visual channel because the first local model does not yet materialize every upstream photoreceptor/L1/L3 branch.",
+    "The output is a dimensionless graded activity proxy, not calibrated membrane voltage in mV and not a spike count."
+  ],
+  "primary_result": {
+    "t4_neurons_with_nonzero_order_difference": 43,
+    "mean_abs_peak_difference": 0.00498882199902911,
+    "mean_abs_peak_difference_after_inhibitory_ablation": 0.0008815844478302203,
+    "inhibitory_ablation_reduction_fraction": 0.8232880531713122,
+    "mean_peak_by_type": {
+      "T4a": {"forward": 0.021417778611066685, "reverse": 0.01910013581073141},
+      "T4b": {"forward": 0.026647727592110888, "reverse": 0.02965268033828272},
+      "T4c": {"forward": 0.022223469263945583, "reverse": 0.025004437829081207},
+      "T4d": {"forward": 0.022487251670099753, "reverse": 0.021282932037138314}
+    }
+  },
+  "neighboring_pair_sweep": [
+    {"pair": "02_05->02_06", "t4_count": 51, "mean_abs_peak_difference": 0.0038187027246606824, "ablated": 0.0009256226248016497, "reduction_fraction": 0.7576199419389111, "t4a_forward_gt_reverse": true, "t4b_reverse_gt_forward": true},
+    {"pair": "02_06->02_07", "t4_count": 63, "mean_abs_peak_difference": 0.005387473947762153, "ablated": 0.000552664436991254, "reduction_fraction": 0.8974134852249533, "t4a_forward_gt_reverse": true, "t4b_reverse_gt_forward": true},
+    {"pair": "02_07->02_08", "t4_count": 79, "mean_abs_peak_difference": 0.0054995529738599645, "ablated": 0.0004966323104793164, "reduction_fraction": 0.909698178833204, "t4a_forward_gt_reverse": true, "t4b_reverse_gt_forward": true}
+  ],
+  "controls": [
+    "Reverse the identical two-column stimulus order.",
+    "Remove all modeled Mi4/Mi9/C3/CT1 -> T4 inhibitory edges while leaving the MaleCNS excitatory graph unchanged.",
+    "Repeat across three additional adjacent row-2 column pairs."
+  ],
+  "outputs": {
+    "primary_figure": "results/exp002/figures/exp002_direction_selectivity.png",
+    "ranked_t4_figure": "results/exp002/figures/exp002_t4_ranked_difference.png",
+    "t4_comparison": "results/exp002/t4_direction_comparison.csv",
+    "metrics": "results/exp002/metrics.json",
+    "raw_traces": "results/exp002/graded_traces_*.csv"
+  },
+  "limitations": [
+    "Absolute visual-axis mapping of workbook coordinates to canonical T4a/b/c/d directions is not yet independently calibrated.",
+    "T4 dendritic synapse locations are not present in the MaleCNS export used here; spatial offsets are represented through retained path coordinates and explicit model assumptions.",
+    "The model does not yet include a photoreceptor/luminance transduction model or all upstream L1/L3 branches.",
+    "Mi9 receptor sign and ON/OFF recruitment remain unresolved in this experiment.",
+    "The result is not a FlyGym, behavior, training, or optimization result."
+  ],
+  "generated_outputs_policy": "Bulk traces, downloaded MaleCNS data, caches, and environments remain ignored by Git; this compact record is the public result summary."
+}
