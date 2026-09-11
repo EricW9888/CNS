@@ -1,0 +1,133 @@
+{
+  "experiment_id": "EXP-003-bilateral",
+  "title": "Bilateral MaleCNS T4 optic-flow pathway hypothesis test",
+  "status": "completed_prebody_sign_test_failed",
+  "parent_frozen_commit": "cad078b",
+  "preserved_history": [
+    "EXP-001 unchanged",
+    "EXP-002 unchanged and frozen",
+    "EXP-003 unchanged",
+    "EXP-003-downstream-audit unchanged"
+  ],
+  "question": "Does a bilateral right-minus-left visual-motion pathway difference produce opposite-signed steering commands for mirrored yaw-like optic-flow orders?",
+  "hypothesis_result": "not supported by the minimal T4-only bilateral implementation; not a claim that the full biological binocular circuit is falsified",
+  "model_constraints": {
+    "exp002_parameters_changed": false,
+    "exp002_visual_dynamics_reused": true,
+    "downstream_target_rule_reused": true,
+    "new_subtype_preferred_direction_rule": false,
+    "direct_stimulus_to_turn_mapping": false,
+    "bridge_gain_changed": false,
+    "body_simulation_run": false,
+    "reason_body_not_run": "The pre-body bilateral command did not reverse sign between conditions, so the embodiment gate was not met."
+  },
+  "literature_basis": [
+    {
+      "source": "https://www.nature.com/articles/s41467-024-53173-w",
+      "use": "Bilateral optic-flow interactions in the lobula-plate system contribute to course control; the study motivates paired-eye yaw-like stimuli but does not justify assigning a canonical sign to the MaleCNS workbook axis."
+    },
+    {
+      "source": "https://www.nature.com/articles/s41593-025-01948-9",
+      "use": "DNp15/DNHS1 is an HS-linked bilateral optic-flow descending neuron with yaw sensitivity and binocular modulation; DNa02 is identified as a steering-related downstream neuron."
+    },
+    {
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6670693/",
+      "use": "Identified optic-flow descending neurons receive bilateral/contralateral visual information and connect toward motor-relevant circuits, supporting a bilateral DN readout rather than unilateral absolute activity."
+    }
+  ],
+  "stimulus": {
+    "condition_A": "left 01_07 -> 01_08 while right 01_08 -> 01_07",
+    "condition_B": "left 01_08 -> 01_07 while right 01_07 -> 01_08",
+    "geometry": "Workbook suffix order only; not called clockwise, counterclockwise, front-to-back, or back-to-front.",
+    "pulse_timing_ms": [10.0, 20.0],
+    "pulse_duration_ms": 10.0,
+    "amplitude": 1.0
+  },
+  "pathways": {
+    "selection": "Each eye was queried independently from the same 01_07/01_08 workbook suffixes using frozen EXP-002 local stages and corrected T4 -> (visual_projection OR visual_centrifugal OR LPi*) -> descending_neuron selection.",
+    "left_visual": {"nodes": 197, "edges": 980, "t4_count": 49},
+    "right_visual": {"nodes": 187, "edges": 958, "t4_count": 43},
+    "left_downstream": {"nodes": 374, "edges": 1376},
+    "right_downstream": {"nodes": 405, "edges": 1566},
+    "t4_coverage": {
+      "left": {
+        "T4a": "10/10 direct and two-hop",
+        "T4b": "12/12 direct and two-hop",
+        "T4c": "16/16 direct and two-hop",
+        "T4d": "11/11 direct and two-hop"
+      },
+      "right": {
+        "T4a": "12/12 direct and two-hop",
+        "T4b": "12/12 direct and two-hop",
+        "T4c": "13/13 direct and two-hop",
+        "T4d": "6/6 direct and two-hop"
+      }
+    },
+    "primary_dn": {
+      "type": "DNp15/DNHS1",
+      "left": {"bodyId": 12069, "instance": "DNp15_L", "somaSide": "L"},
+      "right": {"bodyId": 11215, "instance": "DNp15_R", "somaSide": "R"},
+      "selection_reason": "Exact MaleCNS type match with opposite soma side; literature supports DNp15 as HS-linked yaw-sensitive binocular optic-flow output."
+    },
+    "secondary_reported_dn": {
+      "type": "DNa02",
+      "left": {"bodyId": 523769, "instance": "DNa02_L", "somaSide": "L"},
+      "right": {"bodyId": 10360, "instance": "DNa02_R", "somaSide": "R"},
+      "use": "Reported separately; not mixed into the primary command because its weighting/sign relative to DNp15 is not established here."
+    },
+    "homology_assessment": "The selected DN pairs are genuinely homologous by exact type and opposite somaSide/instance labels. The local T4 populations are not numerically identical across eyes, so the two sides are anatomically corresponding but not byte-symmetric."
+  },
+  "readout": {
+    "primary_command": "DNp15_R activity proxy minus DNp15_L activity proxy",
+    "controller_mapping": "The unchanged EXP-003 SteeringBridge receives only this bilateral difference; no stimulus-direction branch or subtype sign is used.",
+    "condition_A": {
+      "mean_left_DNp15": -0.005780027197325278,
+      "mean_right_DNp15": -0.0048537890425557045,
+      "mean_right_minus_left": 0.0009262381547695732,
+      "command_min": 0.0,
+      "command_max": 0.004656561775390134,
+      "signed_area_command_ms": 0.23155946095254173
+    },
+    "condition_B": {
+      "mean_left_DNp15": -0.005780716252191365,
+      "mean_right_DNp15": -0.004854375316549618,
+      "mean_right_minus_left": 0.0009263409356417467,
+      "command_min": 0.0,
+      "command_max": 0.00556263414188803,
+      "signed_area_command_ms": 0.23158519873620015
+    },
+    "condition_A_minus_B": {
+      "max_abs_command_difference": 0.0009279860951475804,
+      "signed_area_difference_ms": -0.00002573778365843899,
+      "opposite_command_signs": false
+    },
+    "secondary_DNa02": {
+      "mean_right_minus_left_A": -0.0007828647606257275,
+      "mean_right_minus_left_B": -0.0007840450381001376,
+      "A_minus_B_signed_area_ms": 0.0002955634328129404,
+      "use_in_primary_command": false
+    }
+  },
+  "ablation": {
+    "operation": "Disconnect T4 -> selected lobula-plate/visual target projections on both eyes before descending readout.",
+    "condition_A_command_area_ms": 0.0,
+    "condition_B_command_area_ms": 0.0,
+    "interpretation": "The bilateral command is causally dependent on the materialized visual/downstream pathway, but ablation does not rescue direction selectivity."
+  },
+  "diagnosis": {
+    "where_information_collapses": "Each eye produces a strong DNp15 transient, but the right-minus-left difference is dominated by a common positive bilateral imbalance. Reversing both temporal orders changes peak timing/amplitude without changing the integrated sign.",
+    "likely_scope_of_failure": "The minimal model has two independently simulated unilateral T4 paths and a two-hop feed-forward target-to-DN readout. It does not include the cross-hemisphere H2/HS/LPTC electrical and recurrent interactions implicated in binocular yaw processing.",
+    "geometry_or_biology_uncertainty": "The workbook axis remains unmapped to canonical visual/body direction. The T4-to-DNp15 route is anatomically materialized, but the selected target boundary and dimensionless downstream proxy do not establish the full bilateral HS-H2-DNp15 mechanism.",
+    "classification": "The bilateral hypothesis is not supported in this minimal T4-only test and remains inconclusive for the full biological binocular circuit."
+  },
+  "outputs": {
+    "materialization_script": "scripts/query_exp003_bilateral.py",
+    "run_script": "scripts/run_exp003_bilateral.py",
+    "bilateral_readout": "src/exp003_bilateral.py",
+    "tests": "tests/test_exp003_bilateral.py",
+    "generated_bundle": "data/malecns_exp003_bilateral",
+    "summary": "results/exp003_bilateral/summary.json",
+    "figure": "results/exp003_bilateral/bilateral_prebody_readout.png",
+    "traces": "results/exp003_bilateral/open_loop_*.csv"
+  }
+}
