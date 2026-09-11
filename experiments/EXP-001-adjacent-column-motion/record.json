@@ -1,0 +1,86 @@
+{
+  "experiment_id": "EXP-001",
+  "title": "Strict-LIF adjacent-column motion baseline",
+  "kind": "biological_experiment",
+  "execution_status": "completed",
+  "status": "inconclusive",
+  "git_commit": "33c0ddc",
+  "observability_commit": "2126cd4",
+  "question": "Can opposite temporal orders of two adjacent MaleCNS optic-column L1 inputs produce a direction-dependent T4 response?",
+  "hypothesis": "A sequential L1 input across adjacent columns should produce different responses in the downstream T4 population when the temporal order is reversed.",
+  "source_facts": [
+    "MaleCNS v1.0 supplies the queried anatomy and synapse counts.",
+    "The optic-column workbook identifies the selected right-eye L1 body IDs.",
+    "The selected columns are adjacent in the workbook grid: ME_R_col_01_07 and ME_R_col_01_08.",
+    "The materialized graph contains 137 nodes and 356 directed edges: 2 L1, 6 Mi1/Tm3, 43 T4, 11 wide-field, and 75 descending nodes."
+  ],
+  "selected_anatomy": {
+    "dataset": "male-cns:v1.0",
+    "release": "MaleCNS v1.0",
+    "columns": [
+      {"name": "ME_R_col_01_07", "l1_body_id": 94444},
+      {"name": "ME_R_col_01_08", "l1_body_id": 65625}
+    ],
+    "stages": [
+      "L1",
+      "Mi1/Tm3",
+      "T4a/T4b/T4c/T4d",
+      "HSE/HS/VS family",
+      "descending_neuron"
+    ],
+    "node_count": 137,
+    "edge_count": 356
+  },
+  "stimulus": {
+    "duration_ms": 100.0,
+    "dt_ms": 0.1,
+    "pulse_duration_ms": 10.0,
+    "amplitude_mV": 20.0,
+    "forward": [
+      {"column": "01_07", "start_ms": 10.0},
+      {"column": "01_08", "start_ms": 20.0}
+    ],
+    "reverse": [
+      {"column": "01_08", "start_ms": 10.0},
+      {"column": "01_07", "start_ms": 20.0}
+    ]
+  },
+  "model": {
+    "backend": "numpy_sparse_lif",
+    "dynamics": "spike-gated leaky integrate-and-fire with delayed synaptic events",
+    "parameters": {
+      "v_rest_mV": -52.0,
+      "v_threshold_mV": -45.0,
+      "tau_membrane_ms": 20.0,
+      "tau_synapse_ms": 5.0,
+      "refractory_ms": 2.2,
+      "synaptic_delay_ms": 1.8,
+      "weight_per_synapse_mV": 0.275
+    },
+    "transmitter_rule": "acetylcholine positive; GABA and glutamate negative; unknown labels zero"
+  },
+  "result": {
+    "l1": "The explicit L1 drives responded.",
+    "mi1_tm3": "All six Mi1/Tm3 neurons showed measurable subthreshold voltage excursions; the largest excursion from rest was 2.2600059509277344 mV.",
+    "t4": "No T4 neuron spiked or moved from -52.0 mV in either temporal order.",
+    "direction_selectivity": "Cannot yet be evaluated because no signal reached T4.",
+    "interpretation": "The run demonstrates an upstream propagation/operating-point failure in this strict spike-gated abstraction, not absence of biological T4 direction selectivity."
+  },
+  "controls": [
+    "Reverse temporal order of the same two L1 inputs.",
+    "Forward-order T4-to-wide-field projection ablation."
+  ],
+  "linked_diagnostics": [
+    "docs/diagnostics/brian2_numpy2.md",
+    "docs/diagnostics/annotation_reconciliation.md"
+  ],
+  "generated_outputs": "results/first_experiment/ and data/malecns_visual_subgraph/ are reproducible and ignored by Git.",
+  "limitations": [
+    "No graded synaptic propagation.",
+    "No receptor-specific L1 sign inversion.",
+    "No photoreceptor or luminance model.",
+    "No Mi4, Mi9, C3, CT1, or other local T4-input circuit elements.",
+    "No behavioral or descending-neuron interpretation is claimed."
+  ],
+  "next_experiment": "EXP-002 should test a literature-informed graded local T4 circuit without overwriting this record."
+}
