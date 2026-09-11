@@ -9,6 +9,7 @@ import pandas as pd
 
 from .lif_model import LIFParameters, run_lif
 from .malecns_io import ConnectomeGraph
+from .observability import write_observability_outputs
 from .visual_stimulus import motion_events
 
 
@@ -87,19 +88,42 @@ def run_experiment(
         ),
     ]
     results: list[dict] = []
+    condition_outputs: dict[str, tuple[pd.DataFrame, pd.DataFrame]] = {}
+    trace_node_ids = tuple(
+        int(value)
+        for value in graph.nodes.loc[graph.nodes["stage"].isin(["medulla", "t4_motion"]), "bodyId"]
+    )
     for index, (name, events, condition_graph, motion_order) in enumerate(conditions):
-        spikes, summary = run_lif(
+        spikes, summary, trace = run_lif(
             condition_graph,
             events,
             duration_ms=duration_ms,
             params=params,
             seed=index,
+            trace_node_ids=trace_node_ids,
+            return_trace=True,
         )
         spikes.to_csv(output_dir / f"spikes_{name}.csv", index=False)
         results.append(_condition_metrics(summary, spikes, name, motion_order))
+        if name in {conditions[0][0], conditions[1][0]}:
+            condition_outputs[name] = (spikes, trace)
 
     (output_dir / "metrics.json").write_text(json.dumps(results, indent=2), encoding="utf-8")
     pd.DataFrame(
         [{key: value for key, value in result.items() if key != "summary"} for result in results]
     ).to_csv(output_dir / "metrics.csv", index=False)
+    write_observability_outputs(
+        graph=graph,
+        motion_columns=motion_columns,
+        forward_name=conditions[0][0],
+        reverse_name=conditions[1][0],
+        forward_events=forward,
+        reverse_events=reverse,
+        forward_spikes=condition_outputs[conditions[0][0]][0],
+        reverse_spikes=condition_outputs[conditions[1][0]][0],
+        forward_trace=condition_outputs[conditions[0][0]][1],
+        reverse_trace=condition_outputs[conditions[1][0]][1],
+        output_dir=output_dir,
+        params=params,
+    )
     return results

@@ -120,3 +120,20 @@ response is therefore an honest limitation of this narrow baseline.
 FlyGym, full-body movement, framework abstractions, training, and optimization
 are deliberately out of scope until this pathway-level test is biologically
 calibrated and reproducible.
+
+## Observability pass
+
+The experiment now captures the pre-reset membrane voltage at every existing
+integration step for the six Mi1/Tm3 nodes and 43 T4 nodes in both temporal
+orders. It does not alter the integration loop, stimulus, node set, signs, or
+parameters. The analysis writes raw long-form voltage CSVs, a T4
+forward-minus-reverse CSV/JSON table, a pathway graph, grouped spike rasters,
+Mi1/Tm3 and T4 voltage plots, a ranked T4 difference plot, and a three-panel
+forward/reverse/difference T4 heatmap under
+`results/first_experiment/figures/`.
+
+This makes the current null diagnosable: if Mi1/Tm3 move below rest but do not
+spike, no synaptic event is emitted into T4 in this LIF implementation. T4 can
+therefore remain exactly at rest, yielding no order-dependent T4 voltage
+difference; that is distinct from having tested and rejected temporal-order
+sensitivity at an active T4 operating point.

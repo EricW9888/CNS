@@ -40,6 +40,15 @@ def _empty_spikes() -> pd.DataFrame:
     )
 
 
+def _empty_trace() -> pd.DataFrame:
+    return pd.DataFrame(
+        columns=[
+            "time_ms", "node_index", "bodyId", "voltage_mV", "type",
+            "instance", "somaSide", "superclass", "stage",
+        ]
+    )
+
+
 def run_lif(
     graph: ConnectomeGraph,
     events: tuple[VisualEvent, ...] | list[VisualEvent] | VisualPulse,
@@ -47,7 +56,9 @@ def run_lif(
     duration_ms: float = 100.0,
     params: LIFParameters | None = None,
     seed: int = 0,
-) -> tuple[pd.DataFrame, dict]:
+    trace_node_ids: tuple[int, ...] | list[int] | None = None,
+    return_trace: bool = False,
+) -> tuple[pd.DataFrame, dict] | tuple[pd.DataFrame, dict, pd.DataFrame]:
     """Run one deterministic event condition and summarize spikes.
 
     ``coupling`` is post-by-pre.  A spike schedules one delayed vector-matrix
@@ -63,6 +74,11 @@ def run_lif(
         graph, weight_per_synapse_mV=params.weight_per_synapse_mV
     )
     node_index = {int(body_id): i for i, body_id in enumerate(graph.node_ids)}
+    requested_trace_ids = tuple(dict.fromkeys(int(body_id) for body_id in (trace_node_ids or ())))
+    missing_trace_ids = [body_id for body_id in requested_trace_ids if body_id not in node_index]
+    if missing_trace_ids:
+        raise ValueError(f"Trace nodes are outside the graph: {missing_trace_ids}")
+    trace_indices = np.asarray([node_index[body_id] for body_id in requested_trace_ids], dtype=np.int64)
     event_tuple = (events,) if isinstance(events, VisualEvent) else tuple(events)
     drive = compile_events(
         event_tuple,
@@ -82,6 +98,11 @@ def run_lif(
     spike_rows: list[dict] = []
     max_voltage = np.full(graph.n_nodes, params.v_rest_mV, dtype=np.float32)
     spike_mask = np.zeros(graph.n_nodes, dtype=bool)
+    voltage_trace = (
+        np.empty((n_steps, len(trace_indices)), dtype=np.float32)
+        if return_trace and len(trace_indices)
+        else None
+    )
 
     for step in range(n_steps):
         slot = step % (delay_steps + 1)
@@ -97,6 +118,10 @@ def run_lif(
         v[~active] = params.v_rest_mV
         max_voltage = np.maximum(max_voltage, v)
         spike_mask = active & (v >= params.v_threshold_mV)
+        if voltage_trace is not None:
+            # Capture the pre-reset membrane voltage so threshold crossings
+            # remain visible in the diagnostic trace.
+            voltage_trace[step] = v[trace_indices]
         if np.any(spike_mask):
             for node_index_value in np.flatnonzero(spike_mask):
                 spike_rows.append(
@@ -153,4 +178,25 @@ def run_lif(
         "spikes_by_stage_side": counts.to_dict(orient="records"),
         "max_voltage_mV_by_stage": {str(k): float(v) for k, v in stage_max.items()},
     }
-    return spikes, summary
+    if not return_trace:
+        return spikes, summary
+
+    if voltage_trace is None:
+        trace = _empty_trace()
+    else:
+        trace = pd.DataFrame(
+            {
+                "time_ms": np.repeat(np.arange(n_steps, dtype=np.float32) * dt, len(trace_indices)),
+                "node_index": np.tile(trace_indices, n_steps),
+                "bodyId": np.tile(graph.node_ids[trace_indices], n_steps),
+                "voltage_mV": voltage_trace.reshape(-1),
+            }
+        )
+        annotations = graph.nodes.copy()
+        annotations["node_index"] = np.arange(graph.n_nodes)
+        trace = trace.merge(
+            annotations[["node_index", "type", "instance", "somaSide", "superclass", "stage"]],
+            on="node_index",
+            how="left",
+        )
+    return spikes, summary, trace

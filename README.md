@@ -29,6 +29,11 @@ not evidence of biological absence: this minimal model has no photoreceptor
 model, tonic network drive, receptor-specific glutamate model, or behavioral
 decoder.
 
+The observability pass also preserves every `0.1 ms` membrane-voltage sample
+for all six Mi1/Tm3 neurons and all 43 T4 neurons, then compares forward and
+reverse T4 traces neuron-by-neuron. It writes figures and raw diagnostics under
+`results/first_experiment/figures/` without changing the experiment.
+
 ## Sources and exact files
 
 * MaleCNS v1.0: <https://male-cns.janelia.org/>
@@ -101,6 +106,17 @@ claim. Outputs are written to `results/first_experiment/` and ignored by Git:
 * `metrics.json` / `metrics.csv` — condition-level L1, T4, and descending
   spike metrics plus max voltage by stage;
 * `spikes_*.csv` — auditable spike events with body IDs, type, side, and stage;
+* `voltage_traces_forward.csv` / `voltage_traces_reverse.csv` — raw numerical
+  voltage traces for Mi1/Tm3 and T4;
+* `t4_forward_minus_reverse.csv` / `.json` — one row per T4 neuron with maxima,
+  pointwise order difference, timing, and spike counts;
+* `observability_summary.json` — trace counts, subthreshold excursions, and
+  top order-difference rows;
+* `figures/pathway_subgraph.png`, `figures/spike_rasters_forward_reverse.png`,
+  `figures/voltage_forward_mitm_t4.png`,
+  `figures/voltage_reverse_mitm_t4.png`,
+  `figures/t4_order_sensitivity_ranked.png`, and
+  `figures/t4_heatmap_forward_reverse_difference.png`;
 * `data/malecns_visual_subgraph/manifest.json` — exact selected IDs, grid
   order, stages, and query provenance.
 
