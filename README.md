@@ -1,108 +1,93 @@
-# MaleCNS v1.0 adjacent-column motion prototype
+# CNS — audited MaleCNS motion-circuit research prototype
 
-This repository contains a deliberately small experiment around the adult
-male *Drosophila* CNS connectome. It tests a real optic-column input sequence
-through the annotated `L1 -> Mi1/Tm3 -> T4a-d` pathway and its selected
-wide-field/descending continuation. It does not claim brain emulation, native
-behavior, learning, or a general computational substrate.
+CNS is a small, transparent research project testing visual-motion and
+visual-to-descending hypotheses against the adult male *Drosophila* MaleCNS
+v1.0 connectome. It is not a brain emulator, validated biophysical simulator,
+or demonstrated behavioral model.
 
-## Current status
+## What the project currently establishes
 
-The runnable experiment now uses two adjacent right-eye optic columns,
-`ME_R_col_01_07` and `ME_R_col_01_08`, with two conditions that reverse their
-temporal order. This is the primary stimulus. It is not a left-eye versus
-right-eye pulse. The materialized graph contains only the selected L1 seeds,
-their queried Mi1/Tm3 targets, reachable T4a-d targets, selected HSE/HS/VS
-projection targets, and their queried `descending_neuron` targets.
+The strongest positive result is narrow: a frozen phenomenological graded model
+using MaleCNS local connectivity distinguishes opposite temporal orders of two
+neighboring optic-column inputs. The response generalizes across sampled
+workbook-grid locations. It does **not** yet establish a canonical visual
+direction, biological T4 voltage, or behavior, because delayed inhibitory drive,
+signs, time constants, coordinate inference, rectification, and normalization
+remain explicit model assumptions.
 
-The model uses a transparent NumPy/SciPy sparse LIF integrator with delayed
-synaptic events. Brian2 was initially selected, but the released Brian2 2.9.0
-wheel fails at import under NumPy 2.4.6; the exact environment and complete
-traceback are recorded in [`docs/diagnostics/brian2_numpy2.md`](docs/diagnostics/brian2_numpy2.md).
-NumPy remains in the 2.x line and the runnable baseline does not modify the
-third-party package. The optional reproduction environment is
-`requirements-brian2-diagnostic.txt`.
+![EXP-002 local order sensitivity](figures/EXP-002-direction-selectivity.png)
 
-The first run records forward order, reverse order, and a forward-order
-T4-to-wide-field projection ablation. A zero downstream response is a result,
-not evidence of biological absence: this minimal model has no photoreceptor
-model, tonic network drive, receptor-specific glutamate model, or behavioral
-decoder.
+The complete audited status is:
 
-The observability pass also preserves every `0.1 ms` membrane-voltage sample
-for all six Mi1/Tm3 neurons and all 43 T4 neurons, then compares forward and
-reverse T4 traces neuron-by-neuron. It writes figures and raw diagnostics under
-`results/first_experiment/figures/` without changing the experiment.
+| Work | Status | Result |
+|---|---|---|
+| EXP-001 strict LIF | **INCONCLUSIVE** | L1 spikes and Mi1/Tm3 responds subthreshold; nothing reaches T4. |
+| EXP-001 observability | **SUPPORTED diagnostic** | Preserves the same failed run's full voltage evidence. |
+| EXP-002 graded T4 | **SUPPORTED in model** | Opposite workbook orders produce different T4 activity; biological direction/mechanism remain unresolved. |
+| EXP-003 embodiment | **SUPPORTED engineering scaffold** | Order changes yaw magnitude, but both conditions and zero-command control turn the same way. |
+| EXP-003 downstream audit | **SUPPORTED anatomy correction** | A target-filter bug excluded T4b/c; restoring them does not fix steering sign. |
+| EXP-003 bilateral readout | **UNSUPPORTED in minimal model** | DNp15 right-minus-left stays same-signed; body simulation is correctly skipped. |
+| provisional EXP-004 | **INVALID_IMPLEMENTATION** | Incorrect electrical semantics and unstable recurrence invalidate all biological interpretation. |
 
-The next milestone is EXP-002: can a MaleCNS-derived T4 motion circuit
-distinguish opposite directions? EXP-002 replaces the EXP-001 spike-gated
-abstraction with a continuous graded local T4 model, retains MaleCNS synapse
-counts and direct Mi1/Tm3/Mi4/Mi9/C3/CT1 inputs, and tests an inhibitory-input
-ablation. Its compact public result record is
-[`experiments/EXP-002-graded-t4-motion/record.json`](experiments/EXP-002-graded-t4-motion/record.json).
+See the [full claim ledger](reports/PROJECT_AUDIT_2026-09-12.md) and concise
+[experiment reports](reports/).
 
-EXP-002 is frozen at implementation commit `59afc68`. The validation pass
-samples four held-out adjacent pairs along each workbook grid index, reversing
-the same two events for every pair, and runs a same-count T4-to-downstream
-structural null. The second grid index reproduces the T4a-forward/T4b-reverse
-pattern in all four sampled pairs; the first index shows the complementary
-T4c/T4d pattern. The workbook does not publish a mapping from its suffix
-indices to front/back or dorsal/ventral, so those labels are intentionally not
-used. Re-run the validation with:
+## Scientific boundary
 
-```powershell
-.venv\Scripts\python.exe scripts/run_exp002_validation.py
-```
+MaleCNS supplies neuron/body identities, annotations, sides, directed chemical
+connections, synapse counts, and optic-column L1 assignments. It does not supply
+the model's receptor signs, dynamics, gap junctions, world geometry, controller
+actions, or parameter values.
 
-The validation summary is written to the ignored `results/exp002_validation/`
-directory. The primary figure shows separate column inputs, both temporal
-orders, subtype-grouped full and ablated responses, and peak order contrast
-before versus after inhibitory ablation.
+Every report separates:
 
-## Sources and exact files
+- MaleCNS structural facts;
+- literature-supported physiology;
+- model assumptions and free parameters;
+- engineering or embodiment scaffolding;
+- measured outputs and controls.
 
-* MaleCNS v1.0: <https://male-cns.janelia.org/>
-* Official downloads: <https://male-cns.janelia.org/download/>
-* Annotation: `https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-annotations-male-cns-v1.0-minconf-0.5.feather`
-* Transmitter predictions: `https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-neurotransmitters-male-cns-v1.0.feather`
-* Full weighted graph: `https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/connectome-weights-male-cns-v1.0-minconf-0.5.feather`
-* Official optic-column assignments: <https://github.com/flyconnectome/2025malecns/blob/main/supplemental_data/optic-column-type-assignments-v1.0.xlsx>
-* Programmatic API: <https://neuprint.janelia.org>, dataset `male-cns:v1.0`
+Workbook suffixes such as `01_07→01_08` are stimulus-space coordinates only.
+They are not called leftward/rightward, front-to-back, or yaw direction without
+an authoritative geometry mapping.
 
-Downloaded data, caches, environments, tokens, `.env` files, and generated
-results are ignored by Git. The MaleCNS source files are CC-BY; this repository
-does not redistribute them.
-
-## Biology tested
+## Repository map
 
 ```text
-adjacent L1 columns, opposite temporal orders
-    -> Mi1/Tm3
-    -> T4a/T4b/T4c/T4d
-    -> HSE/HSN/HSS/HST/VS/VST1/VST2/VSm
-    -> descending_neuron
+src/          historical models plus reusable numerical/provenance checks
+scripts/      materialization, experiment, and verification entry points
+tests/        fast unit and scientific-invariant tests
+experiments/  exact machine-readable records, including invalid history
+reports/      audited human-readable scientific reports
+docs/         architecture, provenance, environment, and technical diagnostics
+figures/      small deliberately promoted public evidence
+data/         ignored raw/materialized data plus tracked hash registry
+results/      ignored bulk traces, figures, and videos
+.github/      lightweight CI and full-history secret scan
 ```
 
-The workbook supplies the optic-column grid and each column’s L1 body ID. The
-query helper verifies that the two suffixes differ by one grid coordinate and
-rejects a non-adjacent pair. The model labels the conditions by workbook order
-(`01_07->01_08` and `01_08->01_07`) and does not invent a leftward/rightward
-retinal mapping.
+Historical implementations remain intact when changing them would alter an old
+result. Corrected science must normally become an explicit successor experiment.
+The invalid provisional EXP-004 logic is quarantined under its experiment record
+and is not active source code.
 
-The positive-current event is an explicit L1 activity abstraction, not a
-photoreceptor light-ON model. L1 is glutamatergic, and a body-level transmitter
-label does not by itself specify every postsynaptic receptor sign. The strict
-baseline maps acetylcholine to positive, GABA/glutamate to negative, and other
-labels to unknown/zero. That sign choice is an explicit limitation.
+## Install
 
-## Install on Windows
+Python 3.11 is the audited version.
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\python.exe -m pip install --disable-pip-version-check -r requirements.txt
 ```
 
-Download the two small official exports and the supplemental workbook locally:
+The exact audited Windows environment is recorded in `requirements-audit.txt`.
+FlyGym/MuJoCo are optional historical EXP-003 dependencies in
+`requirements-exp003-flygym.txt`; the neural-only core does not require them.
+
+## Obtain MaleCNS inputs
+
+Raw data is not redistributed. MaleCNS v1.0 is licensed CC-BY. Download the
+three registered source files:
 
 ```powershell
 New-Item -ItemType Directory -Force data | Out-Null
@@ -111,92 +96,80 @@ Invoke-WebRequest https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-
 Invoke-WebRequest https://raw.githubusercontent.com/flyconnectome/2025malecns/main/supplemental_data/optic-column-type-assignments-v1.0.xlsx -OutFile data/optic-column-type-assignments-v1.0.xlsx
 ```
 
-## Reproduce the prototype
-
-Materialize the two adjacent right-eye columns and their real queried path:
+`data/manifest.json` records source and materialization SHA-256 hashes. Verify
+the local evidence set with:
 
 ```powershell
-.venv\Scripts\python.exe scripts/query_malecns_subgraph.py --eye right --suffixes 01_07 01_08
+.venv\Scripts\python.exe scripts\verify_local_data.py
 ```
 
-Run the three narrow conditions:
+No neuPrint credential belongs in this repository. Current materializers use
+the public `male-cns:v1.0` endpoint.
+
+## Reproduce experiments
+
+EXP-001:
 
 ```powershell
+.venv\Scripts\python.exe scripts\query_malecns_subgraph.py --eye right --suffixes 01_07 01_08
 .venv\Scripts\python.exe run_experiment.py
 ```
 
-Materialize and run EXP-002 separately:
+EXP-002 and its held-out validation:
 
 ```powershell
-.venv\Scripts\python.exe scripts/query_exp002_circuit.py
+.venv\Scripts\python.exe scripts\query_exp002_circuit.py
 .venv\Scripts\python.exe run_exp002.py
+.venv\Scripts\python.exe scripts\run_exp002_validation.py
 ```
 
-The amplitude is an exposed sensitivity parameter, not a fitted biological
-claim. Outputs are written to `results/first_experiment/` and ignored by Git:
+Historical EXP-003 commands are documented in their reports. They require the
+optional FlyGym environment for body runs. Generated CSVs, videos, caches, and
+materializations remain ignored.
 
-* `metrics.json` / `metrics.csv` — condition-level L1, T4, and descending
-  spike metrics plus max voltage by stage;
-* `spikes_*.csv` — auditable spike events with body IDs, type, side, and stage;
-* `voltage_traces_forward.csv` / `voltage_traces_reverse.csv` — raw numerical
-  voltage traces for Mi1/Tm3 and T4;
-* `t4_forward_minus_reverse.csv` / `.json` — one row per T4 neuron with maxima,
-  pointwise order difference, timing, and spike counts;
-* `observability_summary.json` — trace counts, subthreshold excursions, and
-  top order-difference rows;
-* `figures/pathway_subgraph.png`, `figures/spike_rasters_forward_reverse.png`,
-  `figures/voltage_forward_mitm_t4.png`,
-  `figures/voltage_reverse_mitm_t4.png`,
-  `figures/t4_order_sensitivity_ranked.png`, and
-  `figures/t4_heatmap_forward_reverse_difference.png`;
-* `data/malecns_visual_subgraph/manifest.json` — exact selected IDs, grid
-  order, stages, and query provenance.
-
-## Annotation denominator
-
-The raw annotation export is not a neuron count. The audit script is:
+## Verify the repository
 
 ```powershell
-.venv\Scripts\python.exe scripts/audit_malecns_annotations.py
+.venv\Scripts\python.exe -m pytest -q
+.venv\Scripts\python.exe -m compileall -q src scripts tests run_experiment.py run_exp002.py
+.venv\Scripts\python.exe -m pip check
+.venv\Scripts\python.exe scripts\repository_policy_check.py
+.venv\Scripts\python.exe scripts\verify_local_data.py --allow-missing
 ```
 
-The current Feather has 211,577 unique body IDs and no duplicate body IDs, but
-also includes status/classification categories such as Glia, Unimportant,
-Orphan, Assign, Anchor, and status-null records. The published 166,691 figure
-is a curated proofread/annotated-neuron denominator; it is not reproduced by
-equating raw rows, `status=Traced`, or the current neuPrint `Neuron` label with
-one another. The exact audit and the explicit included/excluded set for this
-small experiment are in [`docs/diagnostics/annotation_reconciliation.md`](docs/diagnostics/annotation_reconciliation.md).
+CI runs these fast checks without downloading MaleCNS or running expensive
+connectome/body experiments. A separate workflow scans all reachable Git history
+with checksum-verified Gitleaks.
 
-## Model details
+## Next scientific gate
 
-The baseline equations are:
+The recommended successor is neural-only EXP-004: drive anatomically identified
+bilateral HS/H2 inputs with controlled published stimulus classes, then test
+whether a stable recurrent/inhibitory network increases DNp15
+rotation-versus-translation discrimination relative to upstream HS/H2.
 
-```text
-dv/dt = (v_rest - v + g + I_ext) / tau_m
-dg/dt = -g / tau_syn
-```
+Before interpretation it must have:
 
-An incoming spike adds `w` to `g`, with
-`w = synapse_count × transmitter_sign × 0.275 mV`. Events are delayed by the
-published baseline delay and integrated with `dt=0.1 ms`. The coupling matrix
-is post-by-pre and is built only from queried MaleCNS edges with a known strict
-sign.
+- a defensible MaleCNS-to-literature neuron identity crosswalk;
+- only literature-supported electrical pairs, kept separate from chemical edges;
+- diffusive coupling proportional to `other_state - self_state`;
+- effective-transition/Jacobian stability and zero-input decay;
+- quantitative external physiology targets fixed before evaluation;
+- full, no-electrical, recurrent/inhibitory, and chemical-recurrence controls.
 
-## Interpretation and scope
+No FlyGym/body work resumes until that neural gate passes. A failed stable model
+must be preserved as a negative model result, not tuned into success.
 
-A convincing future result would require L1 activity, measurable Mi1/Tm3 and
-T4 responses, a difference under temporal reversal, and a causal change under
-the T4-to-projection ablation. The current run is intentionally narrow and
-does not start FlyGym, full-body movement, framework abstractions, training, or
-optimization. The next scientific step is receptor/photoreceptor calibration
-and a larger neighboring-column sweep, not a behavioral claim.
+## Sources
 
-## Git hygiene
+- [MaleCNS v1.0](https://male-cns.janelia.org/)
+- [Official MaleCNS downloads and license](https://male-cns.janelia.org/download/)
+- [MaleCNS supplemental optic-column assignments](https://github.com/flyconnectome/2025malecns)
+- [Erginkaya et al. 2025 — H2/HS recurrent optic-flow network](https://doi.org/10.1038/s41593-025-01948-9)
 
-The repository is initialized locally only. `.gitignore` excludes `.venv`, raw
-MaleCNS downloads, Parquet/CSV data, generated results, caches, `.env` files,
-and common token/key/certificate suffixes. Before committing, inspect both
-`git status --short --ignored` and `git ls-files`, run the repository secret
-scan, and stage only source/docs/tests/experiment-records. No neuPrint credential belongs in this
-repository. No public remote is created or pushed by the prototype setup.
+## Release status
+
+The repository is suitable for private canonical hosting and review. It is not
+ready to be made public until the owner selects an explicit code license and the
+private remote's CI, history, and uploaded tree are verified. Upstream MaleCNS
+data remains governed by its own CC-BY license.

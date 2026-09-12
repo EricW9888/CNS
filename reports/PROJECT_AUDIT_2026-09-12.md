@@ -168,8 +168,8 @@ stability preflight.
    determinism, normalization invariants, or recurrent/electrical semantics.
 9. Provisional EXP-004 source lives in active `src/`/`scripts/` paths despite
    failing preflight; it should be archived as invalid evidence.
-10. Reachable commits expose `Eric Wang <99614113+EricW9888@users.noreply.github.com>` as author and
-    committer. No remote exists, so one deliberate pre-publication normalization
+10. Reachable commits expose a personal Gmail author/committer identity. No
+    remote exists, so one deliberate pre-publication normalization
     can remove that identity without rewriting an already shared repository.
 
 ## Ranked changes

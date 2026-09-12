@@ -7,7 +7,7 @@ model backend.
 
 | Package | Version |
 |---|---|
-| Python | 3.11.9 (`C:\Users\Eric\Dev\CNS\.venv\Scripts\python.exe`) |
+| Python | 3.11.9 (`<repo>\.venv\Scripts\python.exe`) |
 | NumPy | 2.4.6 |
 | Brian2 | 2.9.0 |
 
@@ -24,17 +24,17 @@ Command:
 ```text
 Traceback (most recent call last):
   File "<string>", line 1, in <module>
-  File "C:\Users\Eric\Dev\CNS\.venv\Lib\site-packages\brian2\__init__.py", line 58, in <module>
+  File "<repo>\.venv\Lib\site-packages\brian2\__init__.py", line 58, in <module>
     import brian2.numpy_ as numpy
-  File "C:\Users\Eric\Dev\CNS\.venv\Lib\site-packages\brian2\numpy_.py", line 12, in <module>
+  File "<repo>\.venv\Lib\site-packages\brian2\numpy_.py", line 12, in <module>
     from brian2.units.unitsafefunctions import *
-  File "C:\Users\Eric\Dev\CNS\.venv\Lib\site-packages\brian2\units\__init__.py", line 7, in <module>
+  File "<repo>\.venv\Lib\site-packages\brian2\units\__init__.py", line 7, in <module>
     from .allunits import (
-  File "C:\Users\Eric\Dev\CNS\.venv\Lib\site-packages\brian2\units\allunits.py", line 14, in <module>
+  File "<repo>\.venv\Lib\site-packages\brian2\units\allunits.py", line 14, in <module>
     from .fundamentalunits import (
-  File "C:\Users\Eric\Dev\CNS\.venv\Lib\site-packages\brian2\units\fundamentalunits.py", line 984, in <module>
+  File "<repo>\.venv\Lib\site-packages\brian2\units\fundamentalunits.py", line 984, in <module>
     class Quantity(np.ndarray):
-  File "C:\Users\Eric\Dev\CNS\.venv\Lib\site-packages\brian2\units\fundamentalunits.py", line 1661, in Quantity
+  File "<repo>\.venv\Lib\site-packages\brian2\units\fundamentalunits.py", line 1661, in Quantity
     ptp = wrap_function_keep_dimensions(np.ndarray.ptp)
                                         ^^^^^^^^^^^^^^
 AttributeError: type object 'numpy.ndarray' has no attribute 'ptp'

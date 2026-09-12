@@ -1,5 +1,8 @@
 # MaleCNS v1.0 prototype: technical note
 
+> Historical EXP-001 note. For the audited cross-experiment state, see
+> `reports/PROJECT_AUDIT_2026-09-12.md` and the reports under `reports/`.
+
 Date: 2026-09-10
 
 ## Narrow question
