@@ -1,4 +1,4 @@
-"""Audit the raw MaleCNS body-annotation schema without guessing a denominator."""
+"""Reconcile the MaleCNS body-annotation schema without guessing a denominator."""
 
 from __future__ import annotations
 

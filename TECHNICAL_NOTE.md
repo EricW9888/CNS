@@ -1,7 +1,7 @@
 # MaleCNS v1.0 prototype: technical note
 
-> Historical EXP-001 note. For the audited cross-experiment state, see
-> `reports/PROJECT_AUDIT_2026-09-12.md` and the reports under `reports/`.
+> Historical EXP-001 note. For current cross-experiment context, see
+> `reports/RESEARCH_PROGRESS.md` and the reports under `reports/`.
 
 Date: 2026-09-10
 
@@ -74,7 +74,7 @@ null `instance` values. Thus neither row count, unique ID count, status alone,
 nor type presence is a safe substitute for the published denominator.
 
 The publication’s 166,691 figure is the curated “identified, proofread and
-annotated” neuron count (including sensory axons). This audit does not invent a
+annotated” neuron count (including sensory axons). This reconciliation does not invent a
 predicate that maps the current v1.0 body table to that historical denominator.
 As a separate schema check, the current public neuPrint `Neuron` label returns
 176,422 nodes. That is another materialized release/schema view, not proof that
@@ -84,10 +84,10 @@ reachable T4 nodes, 11 selected wide-field projection nodes, and 75 queried
 descending-neuron targets, for 137 nodes total. Every other raw annotation/body
 record is excluded from the simulation.
 
-The reproducible field-level audit is:
+The reproducible field-level reconciliation is:
 
 ```powershell
-.venv\Scripts\python.exe scripts/audit_malecns_annotations.py
+.venv\Scripts\python.exe scripts/reconcile_malecns_annotations.py
 ```
 
 ## Dynamics and Brian2 diagnostic

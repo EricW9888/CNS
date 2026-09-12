@@ -1,6 +1,7 @@
-# Provisional EXP-004 — invalid implementation audit
+# EXP-004 — provisional recurrent-model preflight failure
 
-**Status: INVALID_IMPLEMENTATION. This is not a biological result.**
+**Outcome: the implementation fails electrical-coupling and stability checks;
+its generated responses are not a biological result.**
 
 ## Intended question
 
@@ -12,14 +13,13 @@ yaw-like asymmetric flow than symmetric translation-like flow.
 
 The ignored local bundle contains 175 nodes and 609 MaleCNS chemical edges:
 92 T4 cells, 71 selected visual/intermediate cells, bilateral HSE/HSN/HSS/H2
-(8 cells), and bilateral DNp15/DNa02 (4 cells). That materialization is an
-auditable structural artifact, not validation of the dynamics or of a mapping
-between unidentified intermediates and the named circuit in the physiology
-paper.
+(8 cells), and bilateral DNp15/DNa02 (4 cells). This remains a structural
+materialization only; it does not validate the dynamics or identify the
+unnamed intermediates with the cells in the physiology paper.
 
-## Fatal preflight failures
+## Preflight failures
 
-The code updates LPTC state toward
+The implementation updates LPTC state toward
 
 ```text
 T4 input + intermediate input + W_chemical x + g W_gap x
@@ -28,8 +28,6 @@ T4 input + intermediate input + W_chemical x + g W_gap x
 The last term is an additional positive recurrent synapse. Electrical
 conductance should instead depend on paired state differences, producing zero
 current at equal states and currents that reduce unequal states.
-
-Observed preflight values:
 
 | Check | Result |
 |---|---:|
@@ -49,16 +47,19 @@ justify this all-HS construction.
 
 The generated DNp15 mean absolute bilateral-difference area is 7.884850 for
 both yaw-like and translation-like stimulus groups (ratio effectively 1.0).
-Because the network is unstable and electrical semantics are wrong, this is
+Because the network is unstable and the electrical semantics are wrong, this is
 neither positive nor negative biological evidence.
 
 ## Preservation and successor
 
-The three previously uncommitted source files are retained under
-`experiments/EXP-004-invalid-provisional/archive/` with their logic unchanged.
-Generated traces remain ignored. A successor must start from controlled HS/H2
-inputs and pass diffusive-coupling, provenance, effective-Jacobian stability,
+The three source files are retained under
+`experiments/EXP-004-preflight-failure/archive/` with the failed numerical
+logic unchanged. They are not active modules or successor code. Generated
+traces remain ignored.
+
+A new implementation must start from controlled HS/H2 inputs and pass
+interaction-provenance, diffusive-coupling, effective-transition stability,
 zero-input decay, determinism, and quantitative physiology gates before any
 biological interpretation.
 
-References: [project reference ledger](../docs/references.md).
+References: [project references](../docs/references.md).

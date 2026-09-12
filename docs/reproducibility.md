@@ -31,14 +31,14 @@ node/edge counts, and exact stage counts.
 ## Determinism
 
 The current NumPy experiment paths are deterministic. EXP-003 passes seed zero
-to FlyGym/MuJoCo. The 2026-09-12 audit reproduced EXP-001 byte-for-byte and
+to FlyGym/MuJoCo. The 2026-09-12 verification reproduced EXP-001 byte-for-byte and
 reproduced the scientific JSON payloads of EXP-002 and all EXP-003 variants
 exactly after excluding output-directory strings.
 
 The committed tests prefer invariants over arbitrary full-output snapshots.
 Exact historical metrics remain in experiment records and are independently
-checked during audits, not on every CI commit because CI intentionally excludes
-raw MaleCNS data and expensive simulations.
+checked during full local verification, not on every CI commit because CI
+intentionally excludes raw MaleCNS data and expensive simulations.
 
 ## Frozen history versus successors
 
@@ -47,5 +47,5 @@ an existing experiment. A scientifically changed model becomes a successor
 experiment. Shared infrastructure may be added around historical code, but the
 records state which commit and assumptions produced each result.
 
-The archived provisional EXP-004 is not importable active code and must not be
-used as a successor baseline.
+The archived EXP-004 preflight failure is not importable active code and must
+not be used as a successor baseline.

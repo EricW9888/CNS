@@ -1,4 +1,4 @@
-"""INVALID provisional EXP-004 runner retained for audit."""
+"""Provisional EXP-004 runner retained after failed preflight."""
 
 from __future__ import annotations
 

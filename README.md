@@ -1,103 +1,105 @@
-# CNS — audited MaleCNS motion-circuit research prototype
+# CNS — executable MaleCNS visual-circuit experiments
 
-CNS is a small, transparent research project testing visual-motion and
-visual-to-descending hypotheses against the adult male *Drosophila* MaleCNS
-v1.0 connectome. It is not a brain emulator, validated biophysical simulator,
-or demonstrated behavioral model.
+CNS is a small, reproducible research project for testing how visual-motion
+signals propagate through circuits derived from the [MaleCNS v1.0
+connectome](https://male-cns.janelia.org/). The current work follows local optic
+column inputs through T4 motion neurons and selected downstream pathways. It is
+not a whole-brain model and does not yet establish biologically calibrated
+direction labels, DNp15 optic-flow selectivity, or steering behavior.
 
-## What the project currently establishes
+The organizing scientific question is:
 
-The strongest positive result is narrow: a frozen phenomenological graded model
-using MaleCNS local connectivity distinguishes opposite temporal orders of two
-neighboring optic-column inputs. The response generalizes across sampled
-workbook-grid locations. It does **not** yet establish a canonical visual
-direction, biological T4 voltage, or behavior, because delayed inhibitory drive,
-signs, time constants, coordinate inference, rectification, and normalization
-remain explicit model assumptions.
+> Can a MaleCNS-derived visual circuit distinguish opposite motion sequences,
+> and can that information be carried into biologically interpretable
+> downstream activity?
 
-![EXP-002 local order sensitivity](figures/EXP-002-direction-selectivity.png)
+## Current results
 
-The complete audited status is:
+| Experiment | Result |
+|---|---|
+| [EXP-001 strict LIF](reports/EXP-001-strict-lif-baseline.md) | L1 spikes and all six Mi1/Tm3 cells respond below threshold, but no signal reaches T4. Direction selectivity cannot be evaluated. |
+| [EXP-002 graded local T4](reports/EXP-002-local-motion.md) | The frozen reduced model distinguishes opposite workbook-column orders in 43 T4 cells and across eight additional local materializations. The effect depends mainly on an imposed delayed inhibitory input channel; it is not a connectome-only or calibrated physiological result. |
+| [EXP-003 embodied steering](reports/EXP-003-embodied-steering.md) | The temporary bridge changes yaw magnitude, but both stimulus orders and the zero-command control turn in the same direction. It is an engineering scaffold, not a biological steering result. |
+| [EXP-003 downstream correction](reports/EXP-003-downstream-correction.md) | A restrictive target filter had excluded T4b/T4c paths. Correcting the materialization restores all four subtypes but still does not recover steering sign. |
+| [EXP-003 bilateral readout](reports/EXP-003-bilateral-readout.md) | A minimal right-minus-left DNp15 readout remains same-signed for both mirrored conditions. Body simulation is therefore skipped. |
+| [EXP-004 preflight failure](reports/EXP-004-preflight-failure.md) | A provisional recurrent HS/H2 implementation used incorrect electrical-coupling semantics and was unstable. Its outputs have no biological interpretation; the source is retained only to preserve the failed attempt. |
 
-| Work | Status | Result |
-|---|---|---|
-| EXP-001 strict LIF | **INCONCLUSIVE** | L1 spikes and Mi1/Tm3 responds subthreshold; nothing reaches T4. |
-| EXP-001 observability | **SUPPORTED diagnostic** | Preserves the same failed run's full voltage evidence. |
-| EXP-002 graded T4 | **SUPPORTED in model** | Opposite workbook orders produce different T4 activity; biological direction/mechanism remain unresolved. |
-| EXP-003 embodiment | **SUPPORTED engineering scaffold** | Order changes yaw magnitude, but both conditions and zero-command control turn the same way. |
-| EXP-003 downstream audit | **SUPPORTED anatomy correction** | A target-filter bug excluded T4b/c; restoring them does not fix steering sign. |
-| EXP-003 bilateral readout | **UNSUPPORTED in minimal model** | DNp15 right-minus-left stays same-signed; body simulation is correctly skipped. |
-| provisional EXP-004 | **INVALID_IMPLEMENTATION** | Incorrect electrical semantics and unstable recurrence invalidate all biological interpretation. |
+The concise cross-experiment state is maintained in [research
+progress](reports/RESEARCH_PROGRESS.md). Machine-readable parameters and results
+are under `experiments/`.
 
-See the [full claim ledger](reports/PROJECT_AUDIT_2026-09-12.md) and concise
-[experiment reports](reports/).
+![EXP-002 local motion result](figures/EXP-002-direction-selectivity.png)
 
-## Scientific boundary
+The figure shows a model-internal activity result. Activity is dimensionless,
+the workbook axes are not mapped to canonical visual directions, and the
+upstream inhibitory drive is partly imposed rather than fully propagated.
 
-MaleCNS supplies neuron/body identities, annotations, sides, directed chemical
-connections, synapse counts, and optic-column L1 assignments. It does not supply
-the model's receptor signs, dynamics, gap junctions, world geometry, controller
-actions, or parameter values.
+## Scientific boundaries
 
-Every report separates:
+The project keeps four evidence layers separate:
 
-- MaleCNS structural facts;
-- literature-supported physiology;
-- model assumptions and free parameters;
-- engineering or embodiment scaffolding;
-- measured outputs and controls.
+- **MaleCNS structure:** neuron identity, directed chemical edges, synapse
+  counts, sides, and annotations from the released dataset;
+- **literature physiology:** only interactions and qualitative dynamics tied to
+  cited primary sources;
+- **model assumptions:** signs, normalization, time constants, rectification,
+  stimulus encoding, and temporary readouts;
+- **free parameters:** numerical values that are not measurements from the
+  modeled cells.
 
-Workbook suffixes such as `01_07→01_08` are stimulus-space coordinates only.
-They are not called leftward/rightward, front-to-back, or yaw direction without
-an authoritative geometry mapping.
+Every report states which layer supports each part of an experiment. Failures
+remain part of the experiment history instead of being replaced by later
+models.
 
-## Repository map
+## Repository layout
 
 ```text
-src/          historical models plus reusable numerical/provenance checks
-scripts/      materialization, experiment, and verification entry points
-tests/        fast unit and scientific-invariant tests
-experiments/  exact machine-readable records, including invalid history
-reports/      audited human-readable scientific reports
-docs/         architecture, provenance, environment, and technical diagnostics
-figures/      small deliberately promoted public evidence
-data/         ignored raw/materialized data plus tracked hash registry
-results/      ignored bulk traces, figures, and videos
-.github/      lightweight CI and full-history secret scan
+src/          model, numerical, materialization, and provenance modules
+scripts/      data queries, experiment runners, verification, and benchmarks
+experiments/  machine-readable experiment records and archived failed source
+reports/      question/method/result/control/limitation summaries
+docs/         architecture, environment, provenance, and diagnostics
+figures/      selected compact public evidence
+data/         tracked manifest only; downloaded/materialized data are ignored
+results/      generated traces, figures, and videos are ignored
 ```
 
-Historical implementations remain intact when changing them would alter an old
-result. Corrected science must normally become an explicit successor experiment.
-The invalid provisional EXP-004 logic is quarantined under its experiment record
-and is not active source code.
+The current implementation and scaling boundary is described in
+[implementation and performance](docs/implementation.md). Historical experiment
+modules remain reproducible; future models can use validated sparse operators
+and selected-state recording without inheriting the small-circuit Pandas/dense
+paths.
 
-## Install
+## Environment
 
-Python 3.11 is the audited version.
+Python 3.11 is the tested version.
 
 ```powershell
-python -m venv .venv
-.venv\Scripts\python.exe -m pip install --disable-pip-version-check -r requirements.txt
+py -3.11 -m venv .venv
+.venv\Scripts\python.exe -m pip install --upgrade pip
+.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-The exact audited Windows environment is recorded in `requirements-audit.txt`.
-FlyGym/MuJoCo are optional historical EXP-003 dependencies in
-`requirements-exp003-flygym.txt`; the neural-only core does not require them.
+The exact Windows environment used for the 2026-09-12 verification is recorded
+in `requirements-verified-windows.txt`. Brian2 is diagnostic-only; EXP-001 runs
+with the NumPy/SciPy backend. FlyGym is optional and used only by the historical
+EXP-003 body runner.
 
-## Obtain MaleCNS inputs
+## Data
 
-Raw data is not redistributed. MaleCNS v1.0 is licensed CC-BY. Download the
-three registered source files:
+Downloaded MaleCNS files, query-derived graph bundles, caches, credentials, and
+generated results are excluded from Git. Official source URLs, expected sizes,
+SHA-256 hashes, and materialization contracts are tracked in
+[`data/manifest.json`](data/manifest.json).
 
 ```powershell
-New-Item -ItemType Directory -Force data | Out-Null
-Invoke-WebRequest https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-annotations-male-cns-v1.0-minconf-0.5.feather -OutFile data/body-annotations.feather
-Invoke-WebRequest https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-neurotransmitters-male-cns-v1.0.feather -OutFile data/body-neurotransmitters.feather
-Invoke-WebRequest https://raw.githubusercontent.com/flyconnectome/2025malecns/main/supplemental_data/optic-column-type-assignments-v1.0.xlsx -OutFile data/optic-column-type-assignments-v1.0.xlsx
+Invoke-WebRequest https://male-cns.janelia.org/data/body-annotations.feather -OutFile data/body-annotations.feather
+Invoke-WebRequest https://male-cns.janelia.org/data/body-neurotransmitters.feather -OutFile data/body-neurotransmitters.feather
+Invoke-WebRequest https://male-cns.janelia.org/data/visual-neuron-columns.xlsx -OutFile data/visual-neuron-columns.xlsx
+Invoke-WebRequest https://raw.githubusercontent.com/flyconnectome/2025malecns/main/supplemental_files/optic-column-type-assignments-v1.0.xlsx -OutFile data/optic-column-type-assignments-v1.0.xlsx
 ```
 
-`data/manifest.json` records source and materialization SHA-256 hashes. Verify
-the local evidence set with:
+Verify the local evidence set with:
 
 ```powershell
 .venv\Scripts\python.exe scripts\verify_local_data.py
@@ -115,7 +117,7 @@ EXP-001:
 .venv\Scripts\python.exe run_experiment.py
 ```
 
-EXP-002 and its held-out validation:
+EXP-002 and its frozen held-out validation:
 
 ```powershell
 .venv\Scripts\python.exe scripts\query_exp002_circuit.py
@@ -123,8 +125,8 @@ EXP-002 and its held-out validation:
 .venv\Scripts\python.exe scripts\run_exp002_validation.py
 ```
 
-Historical EXP-003 commands are documented in their reports. They require the
-optional FlyGym environment for body runs. Generated CSVs, videos, caches, and
+Historical EXP-003 commands are documented in their reports. Body runs require
+the optional FlyGym environment. Generated CSVs, videos, caches, and graph
 materializations remain ignored.
 
 ## Verify the repository
@@ -135,30 +137,22 @@ materializations remain ignored.
 .venv\Scripts\python.exe -m pip check
 .venv\Scripts\python.exe scripts\repository_policy_check.py
 .venv\Scripts\python.exe scripts\verify_local_data.py --allow-missing
+.venv\Scripts\python.exe scripts\benchmark_foundation.py
 ```
 
-CI runs these fast checks without downloading MaleCNS or running expensive
-connectome/body experiments. A separate workflow scans all reachable Git history
-with checksum-verified Gitleaks.
+CI runs the fast checks without downloading MaleCNS or executing body
+simulations. A separate workflow scans all reachable Git history with a
+checksum-verified Gitleaks binary.
 
 ## Next scientific gate
 
-The recommended successor is neural-only EXP-004: drive anatomically identified
-bilateral HS/H2 inputs with controlled published stimulus classes, then test
-whether a stable recurrent/inhibitory network increases DNp15
-rotation-versus-translation discrimination relative to upstream HS/H2.
-
-Before interpretation it must have:
-
-- a defensible MaleCNS-to-literature neuron identity crosswalk;
-- only literature-supported electrical pairs, kept separate from chemical edges;
-- diffusive coupling proportional to `other_state - self_state`;
-- effective-transition/Jacobian stability and zero-input decay;
-- quantitative external physiology targets fixed before evaluation;
-- full, no-electrical, recurrent/inhibitory, and chemical-recurrence controls.
-
-No FlyGym/body work resumes until that neural gate passes. A failed stable model
-must be preserved as a negative model result, not tuned into success.
+EXP-004 restarts as a neural physiology experiment, without FlyGym. Controlled
+HS/H2 inputs representing published optic-flow stimulus classes must first be
+mapped onto identified cells. Any literature-added electrical coupling must use
+specific supported pairs and a diffusive `other_state - self_state` current.
+Interpretation is gated on effective-transition stability, zero-input decay,
+determinism, explicit interaction provenance, and a quantitative external
+physiology target fixed before evaluation.
 
 ## Sources
 
@@ -169,9 +163,8 @@ must be preserved as a negative model result, not tuned into success.
 
 ## Release status
 
-The canonical repository is hosted privately at
-[`EricW9888/CNS`](https://github.com/EricW9888/CNS). Its rewritten no-reply Git
-history, uploaded tree, test CI, and full-history secret scan have been verified.
-The repository must remain private until the owner selects an explicit code
-license. Upstream MaleCNS data remains governed by its own CC-BY license. See the
-[history-normalization ledger](docs/history-normalization.md).
+The canonical GitHub repository is private. It must remain private until the
+owner selects an explicit license for this project's code. Upstream MaleCNS
+data remains governed by its own license and is never copied into the tracked
+tree. Git identity normalization is documented in the secondary
+[history-normalization note](docs/history-normalization.md).

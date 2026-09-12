@@ -11,6 +11,7 @@ __pycache__/
 *.log
 .cache/
 cache/
+.local/
 
 # All downloaded/raw connectome files and local data products
 data/*

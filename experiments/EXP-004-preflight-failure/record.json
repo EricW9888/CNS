@@ -1,11 +1,11 @@
 {
-  "experiment_id": "EXP-004-provisional-invalid",
-  "title": "Invalid provisional bilateral H2/HS network attempt",
-  "kind": "implementation_audit",
+  "experiment_id": "EXP-004-provisional-preflight-failure",
+  "title": "Provisional bilateral H2/HS network preflight failure",
+  "kind": "implementation_preflight_record",
   "execution_status": "invalidated_before_biological_interpretation",
   "status": "INVALID_IMPLEMENTATION",
   "parent_commit": "af26f03",
-  "source_state": "Previously uncommitted working-tree implementation; archived with only INVALID docstring labels added and no logic changes.",
+  "source_state": "Previously uncommitted working-tree implementation; archived with only preflight-failure docstring labels added and no numerical logic changes.",
   "question_attempted": "Can a bilateral T4-derived H2/HS network enhance DNp15 yaw-like versus translation-like selectivity?",
   "why_invalid": [
     "The electrical term was implemented as positive recurrent input g * W_gap * state, not diffusive conductance proportional to the paired state difference.",

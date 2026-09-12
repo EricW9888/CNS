@@ -55,13 +55,13 @@ MaleCNS data or connectome error.
 Brian2 2.7 release notes document compatibility with NumPy 2.0. That statement
 does not establish compatibility with every later NumPy 2.x release. As a
 control, the same Brian2 2.9.0 wheel imports successfully in this repository's
-audited NumPy 2.0.2 environment, where `np.ndarray.ptp` is still exposed. The
+verified NumPy 2.0.2 environment, where `np.ndarray.ptp` is still exposed. The
 failure is therefore specifically reproduced for NumPy 2.4.6; it must not be
 reported as a generic Brian2/NumPy-2 incompatibility. The runnable baseline uses
 its transparent NumPy/SciPy sparse LIF integrator and does not modify either
 third-party package.
 
-## Audit control — 2026-09-12
+## Verification control — 2026-09-12
 
 Fresh isolated environment:
 

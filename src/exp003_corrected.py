@@ -1,4 +1,4 @@
-"""Corrected EXP-003 downstream readout built from the audited MaleCNS path.
+"""Corrected EXP-003 downstream readout built from the verified MaleCNS path.
 
 This module intentionally keeps the frozen EXP-003 bridge and its normalized
 linear readout unchanged.  The only difference is the materialized boundary:

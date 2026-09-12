@@ -1,1 +1,1 @@
-"""Small, auditable MaleCNS visual-to-descending prototype."""
+"""Reproducible MaleCNS visual-to-descending circuit experiments."""

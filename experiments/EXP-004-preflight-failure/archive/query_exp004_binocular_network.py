@@ -1,4 +1,4 @@
-"""INVALID provisional EXP-004 materializer retained for audit.
+"""Provisional EXP-004 materializer retained after failed preflight.
 
 The visual T4 bundles are inherited from the bilateral EXP-003 query.  This
 export follows their corrected direct target rule into HSE/HSN/HSS/H2 and the

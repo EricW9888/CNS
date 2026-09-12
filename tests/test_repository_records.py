@@ -23,7 +23,7 @@ def test_historical_failure_and_invalid_attempt_remain_explicit():
         (ROOT / "experiments/EXP-001-adjacent-column-motion/record.json").read_text()
     )
     invalid = json.loads(
-        (ROOT / "experiments/EXP-004-invalid-provisional/record.json").read_text()
+        (ROOT / "experiments/EXP-004-preflight-failure/record.json").read_text()
     )
     assert exp001["status"] == "inconclusive"
     assert exp001["result"]["t4"].startswith("No T4 neuron")
@@ -35,7 +35,15 @@ def test_historical_failure_and_invalid_attempt_remain_explicit():
 def test_invalid_exp004_is_not_an_active_source_module():
     assert not (ROOT / "src/exp004.py").exists()
     assert not (ROOT / "scripts/run_exp004.py").exists()
-    assert (ROOT / "experiments/EXP-004-invalid-provisional/archive/exp004.py").exists()
+    assert (ROOT / "experiments/EXP-004-preflight-failure/archive/exp004.py").exists()
+
+
+def test_reader_facing_docs_use_research_facing_names():
+    reader_paths = [ROOT / "README.md", *sorted((ROOT / "reports").glob("*.md"))]
+    combined = "\n".join(path.read_text(encoding="utf-8") for path in reader_paths)
+    assert "PROJECT_AUDIT" not in combined
+    assert "claim ledger" not in combined.lower()
+    assert not list((ROOT / "reports").glob("*audit*"))
 
 
 def test_data_registry_has_unique_paths_and_sha256_digests():
@@ -54,7 +62,10 @@ def test_local_markdown_links_resolve():
     link_pattern = re.compile(r"!?\[[^]]*\]\(([^)]+)\)")
     missing = []
     for path in sorted(ROOT.glob("**/*.md")):
-        if any(part in {".git", ".venv", "data", "results"} for part in path.parts[:-1]):
+        if any(
+            part in {".git", ".venv", ".local", "data", "results"}
+            for part in path.parts[:-1]
+        ):
             continue
         for target in link_pattern.findall(path.read_text(encoding="utf-8")):
             if "://" in target or target.startswith("#"):

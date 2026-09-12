@@ -7,7 +7,7 @@
     "EXP-001 unchanged",
     "EXP-002 unchanged and frozen",
     "EXP-003 unchanged",
-    "EXP-003-downstream-audit unchanged"
+    "EXP-003-downstream-correction unchanged"
   ],
   "question": "Does a bilateral right-minus-left visual-motion pathway difference produce opposite-signed steering commands for mirrored yaw-like optic-flow orders?",
   "hypothesis_result": "not supported by the minimal T4-only bilateral implementation; not a claim that the full biological binocular circuit is falsified",

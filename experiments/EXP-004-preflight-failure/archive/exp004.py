@@ -1,4 +1,4 @@
-"""INVALID provisional binocular H2/HS/DN network retained for audit.
+"""Provisional binocular H2/HS/DN network retained after failed preflight.
 
 MaleCNS supplies every chemical edge in the materialized graph.  The only
 non-connectome interaction is the optional contralateral H2<->HS coupling,

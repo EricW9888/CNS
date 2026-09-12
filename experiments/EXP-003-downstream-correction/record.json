@@ -1,13 +1,13 @@
 {
-  "experiment_id": "EXP-003-downstream-audit",
-  "title": "Audit and reconstruction of the frozen EXP-003 T4 downstream pathway",
+  "experiment_id": "EXP-003-downstream-correction",
+  "title": "Correction and reconstruction of the frozen EXP-003 T4 downstream pathway",
   "status": "completed_corrected_graph_preserves_all_t4_paths_but_does_not_reverse_motor_sign",
   "parent_frozen_commit": "64e29b1",
   "question": "Are T4b and T4c absent from the EXP-003 downstream materialization because MaleCNS lacks their outputs, or because the target selection is incomplete?",
   "preserved_baselines": {
     "EXP-001": "unchanged strict-LIF baseline",
     "EXP-002": "unchanged frozen graded T4 experiment",
-    "EXP-003": "unchanged initial embodied result from 64e29b1; this audit is a separate comparison record"
+    "EXP-003": "unchanged initial embodied result from 64e29b1; this correction is a separate comparison record"
   },
   "frozen_model_constraints": {
     "exp002_parameters_changed": false,
@@ -21,7 +21,7 @@
       "readout": "descending activity weighted by normalized T4a path mass minus normalized T4d path mass"
     }
   },
-  "audit": {
+  "materialization_correction": {
     "root_cause": "The original query retained only HSE, HSN, HSS, HST, VS, VST1, VST2, and VSm as direct T4 targets. That target-type filter excluded the direct T4b/T4c lobula-plate paths.",
     "target_filtering_mistake": true,
     "subtype_or_layer_naming_mismatch": false,
@@ -59,7 +59,7 @@
     },
     {
       "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6797552/",
-      "use": "All four T4 subtypes project to their own lobula-plate layer, supporting an all-subtype downstream audit rather than treating T4b/c absence as biological."
+      "use": "All four T4 subtypes project to their own lobula-plate layer, supporting an all-subtype downstream reconstruction rather than treating T4b/c absence as biological."
     }
   ],
   "corrected_materialization": {
@@ -130,27 +130,27 @@
     "pre_body_command_sign": "The corrected forward and reverse commands are both predominantly negative; neither condition produces an opposite-signed command. The corrected path changes timing and magnitude, not sign.",
     "body_sign": "Both corrected conditions still produce positive final yaw, with reverse slightly larger than forward.",
     "causal_result": "Corrected-path ablation removes the corrected order contrast, so the remaining small embodied difference is downstream-path-dependent under this frozen bridge.",
-    "subtype_information": "MaleCNS connectivity now preserves all four subtype-specific T4 paths into selected lobula-plate targets and descending neurons. The frozen motor bridge still explicitly contrasts T4a and T4d path mass; T4b/T4c are not given new hand-coded motor signs in this audit.",
-    "claim_limit": "This is a downstream graph audit and a dimensionless graded activity-proxy result, not evidence of canonical left/right or front/back steering.",
+    "subtype_information": "MaleCNS connectivity now preserves all four subtype-specific T4 paths into selected lobula-plate targets and descending neurons. The frozen motor bridge still explicitly contrasts T4a and T4d path mass; T4b/T4c are not given new hand-coded motor signs in this correction.",
+    "claim_limit": "This is a downstream graph correction and a dimensionless graded activity-proxy result, not evidence of canonical left/right or front/back steering.",
     "unresolved_biological_ambiguity": "The workbook mapping from 01_07 -> 01_08 to canonical visual/body direction remains unresolved. The conservative corrected graph is two hops; additional LPi-mediated multi-hop integration may matter but was not added here."
   },
   "outputs": {
-    "audit_script": "scripts/run_exp003_downstream_audit.py",
+    "comparison_script": "scripts/run_exp003_downstream_correction.py",
     "corrected_model": "src/exp003_corrected.py",
     "tests": "tests/test_exp003_corrected.py",
-    "summary": "results/exp003_downstream_audit/summary.json",
+    "summary": "results/exp003_downstream_correction/summary.json",
     "figures": [
-      "results/exp003_downstream_audit/downstream_audit_comparison.png",
-      "results/exp003_downstream_audit/order_contrast_ablation.png",
-      "results/exp003_downstream_audit/original/signal_to_yaw.png",
-      "results/exp003_downstream_audit/corrected/signal_to_yaw.png"
+      "results/exp003_downstream_correction/downstream_correction_comparison.png",
+      "results/exp003_downstream_correction/order_contrast_ablation.png",
+      "results/exp003_downstream_correction/original/signal_to_yaw.png",
+      "results/exp003_downstream_correction/corrected/signal_to_yaw.png"
     ],
-    "traces": "results/exp003_downstream_audit/{original,corrected}/{open_loop,body}_*.csv",
+    "traces": "results/exp003_downstream_correction/{original,corrected}/{open_loop,body}_*.csv",
     "videos": [
-      "results/exp003_downstream_audit/original/full_forward.mp4",
-      "results/exp003_downstream_audit/original/full_reverse.mp4",
-      "results/exp003_downstream_audit/corrected/full_forward.mp4",
-      "results/exp003_downstream_audit/corrected/full_reverse.mp4"
+      "results/exp003_downstream_correction/original/full_forward.mp4",
+      "results/exp003_downstream_correction/original/full_reverse.mp4",
+      "results/exp003_downstream_correction/corrected/full_forward.mp4",
+      "results/exp003_downstream_correction/corrected/full_reverse.mp4"
     ]
   }
 }

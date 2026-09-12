@@ -1,6 +1,6 @@
 # EXP-001 — strict-LIF adjacent-column baseline
 
-**Status: INCONCLUSIVE for T4 direction selectivity; implementation result SUPPORTED.**
+**Outcome: propagation stops before T4; direction selectivity is not evaluated.**
 
 ## Question
 
@@ -36,7 +36,7 @@ assumption, not receptor-resolved physiology.
 - forward-minus-reverse T4 voltage difference: 0.0 mV.
 
 Commit `b222654` added full traces and figures without changing the model or
-creating a second experiment. The fresh audit rerun produced byte-identical
+creating a second experiment. An independent rerun produced byte-identical
 metrics.
 
 ## Interpretation
@@ -55,4 +55,4 @@ selectivity. The T4-to-wide-field ablation is inert because T4 is already silent
 
 Exact machine state: `experiments/EXP-001-adjacent-column-motion/record.json`.
 
-References: [project reference ledger](../docs/references.md).
+References: [project references](../docs/references.md).

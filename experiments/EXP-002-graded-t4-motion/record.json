@@ -52,7 +52,7 @@
     "pulse_duration_ms": 10.0,
     "event_starts_ms": [10.0, 20.0]
   },
-  "answer_leakage_audit": {
+  "condition_independence_check": {
     "files_inspected": ["src/graded_model.py", "run_exp002.py", "scripts/query_exp002_circuit.py"],
     "explicit_t4_subtype_preferred_direction_rule": false,
     "condition_dependent_model_logic": false,
@@ -65,7 +65,7 @@
       {"rule": "Tm3 and Mi1 use different fixed time constants, with Mi1 slower/delayed than Tm3; inhibitory drive uses one fixed delay and time constant.", "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4243710/"},
       {"rule": "Fast excitation and delayed inhibition are represented as separate spatially weighted channels.", "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5967973/"}
     ],
-    "conclusion": "No explicit T4a/T4b/T4c/T4d answer key, condition branch, pair-specific tuning, or fitted output transform was found. The observed preference is emergent within the retained MaleCNS connectivity and these independently motivated class rules. It is not a full-connectome result because the inhibitory visual drive is an exogenous delayed channel and not every upstream branch is materialized.",
+    "conclusion": "No explicit T4a/T4b/T4c/T4d answer key, condition branch, pair-specific tuning, or fitted output transform is present. The order sensitivity is produced by fixed class rules together with selected MaleCNS connectivity; it is not a connectivity-only or full-circuit result because the inhibitory visual drive is an exogenous delayed channel and not every upstream branch is materialized.",
     "numeric_parameter_caveat": "The cited literature motivates qualitative sign and timing relationships; the exact frozen time constants and 15 ms delay are explicit phenomenological assumptions, not measured biophysical constants and not fit to validation results."
   },
   "geometry_validation": {

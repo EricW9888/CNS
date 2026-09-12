@@ -1,6 +1,6 @@
 # MaleCNS annotation-body reconciliation
 
-Audit date: 2026-09-10. Source: local official
+Recorded 2026-09-10. Source: local official
 `body-annotations-male-cns-v1.0-minconf-0.5.feather` plus a read-only query to
 the public `male-cns:v1.0` neuPrint dataset.
 
@@ -65,5 +65,5 @@ stages.
 The evidence supports saying “211,577 raw body-annotation records” and
 “166,691 published curated neurons,” not treating those as interchangeable.
 The current export/API does not expose a single verified predicate in this
-audit that reproduces 166,691 exactly. That unresolved release/schema drift is
+reconciliation that reproduces 166,691 exactly. That unresolved release/schema drift is
 recorded rather than hidden behind a made-up filter.

@@ -62,7 +62,7 @@ def main() -> None:
 
     if missing and not args.allow_missing:
         raise SystemExit(
-            "missing audited data files; rerun with --allow-missing for a partial "
+            "missing registered data files; rerun with --allow-missing for a partial "
             f"installation: {missing}"
         )
     print(

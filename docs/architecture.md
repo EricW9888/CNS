@@ -1,55 +1,63 @@
 # Architecture and scientific boundaries
 
-## Current layers
+## Data flow
 
 ```text
 official MaleCNS files + public neuPrint
         |
         v
-query/materialization scripts -> ignored nodes/edges/manifest bundles
+validated query/materialization -> ignored Parquet graph bundles
         |
         v
-historical model modules -> experiment runners -> ignored bulk outputs
+compiled numerical state        -> selected recordings and summaries
         |                                      |
-        +--> machine records                   +--> selected public figure
-        +--> human reports
+        +--> machine records                   +--> ignored bulk outputs
+        +--> human reports                     +--> selected public evidence
 ```
 
-### Anatomy/materialization
+### Anatomy and materialization
 
 `src/malecns_io.py` loads graph tables and conservative body-level transmitter
-predictions. Query scripts select bounded MaleCNS v1.0 subgraphs. The source of
-truth for structural claims is the ignored materialized bundle verified against
-`data/manifest.json`, not a copied edge list in prose.
+predictions. `src/materialization.py` validates aggregate chemical edge rows
+and joins complete, unique node metadata. Query scripts select bounded MaleCNS
+v1.0 subgraphs. Duplicate bodies or aggregate edge pairs, missing requested
+annotations, invalid endpoints, and nonpositive/nonfinite synapse counts fail
+explicitly.
 
-### Historical model implementations
+The source of truth for structural claims is the ignored materialized bundle
+verified against `data/manifest.json`, not a copied edge list in prose.
+
+### Recorded model implementations
 
 - `src/lif_model.py`: EXP-001 strict spike-gated LIF baseline.
 - `src/graded_model.py`: EXP-002 phenomenological graded local T4 model.
 - `src/exp003.py`, `src/exp003_corrected.py`, and
   `src/exp003_bilateral.py`: explicit downstream and embodiment scaffolds.
 
-These modules remain inspectable and frozen where changing them would alter a
-recorded experiment. Their limitations are part of their scientific identity.
-Later code currently imports some private EXP-002 helpers; that coupling is
-accepted for historical reproducibility but should not be copied into a new
-model family.
+The EXP-002 batch and online paths now share `GradedCircuitKernel`; exact trace
+regressions ensure the refactor does not alter the frozen experiment. EXP-003's
+small dense readouts remain in place because changing their representation
+would obscure historical reproduction.
 
-### Reusable foundation
+### Successor-model foundation
 
-`src/numerics.py` defines model-independent normalization, diffusive electrical
-coupling, effective Euler transitions, spectral radius, and zero-input decay
-checks. `src/provenance.py` validates hashes and materialization contracts.
-These utilities do not change any historical experiment.
+`src/sparse_backend.py` compiles edge tables once into CSR projections with
+explicit source and target body-ID axes. It also records only requested states,
+avoiding an all-neuron time-series allocation. `src/numerics.py` provides
+normalization, validated diffusive electrical coupling, effective Euler
+transitions, spectral radius, and zero-input decay checks.
+
+These utilities do not define biological dynamics by themselves. A successor
+experiment must still specify equations, units, connection provenance, and
+free parameters.
 
 ### Records and evidence
 
 - `experiments/*/record.json`: exact historical machine state;
-- `reports/*.md`: audited scientific interpretation;
-- `reports/PROJECT_AUDIT_2026-09-12.md`: cross-experiment claim ledger;
-- `figures/`: only small deliberately promoted public evidence;
-- `results/`: ignored bulk output;
-- `data/`: ignored upstream/materialized data except its public registry.
+- `reports/*.md`: question, method, result, controls, and limitations;
+- `figures/`: selected compact evidence;
+- `results/`: ignored generated output;
+- `data/`: ignored source/materialized data except the tracked registry.
 
 ## Rules for successor experiments
 
@@ -63,15 +71,17 @@ These utilities do not change any historical experiment.
 5. Compare against quantitative external physiology where available; a nonzero
    output alone is not validation.
 6. Treat ablations as mechanistic only when they remove an active, biologically
-   relevant component and are compared with a genuinely effective matched
-   control.
+   relevant component and are compared with a genuinely effective control.
 7. Give changed science a new experiment ID; do not silently repair history.
 
 ## Scaling direction
 
-The existing graph boundary—columnar tables transformed into explicit sparse or
-dense operators—is compatible with larger MaleCNS materializations. Before
-whole-CNS work, model equations and units must be validated on small circuits,
-operators must avoid dense all-pairs allocation, and profiling must identify the
-actual bottleneck. GPU/CUDA specialization is not justified by current runtimes
-or scientific maturity.
+Tables are an inspection and interchange format, not the inner-loop state
+representation. Successor models should compile immutable body-ID mappings and
+sparse operators once, update contiguous arrays, record selected probes, and
+convert to labeled tables only at analysis boundaries.
+
+Current CPU/SciPy performance is sufficient for these circuits. Whole-CNS work
+will require batched sparse state updates and bounded recording, but not
+necessarily a GPU. Backend specialization should follow equation validation and
+representative profiling rather than precede them.

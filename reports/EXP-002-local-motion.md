@@ -1,6 +1,7 @@
 # EXP-002 — graded local T4 motion proxy
 
-**Status: SUPPORTED in the frozen model; biological direction mapping and mechanism INCONCLUSIVE.**
+**Outcome: reproducible temporal-order sensitivity in the frozen reduced model;
+biological direction mapping and mechanism remain unresolved.**
 
 ## Question
 
@@ -50,9 +51,9 @@ reproduce their recorded mean contrasts and 70.3–94.1% reductions under the
 same ablation. This is workbook-coordinate generalization, not validation of a
 named visual or body direction.
 
-![Audited EXP-002 result](../figures/EXP-002-direction-selectivity.png)
+![EXP-002 result](../figures/EXP-002-direction-selectivity.png)
 
-## Controls and audit qualification
+## Controls and limitations
 
 Temporal reversal is a valid within-model control. The inhibitory ablation
 shows that the model's imposed delayed inhibitory channel drives most measured
@@ -79,4 +80,4 @@ drive, coordinate inference, normalization, and rectification are required.
 
 Exact machine state: `experiments/EXP-002-graded-t4-motion/record.json`.
 
-References: [project reference ledger](../docs/references.md).
+References: [project references](../docs/references.md).

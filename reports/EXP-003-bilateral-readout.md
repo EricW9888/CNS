@@ -1,6 +1,7 @@
 # EXP-003 — bilateral DNp15 readout
 
-**Status: UNSUPPORTED in the minimal model; biological binocular hypothesis INCONCLUSIVE.**
+**Outcome: the minimal bilateral readout does not recover opposite command
+signs; the biological binocular hypothesis remains unresolved.**
 
 ## Question
 
@@ -46,4 +47,4 @@ interactions and still lacks calibrated workbook-to-visual geometry.
 
 Exact machine state: `experiments/EXP-003-bilateral/record.json`.
 
-References: [project reference ledger](../docs/references.md).
+References: [project references](../docs/references.md).

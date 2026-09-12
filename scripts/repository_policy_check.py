@@ -66,7 +66,7 @@ def main() -> None:
 
     for forbidden in (ROOT / "src/exp004.py", ROOT / "scripts/run_exp004.py"):
         if forbidden.exists():
-            errors.append(f"invalid provisional EXP-004 is active: {forbidden}")
+            errors.append(f"failed provisional EXP-004 is active: {forbidden}")
 
     if errors:
         raise SystemExit("repository policy violations:\n- " + "\n- ".join(errors))

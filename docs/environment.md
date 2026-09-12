@@ -1,6 +1,7 @@
-# Audited software environment
+# Verified software environment
 
-The full audit and independent reruns completed on Windows with Python 3.11.9.
+Independent experiment reruns and repository checks completed on Windows with
+Python 3.11.9.
 Core versions were:
 
 ```text
@@ -20,7 +21,7 @@ brian2==2.9.0
 
 `requirements.txt` defines supported ranges for the neural-only core.
 `requirements-exp003-flygym.txt` is optional historical embodiment support.
-`requirements-audit.txt` records the exact successfully audited environment;
+`requirements-verified-windows.txt` records the exact verified environment;
 it is a reproducibility snapshot, not a promise that every pinned binary is
 portable to every platform.
 

@@ -1,4 +1,4 @@
-"""Audit the frozen EXP-003 bridge against original and corrected pathways."""
+"""Compare the frozen EXP-003 bridge on original and corrected pathways."""
 
 from __future__ import annotations
 
@@ -129,7 +129,7 @@ def _plot_comparison(open_loop: dict[str, dict[str, pd.DataFrame]], body: dict[s
     axes[0, 0].set_ylabel("raw command")
     axes[1, 0].set_ylabel("yaw (rad)")
     axes[2, 0].set_ylabel("yaw (rad)")
-    fig.suptitle("EXP-003 downstream audit: frozen bridge, original vs corrected MaleCNS path")
+    fig.suptitle("EXP-003 downstream correction: frozen bridge, original vs corrected path")
     fig.savefig(output, dpi=160)
     plt.close(fig)
 
@@ -155,7 +155,7 @@ def _plot_ablation(open_loop: dict[str, dict[str, pd.DataFrame]], body: dict[str
     for axis in axes:
         axis.set_xticks(x, labels, rotation=20)
         axis.grid(axis="y", alpha=0.2)
-    fig.suptitle("EXP-003 pathway audit: order contrast and T4-path ablation")
+    fig.suptitle("EXP-003 pathway correction: order contrast and T4-path ablation")
     fig.savefig(output, dpi=160)
     plt.close(fig)
 
@@ -165,7 +165,7 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("--exp002-bundle", type=Path, default=ROOT / "data" / "malecns_exp002_local_circuit")
     parser.add_argument("--original-bundle", type=Path, default=ROOT / "data" / "malecns_visual_subgraph")
     parser.add_argument("--corrected-bundle", type=Path, default=ROOT / "data" / "malecns_exp003_corrected_downstream")
-    parser.add_argument("--output", type=Path, default=ROOT / "results" / "exp003_downstream_audit")
+    parser.add_argument("--output", type=Path, default=ROOT / "results" / "exp003_downstream_correction")
     parser.add_argument("--duration-s", type=float, default=0.25)
     parser.add_argument("--frame-stride", type=int, default=20)
     return parser.parse_args()
@@ -235,7 +235,7 @@ def main() -> None:
             graph_output / "signal_to_yaw.png",
         )
 
-    _plot_comparison(open_loop, body, args.output / "downstream_audit_comparison.png")
+    _plot_comparison(open_loop, body, args.output / "downstream_correction_comparison.png")
     _plot_ablation(open_loop, body, args.output / "order_contrast_ablation.png")
 
     open_loop_summary = {
@@ -247,7 +247,7 @@ def main() -> None:
         for graph_label, conditions in body.items()
     }
     summary = {
-        "experiment": "EXP-003-downstream-audit",
+        "experiment": "EXP-003-downstream-correction",
         "parent_frozen_commit": "64e29b1",
         "exp002_parameters_unchanged": True,
         "bridge_unchanged": asdict(bridge),
@@ -256,7 +256,7 @@ def main() -> None:
             "original": {"nodes": original_graph.n_nodes, "edges": original_graph.n_edges},
             "corrected": {"nodes": corrected_graph.n_nodes, "edges": corrected_graph.n_edges},
         },
-        "audit_finding": {
+        "materialization_correction": {
             "root_cause": "The original downstream query retained only HSE/HSN/HSS/HST/VS/VST1/VST2/VSm as direct T4 targets. This target-type filter excluded the direct T4b/T4c lobula-plate paths; no subtype, side, or depth failure was required to explain the absence.",
             "current_query_depth": 2,
             "corrected_query_depth": 2,
