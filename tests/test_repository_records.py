@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import re
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -47,3 +48,18 @@ def test_data_registry_has_unique_paths_and_sha256_digests():
     assert all(path.startswith("data/") for path in paths)
     assert all(len(entry["sha256"]) == 64 for entry in entries)
     assert all(int(entry["bytes"]) > 0 for entry in entries)
+
+
+def test_local_markdown_links_resolve():
+    link_pattern = re.compile(r"!?\[[^]]*\]\(([^)]+)\)")
+    missing = []
+    for path in sorted(ROOT.glob("**/*.md")):
+        if any(part in {".git", ".venv", "data", "results"} for part in path.parts[:-1]):
+            continue
+        for target in link_pattern.findall(path.read_text(encoding="utf-8")):
+            if "://" in target or target.startswith("#"):
+                continue
+            relative = target.split("#", 1)[0]
+            if relative and not (path.parent / relative).resolve().exists():
+                missing.append(f"{path.relative_to(ROOT)} -> {target}")
+    assert not missing, missing

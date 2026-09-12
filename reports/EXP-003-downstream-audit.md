@@ -48,3 +48,5 @@ new roles to T4b/T4c.
 ```
 
 Exact machine state: `experiments/EXP-003-downstream-audit/record.json`.
+
+References: [project reference ledger](../docs/references.md).

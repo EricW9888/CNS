@@ -45,3 +45,5 @@ interactions and still lacks calibrated workbook-to-visual geometry.
 ```
 
 Exact machine state: `experiments/EXP-003-bilateral/record.json`.
+
+References: [project reference ledger](../docs/references.md).

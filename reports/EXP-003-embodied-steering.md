@@ -46,3 +46,5 @@ opposite biological steering or a calibrated visual-to-yaw mapping.
 ```
 
 Exact machine state: `experiments/EXP-003-embodied-steering/record.json`.
+
+References: [project reference ledger](../docs/references.md).

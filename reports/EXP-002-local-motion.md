@@ -78,3 +78,5 @@ drive, coordinate inference, normalization, and rectification are required.
 ```
 
 Exact machine state: `experiments/EXP-002-graded-t4-motion/record.json`.
+
+References: [project reference ledger](../docs/references.md).

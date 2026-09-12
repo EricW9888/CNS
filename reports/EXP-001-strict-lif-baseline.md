@@ -54,3 +54,5 @@ selectivity. The T4-to-wide-field ablation is inert because T4 is already silent
 ```
 
 Exact machine state: `experiments/EXP-001-adjacent-column-motion/record.json`.
+
+References: [project reference ledger](../docs/references.md).

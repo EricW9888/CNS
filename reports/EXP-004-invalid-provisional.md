@@ -60,3 +60,5 @@ Generated traces remain ignored. A successor must start from controlled HS/H2
 inputs and pass diffusive-coupling, provenance, effective-Jacobian stability,
 zero-input decay, determinism, and quantitative physiology gates before any
 biological interpretation.
+
+References: [project reference ledger](../docs/references.md).
