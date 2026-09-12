@@ -30,7 +30,7 @@ steering result.
 - SHA-256 registry for 49 source/materialization artifacts;
 - graph-contract verification across 21 local bundles;
 - reusable diffusive-coupling and effective-transition stability helpers;
-- 28 fast deterministic tests, compilation, dependency, repository-policy, and
+- 29 fast deterministic tests, compilation, dependency, repository-policy, and
   secret-scan checks;
 - lightweight GitHub CI that does not download data or run body simulations.
 
@@ -40,7 +40,7 @@ Measured on the audited Windows/Python 3.11.9 environment:
 
 | Task | Wall time |
 |---|---:|
-| 28-test suite | 1.28 s |
+| 29-test suite | 1.36 s |
 | EXP-001 with full observability/figures | 5.33 s |
 | EXP-002 primary with traces/figures | 6.68 s |
 
@@ -67,9 +67,17 @@ Interpret nothing until exact neuron/circuit provenance, diffusive electrical
 pairings, effective-transition stability, zero-input decay, deterministic output,
 and quantitative external targets pass. Body work remains gated off.
 
-The project remains blocked from public release only by owner license selection
-and final verification of the private canonical remote/CI. Scientific
-uncertainty is not a release blocker when it is stated honestly.
+The private canonical repository is verified at
+[`EricW9888/CNS`](https://github.com/EricW9888/CNS): visibility is private,
+local and server `main` matched at the transition checkpoint, the uploaded tree
+contained no excluded artifacts, and both test CI and full-history secret scan
+passed. Git author/committer history uses the authenticated account's no-reply
+address; the old-to-canonical hash map is retained in the
+[normalization ledger](../docs/history-normalization.md).
+
+Public release remains blocked only by owner selection of an explicit code
+license. Scientific uncertainty is not a release blocker when it is stated
+honestly.
 
 See the [claim ledger](PROJECT_AUDIT_2026-09-12.md),
 [architecture](../docs/architecture.md), [reproducibility boundary](../docs/reproducibility.md),

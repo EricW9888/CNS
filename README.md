@@ -169,7 +169,9 @@ must be preserved as a negative model result, not tuned into success.
 
 ## Release status
 
-The repository is suitable for private canonical hosting and review. It is not
-ready to be made public until the owner selects an explicit code license and the
-private remote's CI, history, and uploaded tree are verified. Upstream MaleCNS
-data remains governed by its own CC-BY license.
+The canonical repository is hosted privately at
+[`EricW9888/CNS`](https://github.com/EricW9888/CNS). Its rewritten no-reply Git
+history, uploaded tree, test CI, and full-history secret scan have been verified.
+The repository must remain private until the owner selects an explicit code
+license. Upstream MaleCNS data remains governed by its own CC-BY license. See the
+[history-normalization ledger](docs/history-normalization.md).

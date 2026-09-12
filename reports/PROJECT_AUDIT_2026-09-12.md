@@ -212,3 +212,25 @@ stability preflight.
 
 These blockers concern public release. They do not prevent creation of a private
 canonical remote after the repository is cleaned and scanned.
+
+## Publication-transition resolution
+
+After the audit, the provisional EXP-004 implementation was archived as invalid,
+the claim ledger and experiment reports were committed, input hashes and graph
+contracts were registered, and scientific invariant tests were added. The Git
+history was normalized before its first upload to use the authenticated GitHub
+account's no-reply address; every stored experiment hash was reconciled and the
+legacy-to-canonical mapping is recorded in
+[`docs/history-normalization.md`](../docs/history-normalization.md).
+
+The canonical repository was then created at
+[`EricW9888/CNS`](https://github.com/EricW9888/CNS) with private visibility.
+Server-side verification found an untruncated tree with no tracked raw MaleCNS
+data, credentials, environments, caches, bulk generated results, or videos.
+Local Gitleaks scans passed the 15-commit transition history and exact 76-file
+upload payload. GitHub test CI and the corrected full-history secret-scan
+workflow both passed on transition commit `479a395`.
+
+The stale documentation, provenance, identity, CI, and invalid-EXP-004 blockers
+are resolved. The repository remains private because no code license has been
+selected by the owner; no license was inferred or added during the audit.
