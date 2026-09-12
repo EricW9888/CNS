@@ -1,0 +1,50 @@
+{
+  "experiment_id": "EXP-004-provisional-invalid",
+  "title": "Invalid provisional bilateral H2/HS network attempt",
+  "kind": "implementation_audit",
+  "execution_status": "invalidated_before_biological_interpretation",
+  "status": "INVALID_IMPLEMENTATION",
+  "parent_commit": "fbe1f05",
+  "source_state": "Previously uncommitted working-tree implementation; archived with only INVALID docstring labels added and no logic changes.",
+  "question_attempted": "Can a bilateral T4-derived H2/HS network enhance DNp15 yaw-like versus translation-like selectivity?",
+  "why_invalid": [
+    "The electrical term was implemented as positive recurrent input g * W_gap * state, not diffusive conductance proportional to the paired state difference.",
+    "Equal LPTC states produced a nonzero electrical current vector instead of zero.",
+    "The literature matrix connected contralateral H2 to HSE, HSN, and HSS generically rather than retaining only pairings supported by cited primary literature.",
+    "The combined chemical-plus-electrical LPTC feedback block had raw spectral radius 1.25 and effective Euler transition spectral radius 1.00125.",
+    "A zero-input deterministic perturbation grew instead of decaying.",
+    "The model did not reproduce a yaw-like versus translation-like hierarchy; the reported mean DNp15 bilateral-difference-area ratio was effectively 1.0."
+  ],
+  "preflight": {
+    "dt_ms": 0.1,
+    "tau_lptc_ms": 20.0,
+    "raw_feedback_spectral_radius": 1.2500000000000013,
+    "effective_lptc_transition_spectral_radius": 1.0012499999999998,
+    "perturbation_norm_after_first_step": 0.18502101023674297,
+    "perturbation_norm_after_100_ms": 0.6045364017374019,
+    "perturbation_norm_after_1000_ms": 46198.43562243867,
+    "perturbation_norm_after_5000_ms": 2.3216190645800816e+26,
+    "equal_state_electrical_current_norm_before_gain": 2.8284271247461903,
+    "zero_input_decay_passed": false,
+    "electrical_coupling_semantics_passed": false
+  },
+  "uninterpretable_generated_result": {
+    "materialized_nodes": 175,
+    "materialized_chemical_edges": 609,
+    "t4_nodes": 92,
+    "motion_intermediate_nodes": 71,
+    "hs_h2_nodes": 8,
+    "dn_nodes": 4,
+    "yaw_like_DNp15_difference_area_mean_abs": 7.8848502229745145,
+    "translation_like_DNp15_difference_area_mean_abs": 7.884850222974524,
+    "ratio": 0.9999999999999988,
+    "interpretation": "No biological inference is permitted because preflight failed."
+  },
+  "archive": [
+    "archive/exp004.py",
+    "archive/query_exp004_binocular_network.py",
+    "archive/run_exp004.py"
+  ],
+  "generated_outputs": "Ignored local results/exp004 and data/malecns_exp004_binocular_network; not public evidence.",
+  "successor_rule": "A future EXP-004 must be a new implementation with controlled upstream HS/H2 inputs, exact interaction provenance, diffusive electrical semantics, effective-transition stability, zero-input decay, deterministic tests, and quantitative physiology targets before interpretation."
+}
