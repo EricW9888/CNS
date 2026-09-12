@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 from src.graded_model import GradedParameters, run_graded, t4_comparison
@@ -61,7 +62,7 @@ def test_graded_model_propagates_l1_to_mi_and_t4_without_spikes():
     assert trace.loc[trace["stage"] == "t4_motion", "activity_proxy"].max() > 0
 
 
-def test_graded_model_order_difference_is_reduced_by_inhibitory_ablation():
+def test_graded_model_order_difference_changes_under_inhibitory_ablation():
     graph = _synthetic_graph()
     columns = [
         {"suffix": "01_07", "l1_body_id": 1},
@@ -78,7 +79,8 @@ def test_graded_model_order_difference_is_reduced_by_inhibitory_ablation():
     full_difference = t4_comparison(forward, reverse)["max_abs_pointwise_activity_difference"].mean()
     ablated_difference = t4_comparison(forward_ablated, reverse_ablated)["max_abs_pointwise_activity_difference"].mean()
     assert full_difference > 0
-    assert ablated_difference != full_difference
+    assert ablated_difference > 0
+    assert not np.isclose(ablated_difference, full_difference)
 
 
 def test_t4_comparison_reports_body_type_and_timing():
