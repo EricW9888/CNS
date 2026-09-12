@@ -264,7 +264,7 @@ def main() -> None:
     translation_area = np.mean([abs(full["translation_like_A"]["DNp15_bilateral_difference_area"]), abs(full["translation_like_B"]["DNp15_bilateral_difference_area"])])
     summary = {
         "experiment": "EXP-004",
-        "parent_frozen_commit": "fbe1f05",
+        "parent_frozen_commit": "af26f03",
         "preserved_prior_experiments": ["EXP-001", "EXP-002", "EXP-003", "EXP-003-downstream-audit", "EXP-003-bilateral"],
         "graph": {
             "nodes": combined_graph.n_nodes,

@@ -35,7 +35,7 @@ assumption, not receptor-resolved physiology.
 - every T4 cell remains exactly at -52 mV and emits no spike;
 - forward-minus-reverse T4 voltage difference: 0.0 mV.
 
-Commit `2126cd4` added full traces and figures without changing the model or
+Commit `b222654` added full traces and figures without changing the model or
 creating a second experiment. The fresh audit rerun produced byte-identical
 metrics.
 

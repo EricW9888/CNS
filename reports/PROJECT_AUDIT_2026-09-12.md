@@ -8,7 +8,7 @@ development transcript as separate evidence streams. The transcript establishes
 intent and chronology; it is not accepted as implementation truth. Claims below
 are accepted only where code, records, and reruns agree.
 
-Audit base: `fbe1f055a9372eabcf5d4163a66d3141e76a1012` on `main`.
+Audit base: `af26f038f327b5108dcbb0d218154e5243c72457` on `main`.
 
 The audit performed the following read-only checks before repository changes:
 
@@ -32,14 +32,14 @@ The audit performed the following read-only checks before repository changes:
 
 | Commit | Historical action | Audited interpretation |
 |---|---|---|
-| `33c0ddc` | Initialized EXP-001 | Strict spike-gated LIF baseline. Signal stops before T4. |
-| `2126cd4` | Added observability | Diagnostic extension to EXP-001, not a new biological experiment. |
-| `59afc68` | Implemented EXP-002 | Graded local T4 proxy with exogenous delayed inhibitory drive. |
-| `82fc335` | Recorded EXP-002 | Narrow model-internal order sensitivity recorded. |
-| `7a3c620` | Validated EXP-002 | Frozen spatial sweep and a structurally matched but dynamically inert control. |
-| `aeccf1c` | Implemented EXP-003 | FlyGym demonstration using an explicit T4a-minus-T4d actuator bridge. |
-| `cad078b` | Audited downstream graph | Corrected a real T4b/T4c target-filter omission; steering sign still failed. |
-| `fbe1f05` | Tested bilateral readout | Homologous DNp15 right-minus-left signal stayed same-signed; body gate not passed. |
+| `2292f84` | Initialized EXP-001 | Strict spike-gated LIF baseline. Signal stops before T4. |
+| `b222654` | Added observability | Diagnostic extension to EXP-001, not a new biological experiment. |
+| `5dc96b4` | Implemented EXP-002 | Graded local T4 proxy with exogenous delayed inhibitory drive. |
+| `16006a7` | Recorded EXP-002 | Narrow model-internal order sensitivity recorded. |
+| `004ba7f` | Validated EXP-002 | Frozen spatial sweep and a structurally matched but dynamically inert control. |
+| `64e29b1` | Implemented EXP-003 | FlyGym demonstration using an explicit T4a-minus-T4d actuator bridge. |
+| `529d42f` | Audited downstream graph | Corrected a real T4b/T4c target-filter omission; steering sign still failed. |
+| `af26f03` | Tested bilateral readout | Homologous DNp15 right-minus-left signal stayed same-signed; body gate not passed. |
 | uncommitted | Provisional EXP-004 | Invalid implementation; not a biological result. |
 
 ## Claim/status ledger
@@ -59,7 +59,7 @@ Statuses have project-wide meanings:
 | DIAG-002 | Brian2 2.9.0 import fails because its installed `fundamentalunits.py` reads `np.ndarray.ptp`. | **SUPPORTED**, environment-specific | Reproduced with NumPy 2.4.6. It imports with NumPy 2.0.2, so “Brian2 fails with NumPy 2” is too broad. |
 | EXP-001-A | The 137-node/356-edge strict-LIF run produces L1 spikes and subthreshold Mi1/Tm3 activity. | **SUPPORTED** | Rerun is byte-identical; all six Mi1/Tm3 cells respond, maximum absolute excursion 2.2600059509 mV. |
 | EXP-001-B | EXP-001 evaluates T4 direction selectivity. | **INCONCLUSIVE** | T4 remains exactly at -52 mV and never spikes; the signal never reaches T4. |
-| EXP-001-C | Commit `2126cd4` is a second biological experiment. | **UNSUPPORTED** | It changes recording/analysis only and is part of EXP-001. |
+| EXP-001-C | Commit `b222654` is a second biological experiment. | **UNSUPPORTED** | It changes recording/analysis only and is part of EXP-001. |
 | EXP-002-A | The frozen model is temporally order-sensitive at every one of 43 selected T4 cells. | **SUPPORTED in model** | Primary metrics reproduce exactly. The output is dimensionless graded activity, not biological voltage. |
 | EXP-002-B | The primary workbook-axis order raises mean T4a peak and reversal raises mean T4b peak. | **SUPPORTED in model** | Reproduced for the primary pair. Canonical visual direction is unresolved. |
 | EXP-002-C | The result emerges from MaleCNS connectivity alone. | **UNSUPPORTED** | MaleCNS provides IDs, directed edges, and synapse counts. Signs, time constants, rectification, per-post normalization, inferred scalar coordinates, and delayed inhibitory visual drive are model assumptions. |

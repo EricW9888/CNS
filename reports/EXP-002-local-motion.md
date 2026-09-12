@@ -31,7 +31,7 @@ by 15 ms; Mi9 receives no ON-event drive.
 
 `dt=0.1 ms`; time constants L1 5 ms, Tm3 12 ms, Mi1 20 ms, inhibitory inputs
 30 ms, T4 10 ms; inhibitory delay 15 ms; input amplitude 1.0. These exact
-numbers are phenomenological assumptions and were frozen at `59afc68`; they
+numbers are phenomenological assumptions and were frozen at `5dc96b4`; they
 are not quantitative fits to measured MaleCNS physiology.
 
 ## Result

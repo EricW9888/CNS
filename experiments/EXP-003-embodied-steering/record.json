@@ -2,7 +2,7 @@
   "experiment_id": "EXP-003",
   "title": "Initial embodied steering from the frozen MaleCNS visual circuit",
   "status": "initial_validation_direction_dependent_but_not_opposite",
-  "parent_commit": "7a3c620",
+  "parent_commit": "004ba7f",
   "question": "Does the validated MaleCNS-derived visual-motion signal drive a different steering response when the same two-column motion order is reversed?",
   "preserved_history": {
     "EXP-001": "unchanged strict-LIF baseline; L1 responded, Mi1/Tm3 was subthreshold, and T4 did not spike",

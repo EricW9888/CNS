@@ -338,7 +338,7 @@ def main() -> None:
     )
     summary = {
         "experiment_id": "EXP-002",
-        "implementation_commit": "59afc68",
+        "implementation_commit": "5dc96b4",
         "parameter_set": {
             "dt_ms": 0.1,
             "tau_l1_ms": 5.0,

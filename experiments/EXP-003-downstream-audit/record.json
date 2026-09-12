@@ -2,12 +2,12 @@
   "experiment_id": "EXP-003-downstream-audit",
   "title": "Audit and reconstruction of the frozen EXP-003 T4 downstream pathway",
   "status": "completed_corrected_graph_preserves_all_t4_paths_but_does_not_reverse_motor_sign",
-  "parent_frozen_commit": "aeccf1c",
+  "parent_frozen_commit": "64e29b1",
   "question": "Are T4b and T4c absent from the EXP-003 downstream materialization because MaleCNS lacks their outputs, or because the target selection is incomplete?",
   "preserved_baselines": {
     "EXP-001": "unchanged strict-LIF baseline",
     "EXP-002": "unchanged frozen graded T4 experiment",
-    "EXP-003": "unchanged initial embodied result from aeccf1c; this audit is a separate comparison record"
+    "EXP-003": "unchanged initial embodied result from 64e29b1; this audit is a separate comparison record"
   },
   "frozen_model_constraints": {
     "exp002_parameters_changed": false,

@@ -4,7 +4,7 @@
   "kind": "implementation_audit",
   "execution_status": "invalidated_before_biological_interpretation",
   "status": "INVALID_IMPLEMENTATION",
-  "parent_commit": "fbe1f05",
+  "parent_commit": "af26f03",
   "source_state": "Previously uncommitted working-tree implementation; archived with only INVALID docstring labels added and no logic changes.",
   "question_attempted": "Can a bilateral T4-derived H2/HS network enhance DNp15 yaw-like versus translation-like selectivity?",
   "why_invalid": [

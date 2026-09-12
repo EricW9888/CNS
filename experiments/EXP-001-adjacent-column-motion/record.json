@@ -4,8 +4,8 @@
   "kind": "biological_experiment",
   "execution_status": "completed",
   "status": "inconclusive",
-  "git_commit": "33c0ddc",
-  "observability_commit": "2126cd4",
+  "git_commit": "2292f84",
+  "observability_commit": "b222654",
   "question": "Can opposite temporal orders of two adjacent MaleCNS optic-column L1 inputs produce a direction-dependent T4 response?",
   "hypothesis": "A sequential L1 input across adjacent columns should produce different responses in the downstream T4 population when the temporal order is reversed.",
   "source_facts": [

@@ -347,7 +347,7 @@ def main() -> None:
 
     summary = {
         "experiment": "EXP-003-bilateral",
-        "parent_frozen_commit": "cad078b",
+        "parent_frozen_commit": "529d42f",
         "preserved_prior_experiments": ["EXP-001", "EXP-002", "EXP-003", "EXP-003-downstream-audit"],
         "exp002_parameters_unchanged": True,
         "bridge": asdict(bridge),

@@ -248,7 +248,7 @@ def main() -> None:
     }
     summary = {
         "experiment": "EXP-003-downstream-audit",
-        "parent_frozen_commit": "aeccf1c",
+        "parent_frozen_commit": "64e29b1",
         "exp002_parameters_unchanged": True,
         "bridge_unchanged": asdict(bridge),
         "graphs": {

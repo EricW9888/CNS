@@ -2,7 +2,7 @@
   "experiment_id": "EXP-003-bilateral",
   "title": "Bilateral MaleCNS T4 optic-flow pathway hypothesis test",
   "status": "completed_prebody_sign_test_failed",
-  "parent_frozen_commit": "cad078b",
+  "parent_frozen_commit": "529d42f",
   "preserved_history": [
     "EXP-001 unchanged",
     "EXP-002 unchanged and frozen",
