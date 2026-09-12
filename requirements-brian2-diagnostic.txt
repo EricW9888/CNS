@@ -1,4 +1,3 @@
-# Optional diagnostic environment for reproducing the documented NumPy-2
-# compatibility failure. The runnable prototype does not import Brian2.
--r requirements.txt
+# Isolated historical diagnostic. The runnable project does not import Brian2.
+numpy==2.4.6
 brian2==2.9.0

@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "dataset": "male-cns:v1.0",
+  "release": "MaleCNS v1.0",
+  "license": "CC-BY",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "download_page": "https://male-cns.janelia.org/download/",
+  "neuprint_endpoint": "https://neuprint.janelia.org/api/custom/custom",
+  "sources": [
+    {
+      "path": "data/body-annotations.feather",
+      "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-annotations-male-cns-v1.0-minconf-0.5.feather",
+      "bytes": 14483314,
+      "sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2",
+      "redistributed": false
+    },
+    {
+      "path": "data/body-neurotransmitters.feather",
+      "url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/body-neurotransmitters-male-cns-v1.0.feather",
+      "bytes": 43282834,
+      "sha256": "95c9289220663abeb3409f3ad9e5a7f8a53f8093f5139d15502cd08da8879621",
+      "redistributed": false
+    },
+    {
+      "path": "data/optic-column-type-assignments-v1.0.xlsx",
+      "url": "https://raw.githubusercontent.com/flyconnectome/2025malecns/main/supplemental_data/optic-column-type-assignments-v1.0.xlsx",
+      "bytes": 111565,
+      "sha256": "d4af1cacb751036f7e84bfecc9bec79ca010066ac066559c29b566003ec080d3",
+      "redistributed": false
+    }
+  ],
+  "materializations": [
+    {
+      "name": "EXP-001 primary graph",
+      "command": "python scripts/query_malecns_subgraph.py --eye right --suffixes 01_07 01_08",
+      "files": [
+        {"path": "data/malecns_visual_subgraph/manifest.json", "bytes": 1189, "sha256": "8c57469a939ce779f14b891c052bcfc0507f94f38c9e9f47f1c55178c49d17d2"},
+        {"path": "data/malecns_visual_subgraph/nodes.parquet", "bytes": 9399, "sha256": "aca770b0484757ff205dedc7d852a51c6bb3dab101e6e42702894e6d0bb57de5"},
+        {"path": "data/malecns_visual_subgraph/edges.parquet", "bytes": 4096, "sha256": "6c45d6361955fc7a08e099dd11cc67aa8e428e92267f6ce1cea4535cb69c5fb5"}
+      ]
+    },
+    {
+      "name": "EXP-002 primary graph",
+      "command": "python scripts/query_exp002_circuit.py --eye right --suffixes 01_07 01_08",
+      "files": [
+        {"path": "data/malecns_exp002_local_circuit/manifest.json", "bytes": 1419, "sha256": "3d513ef8d65c1394600af6dc068047eedb4db05167501cdb1ed5fcad8acfb68a"},
+        {"path": "data/malecns_exp002_local_circuit/nodes.parquet", "bytes": 9093, "sha256": "ac47659c5b79094d97982d1f8341e5346f7c3ef88f37f166fe45069f3e8873cd"},
+        {"path": "data/malecns_exp002_local_circuit/edges.parquet", "bytes": 6776, "sha256": "5c7579d406b8d64aabe37de593b9213d664492a72ada8b5324b3c0124121f5ad"}
+      ]
+    },
+    {
+      "name": "EXP-002 held-out graphs",
+      "command": "python scripts/run_exp002_validation.py",
+      "files": [
+        {"path": "data/malecns_exp002_validation_01_07_to_02_07/manifest.json", "bytes": 1420, "sha256": "ff9bc1cb7f144bd83f8dfb4748f37ec807ae59228d3ec4fb7c1bf1ac26778412"},
+        {"path": "data/malecns_exp002_validation_01_07_to_02_07/nodes.parquet", "bytes": 9492, "sha256": "fd5943d30379ef5ca012e5b40ecadd4c4f11351401cd18033e5772e1e3dbe5ec"},
+        {"path": "data/malecns_exp002_validation_01_07_to_02_07/edges.parquet", "bytes": 7446, "sha256": "1fd60e0cf6f57509c639d509f5f718585d0228d75083d0ad2227b86129d15cac"},
+        {"path": "data/malecns_exp002_validation_02_05_to_02_06/manifest.json", "bytes": 1412, "sha256": "8c84973782e31ecd55faca236c13ec2af8ab785a44172e74f3183a80abaed1e1"},
+        {"path": "data/malecns_exp002_validation_02_05_to_02_06/nodes.parquet", "bytes": 9482, "sha256": "1cce22dd1624b88a421884d1bd3eead66051d04c437b68078782e665ed7a2770"},
+        {"path": "data/malecns_exp002_validation_02_05_to_02_06/edges.parquet", "bytes": 7441, "sha256": "6fba0203544baf956eaadf950bdc50b33896ee354240bbf0d3d23303da2dacde"},
+        {"path": "data/malecns_exp002_validation_14_06_to_15_06/manifest.json", "bytes": 1422, "sha256": "ddc770b2723a202388cb629324ef8719deb4ad2fe112a095f54533738dbd0840"},
+        {"path": "data/malecns_exp002_validation_14_06_to_15_06/nodes.parquet", "bytes": 12612, "sha256": "abf595a34e09de8508bd596200ce06a8b7b1bda770d1d1a2f724d491f35b1795"},
+        {"path": "data/malecns_exp002_validation_14_06_to_15_06/edges.parquet", "bytes": 13877, "sha256": "405d662bf1037099ee6a5d55467ad2b54d11b16657b2ef4d3019a0a072b52283"},
+        {"path": "data/malecns_exp002_validation_14_20_to_14_21/manifest.json", "bytes": 1422, "sha256": "92477a1f6f1dac8deb53b84368cb90902a06ace49ebc682cb1f4e63c1f35278b"},
+        {"path": "data/malecns_exp002_validation_14_20_to_14_21/nodes.parquet", "bytes": 11611, "sha256": "af841894cb0c98c5f1bdfb55420a8376ea72b8369ba9183ed7dbab5aee2393b5"},
+        {"path": "data/malecns_exp002_validation_14_20_to_14_21/edges.parquet", "bytes": 11279, "sha256": "98e7241df9bcc619471e7ff7cc5542665ff22ec152324ed1dc4d16320c74b8e6"},
+        {"path": "data/malecns_exp002_validation_23_22_to_24_22/manifest.json", "bytes": 1423, "sha256": "0759151839b8469122e6c742a0635949bc51709ae933297a2b4586adbdf697fa"},
+        {"path": "data/malecns_exp002_validation_23_22_to_24_22/nodes.parquet", "bytes": 11144, "sha256": "c3b8e83728de3f52eb37c2074131873f15379d0290e40a0339d0b3bf71ef4ca7"},
+        {"path": "data/malecns_exp002_validation_23_22_to_24_22/edges.parquet", "bytes": 10134, "sha256": "d51002d73fcc80a92afabda20ea6bd76007c0e4f39c03477a4b84c845feff4ac"},
+        {"path": "data/malecns_exp002_validation_24_11_to_24_12/manifest.json", "bytes": 1422, "sha256": "868dbf796966ef244a6432c44dbd4b55072866d9b0f5e193c5f17297d93927f4"},
+        {"path": "data/malecns_exp002_validation_24_11_to_24_12/nodes.parquet", "bytes": 12093, "sha256": "95bbc12f6979e7ee6eabed04990a82515aa6c08906a28530e44c3fcf0efa9d2e"},
+        {"path": "data/malecns_exp002_validation_24_11_to_24_12/edges.parquet", "bytes": 12277, "sha256": "96a6e35993540205d0160397e0b9a75c029e874aabb7a956c12ccdf3b6ca413a"},
+        {"path": "data/malecns_exp002_validation_35_35_to_36_35/manifest.json", "bytes": 1408, "sha256": "a967c75c059fb1300e3cb28dcaaf34e79b3d713e378551bfdd257a30f62a4d28"},
+        {"path": "data/malecns_exp002_validation_35_35_to_36_35/nodes.parquet", "bytes": 9827, "sha256": "c1875fe72f421926b10b38d29b621a2275acb1205ea2a4cf2559df93be706579"},
+        {"path": "data/malecns_exp002_validation_35_35_to_36_35/edges.parquet", "bytes": 8104, "sha256": "fc064d7456dadc947de023d1d6ceaf45a912d7c3399989b7f455a6afd6397f48"},
+        {"path": "data/malecns_exp002_validation_36_34_to_36_35/manifest.json", "bytes": 1407, "sha256": "a5d64e179d80ca32fb9ddca2fa4ae28ff0dfb1a0cb13aea5d385f98ef551b76a"},
+        {"path": "data/malecns_exp002_validation_36_34_to_36_35/nodes.parquet", "bytes": 8964, "sha256": "0a1e5ed183cf8b6ab5b2699e201fdad802dec0fe3464c308e81509f91c4f6af2"},
+        {"path": "data/malecns_exp002_validation_36_34_to_36_35/edges.parquet", "bytes": 6698, "sha256": "41d55ab801406639c6a42f32c268c684d3614c08c1ae1ca15cea8edbb9a9e540"}
+      ]
+    },
+    {
+      "name": "EXP-003 corrected downstream graph",
+      "command": "python scripts/query_exp003_corrected_downstream.py",
+      "files": [
+        {"path": "data/malecns_exp003_corrected_downstream/manifest.json", "bytes": 2590, "sha256": "4f8d7eba66a6efe0330ed4bc857c6fca792c2ee576b3c1a08d0b40c6007ad62d"},
+        {"path": "data/malecns_exp003_corrected_downstream/nodes.parquet", "bytes": 16365, "sha256": "72eedef9ac875265e1ebdfcb50ef0264e3cb44d4012bc96467ddbdd40d7a6657"},
+        {"path": "data/malecns_exp003_corrected_downstream/edges.parquet", "bytes": 8419, "sha256": "8035f85ab41155407e587c9100d9a4c05287a27c11c3b8cb8005cb2aca822f77"}
+      ]
+    },
+    {
+      "name": "EXP-003 bilateral composite",
+      "command": "python scripts/query_exp003_bilateral.py",
+      "files": [
+        {"path": "data/malecns_exp003_bilateral/manifest.json", "bytes": 7149, "sha256": "04e199b1d64945a680c81f1fc0482d48c2ba4976f9e58398d75320bb106fb53c"},
+        {"path": "data/malecns_exp003_bilateral/left_visual/manifest.json", "bytes": 965, "sha256": "a0aa4bdd5681c24f7b97e037e124c0d0c5f63d45226494ff222ac67e4e85f8de"},
+        {"path": "data/malecns_exp003_bilateral/left_visual/nodes.parquet", "bytes": 9391, "sha256": "47cedff2da6abec4dce6d1e0c1aa6443775ae8af2d431d8b8385909da6e14bc1"},
+        {"path": "data/malecns_exp003_bilateral/left_visual/edges.parquet", "bytes": 5263, "sha256": "a876e56361b2159ea7a0d027a022b43bef9f9a60210236f4597c9ebf691aaa03"},
+        {"path": "data/malecns_exp003_bilateral/right_visual/manifest.json", "bytes": 966, "sha256": "9f4587e9b9235370cdc6e479c15246b1614a0df33332e1dd6a7070b3157d505e"},
+        {"path": "data/malecns_exp003_bilateral/right_visual/nodes.parquet", "bytes": 9093, "sha256": "ac47659c5b79094d97982d1f8341e5346f7c3ef88f37f166fe45069f3e8873cd"},
+        {"path": "data/malecns_exp003_bilateral/right_visual/edges.parquet", "bytes": 5260, "sha256": "1a69af7ea9376b5f7f2877b0ee17ea91712b6d65549afbf633b4999786486d20"},
+        {"path": "data/malecns_exp003_bilateral/left_downstream/manifest.json", "bytes": 1569, "sha256": "5873baeb3590a2619e5d7a436246bd7cf35eef8715f6ffaf721252834b290645"},
+        {"path": "data/malecns_exp003_bilateral/left_downstream/nodes.parquet", "bytes": 15530, "sha256": "eb110d4e24f8576e3dd9b1fc7bfcdd0c0807cb3ead35e0ce9bef291e25233baa"},
+        {"path": "data/malecns_exp003_bilateral/left_downstream/edges.parquet", "bytes": 7892, "sha256": "3b9d9f44bcb7446d9fdf50a6921ca2e88c7b1c33da61c1eeadd7e052ef527a75"},
+        {"path": "data/malecns_exp003_bilateral/right_downstream/manifest.json", "bytes": 1568, "sha256": "663b247214a1df0869b0f96727e1e5fc0310402e91c5dfdec4a96b6e2ddeef59"},
+        {"path": "data/malecns_exp003_bilateral/right_downstream/nodes.parquet", "bytes": 16365, "sha256": "72eedef9ac875265e1ebdfcb50ef0264e3cb44d4012bc96467ddbdd40d7a6657"},
+        {"path": "data/malecns_exp003_bilateral/right_downstream/edges.parquet", "bytes": 8419, "sha256": "8035f85ab41155407e587c9100d9a4c05287a27c11c3b8cb8005cb2aca822f77"}
+      ]
+    }
+  ]
+}

@@ -35,3 +35,15 @@ def test_invalid_exp004_is_not_an_active_source_module():
     assert not (ROOT / "src/exp004.py").exists()
     assert not (ROOT / "scripts/run_exp004.py").exists()
     assert (ROOT / "experiments/EXP-004-invalid-provisional/archive/exp004.py").exists()
+
+
+def test_data_registry_has_unique_paths_and_sha256_digests():
+    registry = json.loads((ROOT / "data/manifest.json").read_text(encoding="utf-8"))
+    entries = list(registry["sources"])
+    for materialization in registry["materializations"]:
+        entries.extend(materialization["files"])
+    paths = [entry["path"] for entry in entries]
+    assert len(paths) == len(set(paths))
+    assert all(path.startswith("data/") for path in paths)
+    assert all(len(entry["sha256"]) == 64 for entry in entries)
+    assert all(int(entry["bytes"]) > 0 for entry in entries)

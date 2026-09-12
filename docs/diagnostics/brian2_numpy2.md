@@ -11,8 +11,7 @@ model backend.
 | NumPy | 2.4.6 |
 | Brian2 | 2.9.0 |
 
-The requirements file keeps NumPy in the 2.x line. No NumPy `<2` constraint is
-used to work around this failure.
+No NumPy `<2` constraint is used to work around this failure.
 
 ## Complete import traceback
 
@@ -47,16 +46,37 @@ The failing code is in the installed Brian2 package itself:
 
 `brian2/units/fundamentalunits.py`, class `Quantity`, line 1661.
 
-It evaluates `np.ndarray.ptp` while defining the class. NumPy 2 removed the
-`ndarray.ptp` method; the supported function form is `np.ptp`. The failure
+It evaluates `np.ndarray.ptp` while defining the class. NumPy 2.4.6 no longer
+exposes that class attribute; the supported function form is `np.ptp`. The failure
 happens during Brian2 import, before this repository constructs a neuron,
 synapse, or graph and before SciPy or Pandas can be involved. This is not a
 MaleCNS data or connectome error.
 
-Brian2 2.7 release notes document NumPy-2 compatibility, and current upstream
-development source guards this optional attribute with `hasattr`. The released
-2.9.0 wheel installed here still contains the unconditional access, so the
-documented compatibility claim and this wheel’s import behavior disagree. The
-project therefore records the failure and uses an equivalent transparent
-NumPy/SciPy sparse LIF integrator for the first experiment. It does not modify
-the installed third-party package and does not downgrade NumPy.
+Brian2 2.7 release notes document compatibility with NumPy 2.0. That statement
+does not establish compatibility with every later NumPy 2.x release. As a
+control, the same Brian2 2.9.0 wheel imports successfully in this repository's
+audited NumPy 2.0.2 environment, where `np.ndarray.ptp` is still exposed. The
+failure is therefore specifically reproduced for NumPy 2.4.6; it must not be
+reported as a generic Brian2/NumPy-2 incompatibility. The runnable baseline uses
+its transparent NumPy/SciPy sparse LIF integrator and does not modify either
+third-party package.
+
+## Audit control — 2026-09-12
+
+Fresh isolated environment:
+
+```text
+Python 3.11.9
+NumPy 2.4.6
+Brian2 2.9.0
+import brian2 -> AttributeError at fundamentalunits.py:1661
+```
+
+Current project environment:
+
+```text
+Python 3.11.9
+NumPy 2.0.2
+Brian2 2.9.0
+import brian2 -> OK
+```
