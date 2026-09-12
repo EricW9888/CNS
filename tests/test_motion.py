@@ -1,6 +1,7 @@
 import numpy as np
+import pytest
 
-from src.visual_stimulus import compile_events, motion_events
+from src.visual_stimulus import VisualEvent, compile_events, motion_events
 
 
 def test_motion_orders_reverse_adjacent_events():
@@ -40,3 +41,38 @@ def test_compile_events_writes_only_selected_nodes():
     assert np.max(values[:, 2]) == 0.0
     assert np.max(values[:, 0]) == 8.0
     assert np.max(values[:, 1]) == 8.0
+
+
+def test_compile_events_adds_overlaps_and_clips_out_of_window_events():
+    overlapping = [
+        VisualEvent("a", (1,), start_ms=1.0, duration_ms=2.0, amplitude_mV=2.0),
+        VisualEvent("b", (1,), start_ms=2.0, duration_ms=2.0, amplitude_mV=3.0),
+        VisualEvent("past", (1,), start_ms=-5.0, duration_ms=1.0, amplitude_mV=9.0),
+    ]
+    values = compile_events(
+        overlapping,
+        node_index={1: 0},
+        n_nodes=1,
+        duration_ms=5.0,
+        dt_ms=1.0,
+    )
+    assert np.allclose(values[:, 0], [0.0, 2.0, 5.0, 3.0, 0.0, 0.0])
+
+
+def test_compile_events_rejects_invalid_time_values():
+    with pytest.raises(ValueError, match="positive duration"):
+        compile_events(
+            [VisualEvent("bad", (1,), duration_ms=0.0)],
+            node_index={1: 0},
+            n_nodes=1,
+            duration_ms=5.0,
+            dt_ms=1.0,
+        )
+    with pytest.raises(ValueError, match="non-finite"):
+        compile_events(
+            [VisualEvent("bad", (1,), amplitude_mV=float("nan"))],
+            node_index={1: 0},
+            n_nodes=1,
+            duration_ms=5.0,
+            dt_ms=1.0,
+        )

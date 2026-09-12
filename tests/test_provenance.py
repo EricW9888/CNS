@@ -35,3 +35,22 @@ def test_materialization_contract_rejects_counts_and_external_endpoints():
     edges.loc[0, "post_body"] = 3
     with pytest.raises(ValueError, match="endpoints"):
         validate_materialization(manifest, nodes, edges)
+
+    edges.loc[0, "post_body"] = 2
+    edges.loc[0, "synapse_count"] = 0
+    with pytest.raises(ValueError, match="positive"):
+        validate_materialization(manifest, nodes, edges)
+
+    duplicate_edges = pd.concat([_frames()[2], _frames()[2]], ignore_index=True)
+    duplicate_manifest = _frames()[0]
+    duplicate_manifest["edge_count"] = 2
+    with pytest.raises(ValueError, match="unique"):
+        validate_materialization(duplicate_manifest, _frames()[1], duplicate_edges)
+
+
+def test_materialization_contract_rejects_nonfinite_weight():
+    manifest, nodes, edges = _frames()
+    edges["synapse_count"] = edges["synapse_count"].astype(float)
+    edges.loc[0, "synapse_count"] = float("inf")
+    with pytest.raises(ValueError, match="finite"):
+        validate_materialization(manifest, nodes, edges)

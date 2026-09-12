@@ -1,4 +1,4 @@
-"""Materialize the audited MaleCNS T4 downstream path for EXP-003.
+"""Materialize the corrected MaleCNS T4 downstream path for EXP-003.
 
 The original EXP-003 bundle selected a small named H/VS population.  This
 export keeps the visual computation fixed and expands only the direct T4
@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from scripts.query_malecns_subgraph import DATASET, cypher_list, query  # noqa: E402
+from src.materialization import canonical_edge_frame, materialize_nodes  # noqa: E402
 
 
 TARGET_RULE = (
@@ -94,45 +95,33 @@ def main() -> None:
         raise RuntimeError("Corrected downstream queries returned no edges")
     t4_edges = t4_edges.rename(columns={"post_superclass": "post_superclass"})
     dn_edges = dn_edges.rename(columns={"post_superclass": "post_superclass"})
-    edge_frame = pd.concat(
+    edge_frame = canonical_edge_frame(pd.concat(
         [
             t4_edges[["pre_body", "post_body", "synapse_count"]],
             dn_edges[["pre_body", "post_body", "synapse_count"]],
         ],
         ignore_index=True,
-    ).drop_duplicates(["pre_body", "post_body"])
-    edge_frame["pre_body"] = edge_frame["pre_body"].astype("int64")
-    edge_frame["post_body"] = edge_frame["post_body"].astype("int64")
-    edge_frame["synapse_count"] = edge_frame["synapse_count"].astype("float32")
+    ))
 
     annotations = pd.read_feather(args.annotations)
     annotations["bodyId"] = annotations["bodyId"].astype("int64")
     tx = pd.read_feather(args.transmitters).rename(columns={"body": "bodyId"})
     tx["bodyId"] = tx["bodyId"].astype("int64")
-    tx = tx.drop_duplicates("bodyId", keep="first")
     node_ids = sorted(set(t4_ids) | set(target_ids) | set(dn_edges["post_body"].astype(int)))
-    nodes = annotations[annotations["bodyId"].isin(node_ids)].copy()
-    nodes = nodes.merge(
-        tx[["bodyId", "consensus_nt", "predicted_nt", "predicted_nt_confidence"]],
-        on="bodyId",
-        how="left",
-    )
     t4_set = set(t4_ids)
     target_set = set(target_ids)
     dn_set = set(dn_edges["post_body"].astype(int))
-    nodes["stage"] = nodes["bodyId"].map(
-        lambda body_id: "t4_motion" if int(body_id) in t4_set else (
-            "lobula_plate_target" if int(body_id) in target_set else (
-                "descending_output" if int(body_id) in dn_set else "intermediate"
-            )
-        )
+    stages = {body_id: "descending_output" for body_id in dn_set}
+    stages.update({body_id: "lobula_plate_target" for body_id in target_set})
+    stages.update({body_id: "t4_motion" for body_id in t4_set})
+    nodes = materialize_nodes(
+        node_ids,
+        stages=stages,
+        annotations=annotations,
+        transmitters=tx,
     )
-    keep = [
-        "bodyId", "type", "instance", "somaSide", "superclass", "stage",
-        "status", "consensus_nt", "predicted_nt", "predicted_nt_confidence",
-    ]
     args.output.mkdir(parents=True, exist_ok=True)
-    nodes[keep].to_parquet(args.output / "nodes.parquet", index=False)
+    nodes.to_parquet(args.output / "nodes.parquet", index=False)
     edge_frame.to_parquet(args.output / "edges.parquet", index=False)
 
     coverage = _coverage(nodes[nodes["bodyId"].isin(t4_set)], t4_edges, dn_edges)

@@ -34,7 +34,7 @@ jobs:
 
       - name: Validate imports and tracked-tree policy
         run: |
-          python -c "import src.experiment, src.graded_model, src.lif_model, src.numerics, src.provenance"
+          python -c "import src.experiment, src.graded_model, src.lif_model, src.materialization, src.numerics, src.provenance, src.sparse_backend"
           python scripts/repository_policy_check.py
           python scripts/verify_local_data.py --allow-missing
 

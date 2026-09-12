@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from scripts.query_malecns_subgraph import DATASET, NEUPRINT_URL, choose_l1_ids, query  # noqa: E402
+from src.materialization import canonical_edge_frame, materialize_nodes  # noqa: E402
 
 
 T4_TYPES = ["T4a", "T4b", "T4c", "T4d"]
@@ -91,10 +92,7 @@ def main() -> None:
     input_ids = sorted({int(row["pre_body"]) for row in direct_t4_inputs})
 
     edges = stage_edges + direct_t4_inputs
-    edge_frame = pd.DataFrame(edges).drop_duplicates(["pre_body", "post_body"])
-    edge_frame["pre_body"] = edge_frame["pre_body"].astype("int64")
-    edge_frame["post_body"] = edge_frame["post_body"].astype("int64")
-    edge_frame["synapse_count"] = edge_frame["synapse_count"].astype("float32")
+    edge_frame = canonical_edge_frame(edges)
 
     stages: dict[int, str] = {body_id: "visual_input" for body_id in selected_ids}
     stages.update({body_id: "medulla_excitation" for body_id in input_ids if body_id in medulla_ids})
@@ -110,18 +108,13 @@ def main() -> None:
 
     tx = pd.read_feather(args.transmitters).rename(columns={"body": "bodyId"})
     tx["bodyId"] = tx["bodyId"].astype("int64")
-    nodes = annotations[annotations["bodyId"].isin(node_ids)].copy()
-    nodes = nodes.merge(
-        tx[["bodyId", "consensus_nt", "predicted_nt", "predicted_nt_confidence"]],
-        on="bodyId",
-        how="left",
+    nodes = materialize_nodes(
+        node_ids,
+        stages=stages,
+        annotations=annotations,
+        transmitters=tx,
     )
-    nodes["stage"] = nodes["bodyId"].map(stages).fillna("intermediate")
-    keep = [
-        "bodyId", "type", "instance", "somaSide", "superclass", "stage",
-        "status", "consensus_nt", "predicted_nt", "predicted_nt_confidence",
-    ]
-    nodes[keep].to_parquet(output / "nodes.parquet", index=False)
+    nodes.to_parquet(output / "nodes.parquet", index=False)
     edge_frame.to_parquet(output / "edges.parquet", index=False)
     manifest = {
         "experiment": "EXP-002",

@@ -1,8 +1,8 @@
 """Transparent sparse LIF baseline for the narrow MaleCNS experiment.
 
 The equations mirror the Brian2/Shiu baseline, but the runnable backend is a
-small NumPy/SciPy integrator.  Brian2 2.9.0 currently fails during import with
-NumPy 2.x before any model code runs; that failure is recorded in
+small NumPy/SciPy integrator. A Brian2 2.9.0 import failure was reproduced with
+NumPy 2.4.6 but not NumPy 2.0.2; that environment-specific diagnostic is recorded in
 ``docs/diagnostics/brian2_numpy2.md`` rather than hidden by a NumPy downgrade.
 """
 
@@ -49,6 +49,22 @@ def _empty_trace() -> pd.DataFrame:
     )
 
 
+def _validate_parameters(params: LIFParameters, duration_ms: float) -> None:
+    values = np.asarray(list(asdict(params).values()) + [duration_ms], dtype=np.float64)
+    if not np.isfinite(values).all():
+        raise ValueError("LIF parameters and duration_ms must be finite")
+    if params.dt_ms <= 0 or duration_ms <= 0:
+        raise ValueError("duration_ms and dt_ms must be positive")
+    if params.tau_membrane_ms <= 0 or params.tau_synapse_ms <= 0:
+        raise ValueError("LIF time constants must be positive")
+    if params.refractory_ms < 0 or params.synaptic_delay_ms < 0:
+        raise ValueError("refractory period and synaptic delay cannot be negative")
+    if params.weight_per_synapse_mV < 0:
+        raise ValueError("weight_per_synapse_mV cannot be negative")
+    if params.v_threshold_mV <= params.v_rest_mV:
+        raise ValueError("v_threshold_mV must exceed v_rest_mV")
+
+
 def run_lif(
     graph: ConnectomeGraph,
     events: tuple[VisualEvent, ...] | list[VisualEvent] | VisualPulse,
@@ -67,8 +83,7 @@ def run_lif(
 
     del seed  # deterministic baseline; retained in the public call signature
     params = params or LIFParameters()
-    if params.dt_ms <= 0 or duration_ms <= 0:
-        raise ValueError("duration_ms and dt_ms must be positive")
+    _validate_parameters(params, duration_ms)
 
     coupling, used_edges = effective_sparse_matrix(
         graph, weight_per_synapse_mV=params.weight_per_synapse_mV

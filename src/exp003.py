@@ -17,14 +17,8 @@ import numpy as np
 import pandas as pd
 
 from .graded_model import (
-    EXCITATORY_T4_INPUTS,
-    INHIBITORY_T4_INPUTS,
-    MEDULLA_TYPES,
-    T4_TYPES,
+    GradedCircuitKernel,
     GradedParameters,
-    _build_edges,
-    _infer_column_coordinates,
-    _node_index,
 )
 from .malecns_io import ConnectomeGraph
 
@@ -209,66 +203,31 @@ class OnlineGradedCircuit:
         motion_columns: list[dict],
         params: GradedParameters | None = None,
     ) -> None:
-        self.graph = graph
-        self.motion_columns = motion_columns
-        self.params = params or GradedParameters()
-        self.node_index = _node_index(graph)
-        self.node_types = graph.nodes["type"].astype(str).to_numpy()
-        self.coordinates = _infer_column_coordinates(graph, motion_columns)
-        self.pre, self.post, self.weights = _build_edges(graph, ablate_inhibitory=False)
-        self.state = np.zeros(graph.n_nodes, dtype=np.float64)
-        self.output = np.zeros(graph.n_nodes, dtype=np.float64)
-        self.l1_indices = np.flatnonzero(self.node_types == "L1")
-        self.inhibitory_indices = np.flatnonzero(
-            np.isin(self.node_types, list(INHIBITORY_T4_INPUTS))
+        self._kernel = GradedCircuitKernel(
+            graph,
+            motion_columns=motion_columns,
+            params=params,
         )
-        self.t4_indices = np.flatnonzero(np.isin(self.node_types, list(T4_TYPES)))
-        self.tau = np.full(graph.n_nodes, self.params.tau_inhibitory_ms, dtype=np.float64)
-        self.tau[self.node_types == "L1"] = self.params.tau_l1_ms
-        self.tau[self.node_types == "Tm3"] = self.params.tau_tm3_ms
-        self.tau[self.node_types == "Mi1"] = self.params.tau_mi1_ms
-        self.tau[np.isin(self.node_types, list(T4_TYPES))] = self.params.tau_t4_ms
-        self.delay_steps = int(round(self.params.inhibitory_delay_ms / self.params.dt_ms))
-        self.drive_history: list[np.ndarray] = []
+        self.graph = self._kernel.graph
+        self.motion_columns = self._kernel.motion_columns
+        self.params = self._kernel.params
+        self.node_index = self._kernel.node_index
+        self.node_types = self._kernel.node_types
+        self.coordinates = self._kernel.coordinates
+        self.pre = self._kernel.pre
+        self.post = self._kernel.post
+        self.weights = self._kernel.weights
+        self.state = self._kernel.state
+        self.output = self._kernel.output
+        self.l1_indices = self._kernel.l1_indices
+        self.inhibitory_indices = self._kernel.inhibitory_indices
+        self.t4_indices = self._kernel.t4_indices
+        self.tau = self._kernel.tau
+        self.delay_steps = self._kernel.delay_steps
 
     def step(self, column_drive: np.ndarray) -> np.ndarray:
-        column_drive = np.asarray(column_drive, dtype=np.float64)
-        if column_drive.shape != (2,):
-            raise ValueError("column_drive must contain exactly two column amplitudes")
-        if self.delay_steps:
-            self.drive_history.append(column_drive.copy())
-            delayed_columns = (
-                self.drive_history.pop(0)
-                if len(self.drive_history) > self.delay_steps
-                else np.zeros(2, dtype=np.float64)
-            )
-        else:
-            delayed_columns = column_drive
-
-        incoming = np.zeros(self.graph.n_nodes, dtype=np.float64)
-        if len(self.pre):
-            np.add.at(incoming, self.post, self.weights * self.output[self.pre])
-        target = incoming
-        for column_index, column in enumerate(self.motion_columns):
-            body_id = int(column["l1_body_id"])
-            if body_id not in self.node_index:
-                raise ValueError(f"Motion column L1 {body_id} is outside the EXP-002 graph")
-            target[self.node_index[body_id]] = -column_drive[column_index]
-
-        inhibitory_drive = np.zeros(len(self.inhibitory_indices), dtype=np.float64)
-        for local_index, node in enumerate(self.inhibitory_indices):
-            spatial = np.maximum(0.0, 1.0 - np.abs(self.coordinates[node] - np.arange(2)))
-            inhibitory_drive[local_index] = delayed_columns @ spatial
-            if self.node_types[node] == "Mi9":
-                inhibitory_drive[local_index] = 0.0
-        target[self.inhibitory_indices] = inhibitory_drive
-
-        self.state += ((target - self.state) / self.tau) * self.params.dt_ms
-        self.output[:] = self.state
-        self.output[self.node_types != "L1"] = np.maximum(
-            self.output[self.node_types != "L1"], 0.0
-        )
-        return self.state[self.t4_indices].copy()
+        state = self._kernel.step(column_drive)
+        return state[self.t4_indices].copy()
 
 
 @dataclass(frozen=True)

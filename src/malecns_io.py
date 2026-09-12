@@ -59,12 +59,13 @@ def load_transmitters(path: str | Path) -> pd.DataFrame:
     """Load transmitter predictions and normalize the body identifier."""
 
     frame = pd.read_feather(path).copy()
-    body_col = "body" if "body" in frame.columns else "bodyId"
+    body_col = _first_existing(frame, ("body", "bodyId"))
     frame = frame.rename(columns={body_col: "bodyId"})
     frame["bodyId"] = frame["bodyId"].astype("int64")
-    # The body-level export may contain repeated body/type records.  Keep the
-    # first record, which is enough for the curated subgraph and deterministic.
-    return frame.drop_duplicates("bodyId", keep="first")
+    if frame["bodyId"].duplicated().any():
+        examples = frame.loc[frame["bodyId"].duplicated(keep=False), "bodyId"].head(5).tolist()
+        raise ValueError(f"Transmitter export contains duplicate body IDs: {examples}")
+    return frame
 
 
 def transmitter_label(row: pd.Series) -> str:
@@ -90,6 +91,21 @@ def transmitter_sign(label: str, unknown_sign: float = 0.0) -> float:
     if normalized in NEGATIVE_TRANSMITTERS:
         return -1.0
     return float(unknown_sign)
+
+
+def _transmitter_labels(frame: pd.DataFrame) -> pd.Series:
+    """Resolve transmitter labels for a frame without row-wise Python calls."""
+
+    labels = np.full(len(frame), "unknown", dtype=object)
+    # Iterate from lowest to highest priority so the highest-priority nonempty
+    # value is the final assignment.
+    for column in ("celltype_predicted_nt", "predicted_nt", "consensus_nt"):
+        if column not in frame.columns:
+            continue
+        values = frame[column].astype("string").str.strip().str.lower()
+        valid = values.notna() & values.ne("")
+        labels[valid.to_numpy()] = values.loc[valid].to_numpy(dtype=object)
+    return pd.Series(labels, index=frame.index, dtype="object")
 
 
 def _first_existing(frame: pd.DataFrame, names: Iterable[str]) -> str:
@@ -127,15 +143,45 @@ def build_graph(
     """Join annotations/transmitters and retain only edges in the node set."""
 
     nodes = nodes.copy()
+    required_node_columns = {
+        "bodyId", "type", "instance", "somaSide", "superclass", "stage"
+    }
+    if missing := required_node_columns - set(nodes.columns):
+        raise ValueError(f"nodes missing required columns: {sorted(missing)}")
     nodes["bodyId"] = nodes["bodyId"].astype("int64")
+    if nodes["bodyId"].duplicated().any():
+        examples = nodes.loc[nodes["bodyId"].duplicated(keep=False), "bodyId"].head(5).tolist()
+        raise ValueError(f"nodes contain duplicate body IDs: {examples}")
     if transmitters is not None:
         tx = transmitters.copy()
+        if "bodyId" not in tx.columns:
+            raise ValueError("transmitters must contain a normalized bodyId column")
+        tx["bodyId"] = tx["bodyId"].astype("int64")
+        if tx["bodyId"].duplicated().any():
+            examples = tx.loc[tx["bodyId"].duplicated(keep=False), "bodyId"].head(5).tolist()
+            raise ValueError(f"transmitters contain duplicate body IDs: {examples}")
+        # Avoid hashing a whole-brain transmitter table when materializing a
+        # small circuit.
+        tx = tx[tx["bodyId"].isin(nodes["bodyId"])].copy()
         nodes = nodes.merge(tx, on="bodyId", how="left", suffixes=("", "_tx"))
-    nodes["nt_label"] = nodes.apply(transmitter_label, axis=1)
-    nodes["nt_sign"] = nodes["nt_label"].map(lambda value: transmitter_sign(value, unknown_sign))
+    nodes["nt_label"] = _transmitter_labels(nodes)
+    signs = np.full(len(nodes), float(unknown_sign), dtype=np.float32)
+    signs[nodes["nt_label"].isin(POSITIVE_TRANSMITTERS).to_numpy()] = 1.0
+    signs[nodes["nt_label"].isin(NEGATIVE_TRANSMITTERS).to_numpy()] = -1.0
+    nodes["nt_sign"] = signs
 
     node_set = set(nodes["bodyId"].tolist())
     edges = edges.copy()
+    required_edge_columns = {"pre_body", "post_body", "synapse_count"}
+    if missing := required_edge_columns - set(edges.columns):
+        raise ValueError(f"edges missing required columns: {sorted(missing)}")
+    edges["pre_body"] = pd.to_numeric(edges["pre_body"], errors="raise").astype("int64")
+    edges["post_body"] = pd.to_numeric(edges["post_body"], errors="raise").astype("int64")
+    edges["synapse_count"] = pd.to_numeric(edges["synapse_count"], errors="raise")
+    if not np.isfinite(edges["synapse_count"].to_numpy(dtype=np.float64)).all():
+        raise ValueError("edge synapse counts must be finite")
+    if (edges["synapse_count"] <= 0).any():
+        raise ValueError("edge synapse counts must be positive")
     edges = edges[edges["pre_body"].isin(node_set) & edges["post_body"].isin(node_set)].copy()
     edges = edges.merge(
         nodes[["bodyId", "type", "instance", "somaSide", "superclass", "nt_label", "nt_sign"]].rename(
@@ -176,14 +222,19 @@ def effective_sparse_matrix(
 ) -> tuple[sparse.csr_matrix, pd.DataFrame]:
     """Return post-by-pre coupling matrix and the rows used to construct it."""
 
-    index = {int(body_id): i for i, body_id in enumerate(graph.node_ids)}
+    if not np.isfinite(weight_per_synapse_mV):
+        raise ValueError("weight_per_synapse_mV must be finite")
+    node_ids = pd.Index(graph.node_ids)
     usable = graph.edges[graph.edges["effective_sign"] != 0].copy()
-    pre_index = usable["pre_body"].map(index).to_numpy(dtype=np.int64)
-    post_index = usable["post_body"].map(index).to_numpy(dtype=np.int64)
+    pre_index = node_ids.get_indexer(usable["pre_body"].to_numpy(dtype=np.int64))
+    post_index = node_ids.get_indexer(usable["post_body"].to_numpy(dtype=np.int64))
+    if np.any(pre_index < 0) or np.any(post_index < 0):
+        raise ValueError("graph edges reference body IDs outside graph.nodes")
     values = (
         usable["synapse_count"].to_numpy(dtype=np.float32)
         * usable["effective_sign"].to_numpy(dtype=np.float32)
         * np.float32(weight_per_synapse_mV)
     )
     matrix = sparse.csr_matrix((values, (post_index, pre_index)), shape=(graph.n_nodes, graph.n_nodes))
+    matrix.sort_indices()
     return matrix, usable

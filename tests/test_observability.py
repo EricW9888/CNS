@@ -1,4 +1,5 @@
 import pandas as pd
+import pytest
 
 from src.observability import compare_t4_voltage
 
@@ -33,3 +34,11 @@ def test_compare_t4_voltage_reports_pointwise_order_difference():
     assert row["max_abs_pointwise_voltage_difference_mV"] == 1.0
     assert row["time_of_max_abs_difference_ms"] == 1.0
     assert comparison.iloc[1]["max_abs_pointwise_voltage_difference_mV"] == 0.0
+
+
+def test_compare_t4_voltage_rejects_missing_samples():
+    forward = _trace(101, "T4a", [-52.0, -51.0, -51.0])
+    reverse = _trace(101, "T4a", [-52.0, -51.5, -51.0]).iloc[:-1]
+    empty_spikes = pd.DataFrame(columns=["bodyId", "stage"])
+    with pytest.raises(ValueError, match="identical neuron/time"):
+        compare_t4_voltage(forward, reverse, empty_spikes, empty_spikes)

@@ -19,6 +19,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from src.materialization import canonical_edge_frame, materialize_nodes  # noqa: E402
+
 
 NEUPRINT_URL = "https://neuprint.janelia.org/api/custom/custom"
 DATASET = "male-cns:v1.0"
@@ -153,26 +155,18 @@ def main() -> None:
     for row in stage4:
         stages[int(row["post_body"])] = "descending_output"
 
-    edge_frame = pd.DataFrame(edges).drop_duplicates(["pre_body", "post_body"])
-    edge_frame["pre_body"] = edge_frame["pre_body"].astype("int64")
-    edge_frame["post_body"] = edge_frame["post_body"].astype("int64")
-    edge_frame["synapse_count"] = edge_frame["synapse_count"].astype("float32")
+    edge_frame = canonical_edge_frame(edges)
 
     tx = pd.read_feather(args.transmitters).rename(columns={"body": "bodyId"})
     tx["bodyId"] = tx["bodyId"].astype("int64")
     node_ids = sorted(set(stages) | set(edge_frame["pre_body"]) | set(edge_frame["post_body"]))
-    nodes = annotations[annotations["bodyId"].isin(node_ids)].copy()
-    nodes = nodes.merge(
-        tx[["bodyId", "consensus_nt", "predicted_nt", "predicted_nt_confidence"]],
-        on="bodyId",
-        how="left",
+    nodes = materialize_nodes(
+        node_ids,
+        stages=stages,
+        annotations=annotations,
+        transmitters=tx,
     )
-    nodes["stage"] = nodes["bodyId"].map(stages).fillna("intermediate")
-    keep = [
-        "bodyId", "type", "instance", "somaSide", "superclass", "stage",
-        "status", "consensus_nt", "predicted_nt", "predicted_nt_confidence",
-    ]
-    nodes[keep].to_parquet(output / "nodes.parquet", index=False)
+    nodes.to_parquet(output / "nodes.parquet", index=False)
     edge_frame.to_parquet(output / "edges.parquet", index=False)
     manifest = {
         "dataset": DATASET,

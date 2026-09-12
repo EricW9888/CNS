@@ -7,7 +7,10 @@ as evidence.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 import numpy as np
+from scipy import sparse
 
 
 def normalize_rows_by_absolute_sum(matrix: np.ndarray) -> np.ndarray:
@@ -98,8 +101,14 @@ def zero_input_norms(
 
     matrix = np.asarray(transition, dtype=np.float64)
     state = np.asarray(initial_state, dtype=np.float64).copy()
+    if matrix.ndim != 2 or matrix.shape[0] != matrix.shape[1]:
+        raise ValueError("transition must be square")
+    if state.ndim != 1:
+        raise ValueError("initial_state must be one-dimensional")
     if matrix.shape != (len(state), len(state)):
         raise ValueError("transition shape must match initial_state")
+    if not np.isfinite(matrix).all() or not np.isfinite(state).all():
+        raise ValueError("transition and initial_state must be finite")
     if steps < 1:
         raise ValueError("steps must be positive")
     norms = np.empty(steps, dtype=np.float64)
@@ -107,3 +116,65 @@ def zero_input_norms(
         state = matrix @ state
         norms[index] = np.linalg.norm(state)
     return norms
+
+
+@dataclass(frozen=True)
+class SparseDiffusiveCoupling:
+    """One-time-validated sparse electrical-coupling operator.
+
+    Each undirected pair contributes ``g * (x_j - x_i)`` to node ``i`` and the
+    opposite current to node ``j``. The compiled operator therefore conserves
+    total current and cannot turn equal states into positive recurrence.
+    """
+
+    operator: sparse.csr_matrix
+    pair_count: int
+
+    @classmethod
+    def from_pairs(
+        cls,
+        n_nodes: int,
+        pairs: np.ndarray,
+        conductance: np.ndarray,
+    ) -> "SparseDiffusiveCoupling":
+        if n_nodes < 0:
+            raise ValueError("n_nodes cannot be negative")
+        pair_values = np.asarray(pairs)
+        strengths = np.asarray(conductance, dtype=np.float64)
+        if pair_values.ndim != 2 or pair_values.shape[1] != 2:
+            raise ValueError("pairs must have shape (n_pairs, 2)")
+        if not np.issubdtype(pair_values.dtype, np.integer):
+            if not np.equal(pair_values, np.floor(pair_values)).all():
+                raise ValueError("pair indices must be integers")
+        pair_values = pair_values.astype(np.int64, copy=False)
+        if strengths.shape != (len(pair_values),):
+            raise ValueError("conductance must contain one value per pair")
+        if not np.isfinite(strengths).all() or np.any(strengths <= 0):
+            raise ValueError("conductances must be finite and positive")
+        if np.any(pair_values < 0) or np.any(pair_values >= n_nodes):
+            raise ValueError("pair index is outside the node range")
+        if np.any(pair_values[:, 0] == pair_values[:, 1]):
+            raise ValueError("electrical pairs cannot contain self-coupling")
+        canonical = np.sort(pair_values, axis=1)
+        if len(np.unique(canonical, axis=0)) != len(canonical):
+            raise ValueError("electrical pairs must be unique")
+
+        first = canonical[:, 0]
+        second = canonical[:, 1]
+        rows = np.concatenate((first, second, first, second))
+        columns = np.concatenate((second, first, first, second))
+        data = np.concatenate((strengths, strengths, -strengths, -strengths))
+        operator = sparse.csr_matrix(
+            (data, (rows, columns)), shape=(n_nodes, n_nodes), dtype=np.float64
+        )
+        operator.sum_duplicates()
+        operator.sort_indices()
+        return cls(operator=operator, pair_count=len(canonical))
+
+    def current(self, state: np.ndarray) -> np.ndarray:
+        values = np.asarray(state, dtype=np.float64)
+        if values.shape != (self.operator.shape[1],):
+            raise ValueError("state shape does not match coupling operator")
+        if not np.isfinite(values).all():
+            raise ValueError("state must be finite")
+        return np.asarray(self.operator @ values).reshape(-1)

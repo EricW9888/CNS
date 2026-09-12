@@ -74,18 +74,36 @@ def compile_events(
     duration_ms: float,
     dt_ms: float,
 ) -> np.ndarray:
-    """Compile visual events into a time-by-node current matrix."""
+    """Compile additive visual events into a time-by-node current matrix."""
 
+    if not np.isfinite(duration_ms) or not np.isfinite(dt_ms):
+        raise ValueError("duration_ms and dt_ms must be finite")
+    if duration_ms <= 0 or dt_ms <= 0:
+        raise ValueError("duration_ms and dt_ms must be positive")
+    if n_nodes < 0:
+        raise ValueError("n_nodes cannot be negative")
     n_steps = int(round(duration_ms / dt_ms)) + 1
     values = np.zeros((n_steps, n_nodes), dtype=np.float32)
     for event in events:
-        start = max(0, int(round(event.start_ms / dt_ms)))
-        end = min(n_steps, int(round((event.start_ms + event.duration_ms) / dt_ms)))
+        event_values = np.asarray(
+            [event.start_ms, event.duration_ms, event.amplitude_mV], dtype=np.float64
+        )
+        if not np.isfinite(event_values).all():
+            raise ValueError(f"Visual event {event.name!r} contains non-finite values")
+        if event.duration_ms <= 0:
+            raise ValueError(f"Visual event {event.name!r} must have positive duration")
+        start = min(n_steps, max(0, int(round(event.start_ms / dt_ms))))
+        end = min(
+            n_steps,
+            max(0, int(round((event.start_ms + event.duration_ms) / dt_ms))),
+        )
         missing = [body_id for body_id in event.node_ids if int(body_id) not in node_index]
         if missing:
             raise ValueError(f"Visual event {event.name!r} references nodes outside the graph: {missing}")
+        if start >= end:
+            continue
         indices = [node_index[int(body_id)] for body_id in event.node_ids]
-        values[start:end, indices] = event.amplitude_mV
+        values[start:end, indices] += event.amplitude_mV
     return values
 
 

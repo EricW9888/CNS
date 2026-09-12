@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from src.numerics import (
+    SparseDiffusiveCoupling,
     diffusive_coupling_current,
     effective_euler_transition,
     normalize_rows_by_absolute_sum,
@@ -43,3 +44,26 @@ def test_effective_transition_not_raw_weight_is_stability_gate():
     assert spectral_radius(unstable) == pytest.approx(1.00125)
     assert zero_input_norms(stable, [1.0, -1.0], steps=100)[-1] < 1.0
     assert zero_input_norms(unstable, [1.0, -1.0], steps=100)[-1] > 1.0
+
+
+def test_sparse_diffusive_pairs_conserve_current_and_dissipate_contrast():
+    coupling = SparseDiffusiveCoupling.from_pairs(
+        3,
+        np.asarray([[0, 1], [1, 2]]),
+        np.asarray([2.0, 1.0]),
+    )
+    assert coupling.pair_count == 2
+    assert np.allclose(coupling.current([4.0, 4.0, 4.0]), 0.0)
+    state = np.asarray([1.0, 4.0, -2.0])
+    current = coupling.current(state)
+    assert current.sum() == pytest.approx(0.0)
+    assert state @ current < 0.0
+
+
+def test_sparse_diffusive_pairs_reject_duplicate_undirected_pair():
+    with pytest.raises(ValueError, match="unique"):
+        SparseDiffusiveCoupling.from_pairs(
+            2,
+            np.asarray([[0, 1], [1, 0]]),
+            np.asarray([1.0, 1.0]),
+        )

@@ -6,6 +6,7 @@ import hashlib
 from pathlib import Path
 from typing import Mapping
 
+import numpy as np
 import pandas as pd
 
 
@@ -38,6 +39,8 @@ def validate_materialization(
         raise ValueError(f"edges missing fields: {sorted(missing)}")
     if nodes["bodyId"].duplicated().any():
         raise ValueError("node body IDs must be unique")
+    if edges.duplicated(["pre_body", "post_body"]).any():
+        raise ValueError("aggregate edge pre/post pairs must be unique")
     if int(manifest["node_count"]) != len(nodes):
         raise ValueError("manifest node_count does not match nodes")
     if int(manifest["edge_count"]) != len(edges):
@@ -48,10 +51,13 @@ def validate_materialization(
     )
     if outside := endpoints - body_ids:
         raise ValueError(f"edge endpoints absent from nodes: {sorted(outside)[:5]}")
-    if not pd.to_numeric(edges["synapse_count"], errors="coerce").notna().all():
+    numeric_weights = pd.to_numeric(edges["synapse_count"], errors="coerce")
+    if not numeric_weights.notna().all():
         raise ValueError("all synapse counts must be numeric")
-    if (pd.to_numeric(edges["synapse_count"]) < 0).any():
-        raise ValueError("synapse counts cannot be negative")
+    if not np.isfinite(numeric_weights.to_numpy(dtype=np.float64)).all():
+        raise ValueError("all synapse counts must be finite")
+    if (numeric_weights <= 0).any():
+        raise ValueError("materialized chemical edges require positive synapse counts")
     actual_stages = nodes["stage"].value_counts().to_dict()
     expected_stages = {
         str(key): int(value)

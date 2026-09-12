@@ -37,10 +37,6 @@ class GradedParameters:
     inhibitory_delay_ms: float = 15.0
 
 
-def _lowpass(previous: float, target: float, tau_ms: float, dt_ms: float) -> float:
-    return previous + ((target - previous) / tau_ms) * dt_ms
-
-
 def _node_index(graph: ConnectomeGraph) -> dict[int, int]:
     return {int(body_id): index for index, body_id in enumerate(graph.node_ids)}
 
@@ -58,78 +54,64 @@ def _infer_column_coordinates(
     treated as workbook facts.
     """
 
+    if len(motion_columns) != 2:
+        raise ValueError("Coordinate inference requires exactly two motion columns")
     index = _node_index(graph)
     coordinates = np.full(graph.n_nodes, np.nan, dtype=np.float64)
     seed_coordinates = {
         int(motion_columns[0]["l1_body_id"]): 0.0,
         int(motion_columns[1]["l1_body_id"]): 1.0,
     }
+    if len(seed_coordinates) != 2:
+        raise ValueError("Motion columns must reference two distinct L1 body IDs")
     for body_id, coordinate in seed_coordinates.items():
         if body_id in index:
             coordinates[index[body_id]] = coordinate
 
-    nodes = graph.nodes.set_index("bodyId")
-    edges = graph.edges
+    node_types = graph.nodes["type"].astype(str).to_numpy()
+    edge_pre_ids = graph.edges["pre_body"].to_numpy(dtype=np.int64)
+    edge_post_ids = graph.edges["post_body"].to_numpy(dtype=np.int64)
+    node_id_index = pd.Index(graph.node_ids)
+    pre = node_id_index.get_indexer(edge_pre_ids)
+    post = node_id_index.get_indexer(edge_post_ids)
+    if np.any(pre < 0) or np.any(post < 0):
+        raise ValueError("graph edges reference body IDs outside graph.nodes")
+    weights = graph.edges["synapse_count"].to_numpy(dtype=np.float64)
+    medulla_nodes = np.isin(node_types, list(MEDULLA_TYPES))
+    t4_nodes = np.isin(node_types, list(T4_TYPES))
+    seed_edges = np.isin(edge_pre_ids, list(seed_coordinates))
 
+    def assign_weighted(
+        targets: np.ndarray,
+        sources: np.ndarray,
+        edge_mask: np.ndarray,
+        eligible_nodes: np.ndarray,
+    ) -> None:
+        valid = edge_mask & np.isfinite(coordinates[sources])
+        if not np.any(valid):
+            return
+        denominator = np.bincount(
+            targets[valid], weights=weights[valid], minlength=graph.n_nodes
+        )
+        numerator = np.bincount(
+            targets[valid],
+            weights=weights[valid] * coordinates[sources[valid]],
+            minlength=graph.n_nodes,
+        )
+        assign = eligible_nodes & ~np.isfinite(coordinates) & (denominator > 0)
+        coordinates[assign] = numerator[assign] / denominator[assign]
+
+    # Three passes preserve the historical bounded propagation rule while each
+    # pass uses contiguous edge arrays instead of N per-node DataFrame scans.
     for _ in range(3):
-        for body_id in graph.node_ids:
-            node = index[int(body_id)]
-            node_type = str(nodes.loc[int(body_id), "type"])
-            if node_type in MEDULLA_TYPES and not np.isfinite(coordinates[node]):
-                incoming = edges[
-                    (edges["post_body"] == int(body_id))
-                    & edges["pre_body"].isin(seed_coordinates)
-                ]
-                if len(incoming):
-                    source_coordinates = incoming["pre_body"].map(seed_coordinates)
-                    coordinates[node] = float(
-                        np.average(
-                            source_coordinates.to_numpy(dtype=np.float64),
-                            weights=incoming["synapse_count"].to_numpy(dtype=np.float64),
-                        )
-                    )
-
-        for body_id in graph.node_ids:
-            node = index[int(body_id)]
-            node_type = str(nodes.loc[int(body_id), "type"])
-            if node_type not in T4_TYPES or np.isfinite(coordinates[node]):
-                continue
-            incoming = edges[
-                (edges["post_body"] == int(body_id))
-                & edges["pre_type"].isin(MEDULLA_TYPES)
-            ]
-            incoming_indices = incoming["pre_body"].map(index).to_numpy(dtype=np.int64)
-            valid = np.isfinite(coordinates[incoming_indices])
-            incoming = incoming.loc[valid]
-            if len(incoming):
-                source_coordinates = coordinates[incoming_indices[valid]]
-                coordinates[node] = float(
-                    np.average(
-                        source_coordinates,
-                        weights=incoming["synapse_count"].to_numpy(dtype=np.float64),
-                    )
-                )
-
-        for body_id in graph.node_ids:
-            node = index[int(body_id)]
-            node_type = str(nodes.loc[int(body_id), "type"])
-            if node_type in MEDULLA_TYPES or node_type in T4_TYPES:
-                continue
-            outgoing = edges[
-                (edges["pre_body"] == int(body_id))
-                & edges["post_type"].isin(T4_TYPES)
-            ]
-            target_indices = outgoing["post_body"].map(index).to_numpy(dtype=np.int64)
-            valid = np.isfinite(coordinates[target_indices])
-            outgoing = outgoing.loc[valid]
-            if len(outgoing):
-                target_coordinates = coordinates[target_indices[valid]]
-                coordinates[node] = float(
-                    np.average(
-                        target_coordinates,
-                        weights=outgoing["synapse_count"].to_numpy(dtype=np.float64),
-                    )
-                )
+        assign_weighted(post, pre, seed_edges, medulla_nodes)
+        assign_weighted(post, pre, medulla_nodes[pre] & t4_nodes[post], t4_nodes)
+        assign_weighted(
+            pre,
+            post,
+            t4_nodes[post],
+            ~(medulla_nodes | t4_nodes),
+        )
 
     coordinates[~np.isfinite(coordinates)] = 0.5
     return coordinates
@@ -150,25 +132,33 @@ def _edge_sign(pre_type: str, post_type: str) -> float:
 
 
 def _build_edges(graph: ConnectomeGraph, ablate_inhibitory: bool) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    index = _node_index(graph)
-    nodes = graph.nodes.set_index("bodyId")
-    rows: list[tuple[int, int, float]] = []
-    for row in graph.edges.itertuples(index=False):
-        pre_type = str(row.pre_type)
-        post_type = str(row.post_type)
-        sign = _edge_sign(pre_type, post_type)
-        if not sign or (ablate_inhibitory and post_type in T4_TYPES and pre_type in INHIBITORY_T4_INPUTS):
-            continue
-        rows.append((index[int(row.pre_body)], index[int(row.post_body)], sign * float(row.synapse_count)))
-
-    if not rows:
+    pre_types = graph.edges["pre_type"].astype(str).to_numpy()
+    post_types = graph.edges["post_type"].astype(str).to_numpy()
+    sign = np.zeros(len(graph.edges), dtype=np.float64)
+    sign[(pre_types == "L1") & np.isin(post_types, list(MEDULLA_TYPES))] = -1.0
+    t4_post = np.isin(post_types, list(T4_TYPES))
+    sign[t4_post & np.isin(pre_types, list(EXCITATORY_T4_INPUTS))] = 1.0
+    sign[t4_post & np.isin(pre_types, list(INHIBITORY_T4_INPUTS))] = -1.0
+    if ablate_inhibitory:
+        sign[t4_post & np.isin(pre_types, list(INHIBITORY_T4_INPUTS))] = 0.0
+    selected = sign != 0.0
+    if not np.any(selected):
         return np.empty(0, dtype=np.int64), np.empty(0, dtype=np.int64), np.empty(0, dtype=np.float64)
-    edge_array = np.asarray(rows, dtype=np.float64)
-    pre = edge_array[:, 0].astype(np.int64)
-    post = edge_array[:, 1].astype(np.int64)
-    weights = edge_array[:, 2]
-    normalizer = np.zeros(graph.n_nodes, dtype=np.float64)
-    np.add.at(normalizer, post, np.abs(weights))
+
+    node_ids = pd.Index(graph.node_ids)
+    pre = node_ids.get_indexer(
+        graph.edges.loc[selected, "pre_body"].to_numpy(dtype=np.int64)
+    )
+    post = node_ids.get_indexer(
+        graph.edges.loc[selected, "post_body"].to_numpy(dtype=np.int64)
+    )
+    if np.any(pre < 0) or np.any(post < 0):
+        raise ValueError("graph edges reference body IDs outside graph.nodes")
+    weights = (
+        sign[selected]
+        * graph.edges.loc[selected, "synapse_count"].to_numpy(dtype=np.float64)
+    )
+    normalizer = np.bincount(post, weights=np.abs(weights), minlength=graph.n_nodes)
     weights = weights / np.maximum(normalizer[post], 1.0)
     return pre, post, weights
 
@@ -184,8 +174,19 @@ def _event_fields(
     l1_drive = np.zeros((n_steps, n_nodes), dtype=np.float64)
     column_drive = np.zeros((n_steps, 2), dtype=np.float64)
     for event in events:
-        start = max(0, int(round(event.start_ms / dt_ms)))
-        end = min(n_steps, int(round((event.start_ms + event.duration_ms) / dt_ms)))
+        event_values = np.asarray(
+            [event.start_ms, event.duration_ms, event.amplitude_mV],
+            dtype=np.float64,
+        )
+        if not np.isfinite(event_values).all():
+            raise ValueError(f"Visual event {event.name!r} contains non-finite values")
+        if event.duration_ms <= 0:
+            raise ValueError(f"Visual event {event.name!r} must have positive duration")
+        start = min(n_steps, max(0, int(round(event.start_ms / dt_ms))))
+        end = min(
+            n_steps,
+            max(0, int(round((event.start_ms + event.duration_ms) / dt_ms))),
+        )
         if start >= end:
             continue
         try:
@@ -196,13 +197,13 @@ def _event_fields(
         # names to 0/1 before simulation.
         if column_index not in (0, 1):
             raise ValueError("EXP-002 requires normalized event names 0 and 1")
-        column_drive[start:end, column_index] = float(event.amplitude_mV)
+        column_drive[start:end, column_index] += float(event.amplitude_mV)
         for body_id in event.node_ids:
             if int(body_id) not in node_index:
                 raise ValueError(f"Visual event references node outside graph: {body_id}")
             # A positive visual contrast is a negative L1 release deviation;
             # the L1 receptor inversion below turns it into an ON response.
-            l1_drive[start:end, node_index[int(body_id)]] = -float(event.amplitude_mV)
+            l1_drive[start:end, node_index[int(body_id)]] += -float(event.amplitude_mV)
     return l1_drive, column_drive
 
 
@@ -230,6 +231,123 @@ def _normalize_events(
     return tuple(normalized)
 
 
+def _validate_graded_parameters(params: GradedParameters, duration_ms: float | None = None) -> None:
+    values = list(asdict(params).values())
+    if duration_ms is not None:
+        values.append(duration_ms)
+    if not np.isfinite(np.asarray(values, dtype=np.float64)).all():
+        raise ValueError("graded parameters and duration_ms must be finite")
+    if params.dt_ms <= 0 or (duration_ms is not None and duration_ms <= 0):
+        raise ValueError("duration_ms and dt_ms must be positive")
+    if min(
+        params.tau_l1_ms,
+        params.tau_tm3_ms,
+        params.tau_mi1_ms,
+        params.tau_inhibitory_ms,
+        params.tau_t4_ms,
+    ) <= 0:
+        raise ValueError("graded time constants must be positive")
+    if params.inhibitory_delay_ms < 0:
+        raise ValueError("inhibitory_delay_ms cannot be negative")
+
+
+class GradedCircuitKernel:
+    """Compiled one-step kernel shared by batch and online EXP-002 execution."""
+
+    def __init__(
+        self,
+        graph: ConnectomeGraph,
+        *,
+        motion_columns: list[dict],
+        params: GradedParameters | None = None,
+        ablate_inhibitory: bool = False,
+    ) -> None:
+        self.graph = graph
+        self.motion_columns = motion_columns
+        self.params = params or GradedParameters()
+        _validate_graded_parameters(self.params)
+        self.node_index = _node_index(graph)
+        self.node_types = graph.nodes["type"].astype(str).to_numpy()
+        self.coordinates = _infer_column_coordinates(graph, motion_columns)
+        self.pre, self.post, self.weights = _build_edges(graph, ablate_inhibitory)
+        self.l1_indices = np.flatnonzero(self.node_types == "L1")
+        self.inhibitory_indices = np.flatnonzero(
+            np.isin(self.node_types, list(INHIBITORY_T4_INPUTS))
+        )
+        self.t4_indices = np.flatnonzero(np.isin(self.node_types, list(T4_TYPES)))
+        self.column_l1_indices = np.asarray(
+            [self.node_index.get(int(column["l1_body_id"]), -1) for column in motion_columns],
+            dtype=np.int64,
+        )
+        if self.column_l1_indices.shape != (2,) or np.any(self.column_l1_indices < 0):
+            raise ValueError("Both motion-column L1 body IDs must be present in the graph")
+        self.tau = np.full(graph.n_nodes, self.params.tau_inhibitory_ms, dtype=np.float64)
+        self.tau[self.node_types == "L1"] = self.params.tau_l1_ms
+        self.tau[self.node_types == "Tm3"] = self.params.tau_tm3_ms
+        self.tau[self.node_types == "Mi1"] = self.params.tau_mi1_ms
+        self.tau[np.isin(self.node_types, list(T4_TYPES))] = self.params.tau_t4_ms
+        self.inhibitory_spatial = np.maximum(
+            0.0,
+            1.0
+            - np.abs(
+                self.coordinates[self.inhibitory_indices, None]
+                - np.arange(2, dtype=np.float64)[None, :]
+            ),
+        )
+        self.inhibitory_spatial[self.node_types[self.inhibitory_indices] == "Mi9"] = 0.0
+        self.delay_steps = int(round(self.params.inhibitory_delay_ms / self.params.dt_ms))
+        self._delay_buffer = np.zeros((self.delay_steps, 2), dtype=np.float64)
+        self._step = 0
+        self.state = np.zeros(graph.n_nodes, dtype=np.float64)
+        self.output = np.zeros(graph.n_nodes, dtype=np.float64)
+        self._incoming = np.zeros(graph.n_nodes, dtype=np.float64)
+
+    def _delayed_columns(self, column_drive: np.ndarray) -> np.ndarray:
+        if self.delay_steps == 0:
+            return column_drive
+        slot = self._step % self.delay_steps
+        delayed = self._delay_buffer[slot].copy() if self._step >= self.delay_steps else np.zeros(2)
+        self._delay_buffer[slot] = column_drive
+        return delayed
+
+    def step(
+        self,
+        column_drive: np.ndarray,
+        *,
+        l1_drive: np.ndarray | None = None,
+    ) -> np.ndarray:
+        columns = np.asarray(column_drive, dtype=np.float64)
+        if columns.shape != (2,) or not np.isfinite(columns).all():
+            raise ValueError("column_drive must contain two finite amplitudes")
+        delayed_columns = self._delayed_columns(columns)
+        self._incoming.fill(0.0)
+        if len(self.pre):
+            np.add.at(
+                self._incoming,
+                self.post,
+                self.weights * self.output[self.pre],
+            )
+        if l1_drive is None:
+            self._incoming[self.column_l1_indices] = -columns
+        else:
+            l1_values = np.asarray(l1_drive, dtype=np.float64)
+            if l1_values.shape != (self.graph.n_nodes,) or not np.isfinite(l1_values).all():
+                raise ValueError("l1_drive must be a finite full-node vector")
+            self._incoming[self.l1_indices] = l1_values[self.l1_indices]
+        self._incoming[self.inhibitory_indices] = (
+            delayed_columns @ self.inhibitory_spatial.T
+        )
+        self.state += (
+            (self._incoming - self.state) / self.tau
+        ) * self.params.dt_ms
+        self.output[:] = self.state
+        self.output[self.node_types != "L1"] = np.maximum(
+            self.output[self.node_types != "L1"], 0.0
+        )
+        self._step += 1
+        return self.state
+
+
 def run_graded(
     graph: ConnectomeGraph,
     events: tuple[VisualEvent, ...] | list[VisualEvent],
@@ -242,73 +360,42 @@ def run_graded(
     """Run one continuous condition and return raw node activity plus summary."""
 
     params = params or GradedParameters()
-    if params.dt_ms <= 0 or duration_ms <= 0:
-        raise ValueError("duration_ms and dt_ms must be positive")
+    _validate_graded_parameters(params, duration_ms)
     normalized_events = _normalize_events(events, motion_columns)
-    node_index = _node_index(graph)
-    node_types = graph.nodes["type"].astype(str).to_numpy()
-    coordinates = _infer_column_coordinates(graph, motion_columns)
-    pre, post, weights = _build_edges(graph, ablate_inhibitory)
+    kernel = GradedCircuitKernel(
+        graph,
+        motion_columns=motion_columns,
+        params=params,
+        ablate_inhibitory=ablate_inhibitory,
+    )
     n_steps = int(round(duration_ms / params.dt_ms)) + 1
     l1_drive, column_drive = _event_fields(
         normalized_events,
-        node_index=node_index,
+        node_index=kernel.node_index,
         n_nodes=graph.n_nodes,
         n_steps=n_steps,
         dt_ms=params.dt_ms,
     )
-    inhibitory_indices = np.flatnonzero(np.isin(node_types, list(INHIBITORY_T4_INPUTS)))
-    l1_indices = np.flatnonzero(node_types == "L1")
-    tau = np.full(graph.n_nodes, params.tau_inhibitory_ms, dtype=np.float64)
-    tau[node_types == "L1"] = params.tau_l1_ms
-    tau[node_types == "Tm3"] = params.tau_tm3_ms
-    tau[node_types == "Mi1"] = params.tau_mi1_ms
-    tau[np.isin(node_types, list(T4_TYPES))] = params.tau_t4_ms
-
-    inhibitory_drive = np.zeros((n_steps, len(inhibitory_indices)), dtype=np.float64)
-    for local_index, node in enumerate(inhibitory_indices):
-        spatial = np.maximum(0.0, 1.0 - np.abs(coordinates[node] - np.arange(2, dtype=np.float64)))
-        inhibitory_drive[:, local_index] = column_drive @ spatial
-        if node_types[node] == "Mi9":
-            # Mi9 is an OFF-linked glutamatergic input in the literature; an
-            # ON-only stimulus therefore does not directly drive its release.
-            inhibitory_drive[:, local_index] = 0.0
-    delay_steps = int(round(params.inhibitory_delay_ms / params.dt_ms))
-    if delay_steps:
-        inhibitory_drive[delay_steps:] = inhibitory_drive[:-delay_steps].copy()
-        inhibitory_drive[:delay_steps] = 0.0
-
-    state = np.zeros(graph.n_nodes, dtype=np.float64)
-    output = np.zeros(graph.n_nodes, dtype=np.float64)
     trace = np.zeros((n_steps, graph.n_nodes), dtype=np.float32)
-    incoming = np.zeros(graph.n_nodes, dtype=np.float64)
     for step in range(n_steps):
-        incoming.fill(0.0)
-        if len(pre):
-            np.add.at(incoming, post, weights * output[pre])
-        target = incoming
-        target[l1_indices] = l1_drive[step, l1_indices]
-        target[inhibitory_indices] = inhibitory_drive[step]
-        state += ((target - state) / tau) * params.dt_ms
-        output[:] = state
-        output[node_types != "L1"] = np.maximum(output[node_types != "L1"], 0.0)
-        trace[step] = state.astype(np.float32)
+        trace[step] = kernel.step(
+            column_drive[step], l1_drive=l1_drive[step]
+        ).astype(np.float32)
 
-    rows: list[dict] = []
-    for step in range(n_steps):
-        for node, body_id in enumerate(graph.node_ids):
-            rows.append(
-                {
-                    "time_ms": float(step * params.dt_ms),
-                    "bodyId": int(body_id),
-                    "activity_proxy": float(trace[step, node]),
-                    "column_coordinate": float(coordinates[node]),
-                }
-            )
-    result = pd.DataFrame(rows).merge(
-        graph.nodes[["bodyId", "type", "instance", "somaSide", "stage"]],
-        on="bodyId",
-        how="left",
+    result = pd.DataFrame(
+        {
+            "time_ms": np.repeat(
+                np.arange(n_steps, dtype=np.float64) * params.dt_ms,
+                graph.n_nodes,
+            ),
+            "bodyId": np.tile(graph.node_ids, n_steps),
+            "activity_proxy": trace.reshape(-1).astype(np.float64),
+            "column_coordinate": np.tile(kernel.coordinates, n_steps),
+            "type": np.tile(graph.nodes["type"].to_numpy(), n_steps),
+            "instance": np.tile(graph.nodes["instance"].to_numpy(), n_steps),
+            "somaSide": np.tile(graph.nodes["somaSide"].to_numpy(), n_steps),
+            "stage": np.tile(graph.nodes["stage"].to_numpy(), n_steps),
+        }
     )
     summary = {
         "backend": "graded_local_t4_model",
@@ -318,7 +405,7 @@ def run_graded(
         "ablate_inhibitory": ablate_inhibitory,
         "n_nodes": graph.n_nodes,
         "n_edges_structural": graph.n_edges,
-        "n_edges_modeled": int(len(pre)),
+        "n_edges_modeled": int(len(kernel.pre)),
         "coordinate_source": "weighted retained MaleCNS L1->Mi1/Tm3 and input->T4 synapse paths; midpoint fallback",
         "l1_release_polarity": "negative ON-edge release deviation",
         "t4_input_signs": {
@@ -335,10 +422,19 @@ def t4_comparison(forward: pd.DataFrame, reverse: pd.DataFrame) -> pd.DataFrame:
 
     f = forward[forward["stage"] == "t4_motion"].copy()
     r = reverse[reverse["stage"] == "t4_motion"].copy()
+    if f.empty or r.empty:
+        raise ValueError("Both conditions must contain T4 activity")
     pivot_f = f.pivot(index="time_ms", columns="bodyId", values="activity_proxy")
     pivot_r = r.pivot(index="time_ms", columns="bodyId", values="activity_proxy")
+    if set(pivot_f.columns) != set(pivot_r.columns):
+        raise ValueError("Forward and reverse conditions must contain the same T4 neurons")
+    body_ids = sorted(int(value) for value in pivot_f.columns)
+    pivot_f = pivot_f.reindex(columns=body_ids)
+    pivot_r = pivot_r.reindex(columns=body_ids)
+    if not pivot_f.index.equals(pivot_r.index):
+        raise ValueError("Forward and reverse T4 traces must have identical time samples")
     rows = []
-    for body_id in sorted(set(pivot_f.columns) & set(pivot_r.columns)):
+    for body_id in body_ids:
         difference = pivot_f[body_id].to_numpy() - pivot_r[body_id].to_numpy()
         f_values = pivot_f[body_id].to_numpy()
         r_values = pivot_r[body_id].to_numpy()

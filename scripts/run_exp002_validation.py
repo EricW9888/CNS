@@ -195,12 +195,20 @@ def _matched_neutral_control(
     neutral_edges["pre_body"] = neutral_edges["pre_body"].astype("int64")
     neutral_edges["post_body"] = neutral_edges["post_body"].astype("int64")
     neutral_edges["synapse_count"] = neutral_edges["synapse_count"].astype("float32")
+    duplicate_edges = neutral_edges.duplicated(["pre_body", "post_body"], keep=False)
+    if duplicate_edges.any():
+        examples = neutral_edges.loc[
+            duplicate_edges, ["pre_body", "post_body"]
+        ].head(5)
+        raise RuntimeError(
+            "MaleCNS query returned duplicate aggregate T4 downstream pairs: "
+            f"{list(examples.itertuples(index=False, name=None))}"
+        )
     neutral_edges = (
         neutral_edges[
             (~neutral_edges["post_type"].isin(T4_TYPES))
             & (~neutral_edges["post_body"].isin(t4_ids))
         ]
-        .drop_duplicates(["pre_body", "post_body"])
         .sort_values(["post_body", "pre_body"])
         .reset_index(drop=True)
     )
@@ -234,16 +242,26 @@ def _matched_neutral_control(
     )
     base_nodes = pd.read_parquet(bundle / "nodes.parquet")
     annotation_frame = pd.read_feather(annotations)
+    if base_nodes["bodyId"].duplicated().any():
+        raise ValueError("base bundle contains duplicate body IDs")
+    if annotation_frame["bodyId"].duplicated().any():
+        raise ValueError("annotation export contains duplicate body IDs")
     extra_ids = sorted(set(neutral_edges["post_body"].astype(int)) - set(base_nodes["bodyId"].astype(int)))
     extra_nodes = annotation_frame[annotation_frame["bodyId"].astype(int).isin(extra_ids)].copy()
     extra_nodes["bodyId"] = extra_nodes["bodyId"].astype("int64")
+    missing_extra_ids = set(extra_ids) - set(extra_nodes["bodyId"].astype(int))
+    if missing_extra_ids:
+        raise ValueError(
+            "annotations are missing neutral-control target IDs: "
+            f"{sorted(missing_extra_ids)[:5]}"
+        )
     extra_nodes["stage"] = "neutral_downstream"
     for column in base_nodes.columns:
         if column not in extra_nodes.columns:
             extra_nodes[column] = pd.NA
     neutral_nodes = pd.concat(
         [base_nodes, extra_nodes[base_nodes.columns]], ignore_index=True
-    ).drop_duplicates("bodyId")
+    )
     base_edges = load_edges(bundle / "edges.parquet")
     neutral_graph = build_graph(
         neutral_nodes,

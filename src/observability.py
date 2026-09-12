@@ -74,11 +74,13 @@ def compare_t4_voltage(
     merged = forward[f_columns].rename(columns={"voltage_mV": "voltage_forward_mV"}).merge(
         reverse[r_columns].rename(columns={"voltage_mV": "voltage_reverse_mV"}),
         on=["bodyId", "time_ms"],
-        how="inner",
+        how="outer",
         validate="one_to_one",
+        indicator=True,
     )
-    if merged.empty:
-        raise ValueError("Forward and reverse traces have no shared T4 samples")
+    if merged.empty or not merged["_merge"].eq("both").all():
+        raise ValueError("Forward and reverse T4 traces must have identical neuron/time samples")
+    merged = merged.drop(columns="_merge")
 
     metadata = (
         forward[["bodyId", "type", "instance", "somaSide"]]
@@ -411,10 +413,16 @@ def write_observability_outputs(
             reverse_stage,
             on=["bodyId", "time_ms"],
             suffixes=("_forward", "_reverse"),
-            how="inner",
+            how="outer",
+            indicator=True,
+            validate="one_to_one",
         )
         if merged.empty:
             return 0.0
+        if not merged["_merge"].eq("both").all():
+            raise ValueError(
+                f"Forward and reverse {stage} traces must contain identical samples"
+            )
         return float(
             np.max(np.abs(merged["voltage_mV_forward"] - merged["voltage_mV_reverse"]))
         )

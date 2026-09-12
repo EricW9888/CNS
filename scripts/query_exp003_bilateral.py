@@ -1,7 +1,7 @@
 """Materialize homologous left/right EXP-003 visual-to-DN pathways.
 
 The two eyes are queried independently from the same MaleCNS v1.0 workbook
-columns.  Each side uses the frozen EXP-002 local query and the audited
+columns. Each side uses the frozen EXP-002 local query and the corrected
 two-hop T4 -> lobula-plate/visual target -> descending selection.  No
 left/right steering sign is encoded in this export.
 """
@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT))
 from scripts.query_exp002_circuit import T4_INPUT_TYPES, T4_TYPES, incoming_edges, outgoing_edges  # noqa: E402
 from scripts.query_malecns_subgraph import DATASET, NEUPRINT_URL, choose_l1_ids  # noqa: E402
 from scripts.query_exp003_corrected_downstream import TARGET_RULE, _coverage, _edge_query  # noqa: E402
+from src.materialization import canonical_edge_frame, materialize_nodes  # noqa: E402
 
 
 SELECTED_DN_TYPES = ("DNp15", "DNa02")
@@ -33,27 +34,19 @@ def _write_nodes(
     transmitters: pd.DataFrame,
     output: Path,
 ) -> pd.DataFrame:
-    nodes = annotations[annotations["bodyId"].isin(node_ids)].copy()
-    nodes = nodes.merge(
-        transmitters[["bodyId", "consensus_nt", "predicted_nt", "predicted_nt_confidence"]],
-        on="bodyId",
-        how="left",
+    nodes = materialize_nodes(
+        node_ids,
+        stages=stages,
+        annotations=annotations,
+        transmitters=transmitters,
     )
-    nodes["stage"] = nodes["bodyId"].map(stages).fillna("intermediate")
-    keep = [
-        "bodyId", "type", "instance", "somaSide", "superclass", "stage",
-        "status", "consensus_nt", "predicted_nt", "predicted_nt_confidence",
-    ]
-    nodes[keep].to_parquet(output / "nodes.parquet", index=False)
-    return nodes[keep]
+    nodes.to_parquet(output / "nodes.parquet", index=False)
+    return nodes
 
 
 def _write_edges(rows: list[dict], output: Path) -> pd.DataFrame:
-    frame = pd.DataFrame(rows).drop_duplicates(["pre_body", "post_body"])
-    frame["pre_body"] = frame["pre_body"].astype("int64")
-    frame["post_body"] = frame["post_body"].astype("int64")
-    frame["synapse_count"] = frame["synapse_count"].astype("float32")
-    frame[["pre_body", "post_body", "synapse_count"]].to_parquet(output / "edges.parquet", index=False)
+    frame = canonical_edge_frame(rows)
+    frame.to_parquet(output / "edges.parquet", index=False)
     return frame
 
 
@@ -162,7 +155,6 @@ def main() -> None:
     annotations["bodyId"] = annotations["bodyId"].astype("int64")
     transmitters = pd.read_feather(args.transmitters).rename(columns={"body": "bodyId"})
     transmitters["bodyId"] = transmitters["bodyId"].astype("int64")
-    transmitters = transmitters.drop_duplicates("bodyId", keep="first")
 
     manifests = {}
     for eye in ("left", "right"):
