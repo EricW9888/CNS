@@ -1,25 +1,42 @@
-# CNS — toward an executable digital fruit fly
+# CNS — building an executable digital fruit fly
 
-CNS is an effort toward an executable digital fruit fly built from the
-[MaleCNS v1.0 connectome](https://male-cns.janelia.org/): anatomical circuits,
-physiologically constrained neural dynamics, and eventually an embodied animal.
-That is the long-term research goal, not a result already achieved.
+Building an executable digital fruit fly from the
+[MaleCNS connectome](https://male-cns.janelia.org/).
 
-The present implementation consists of small, reproducible visual-motion
-experiments following local optic-column inputs through
-[T4 motion neurons](https://elifesciences.org/articles/24394) and selected
-downstream pathways. It is not a whole-CNS simulation and does not yet establish
+CNS is an experimental project integrating mapped neural anatomy, biologically
+constrained dynamics, sensory input and motor output into an executable system,
+with embodiment and closed-loop behavior as the longer-term goal. It is built
+bottom-up: each stage is tested against available anatomy and physiology so
+failures can be localized before integration.
+
+## Current capabilities
+
+Today CNS contains visual-motion and optic-flow circuits extending into
+selected descending pathways, with reproducible model results and provisional
+interfaces. Local optic-column inputs are modeled through
+[T4 motion neurons](https://elifesciences.org/articles/24394); a separate central
+optic-flow model follows controlled HS/H2 inputs through intermediates to
+DNp15. These stages are not yet a continuous sensory-to-descending system.
+It is not yet a whole-fly or whole-CNS simulation and does not establish
 biologically calibrated direction labels,
 reproduced [DNp15 binocular physiology](https://doi.org/10.1038/s41593-025-01948-9), or
 biologically interpretable steering behavior.
 
-The organizing scientific question is:
+## Current direction
 
-> Can a MaleCNS-derived visual circuit distinguish opposite motion sequences,
-> and can that information be carried into biologically interpretable
-> downstream activity?
+The controlled EXP-004 model passes numerical validation but does not reproduce
+the [published recurrent enhancement](https://doi.org/10.1038/s41593-025-01948-9).
+Its intermediate response mismatches, observation-transfer assumptions and
+electrical/common-mode effects must be resolved with independent physiology
+before claiming the mechanism or reconnecting spatial motion and body work.
+The stable partial/negative result remains frozen evidence, not a target for
+unreported parameter tuning.
 
-## Current results
+## Experimental development history
+
+The experiments are validation checkpoints for constructing CNS. They record
+what each stage establishes, its assumptions, and where propagation or
+interpretation fails.
 
 | Experiment | Result |
 |---|---|
@@ -31,8 +48,8 @@ The organizing scientific question is:
 | [EXP-004 preflight failure](reports/EXP-004-preflight-failure.md) | A provisional recurrent HS/H2 implementation used incorrect electrical-coupling semantics and was unstable. Its outputs have no biological interpretation; the source is retained only to preserve the failed attempt. |
 | [EXP-004 controlled binocular physiology](reports/EXP-004-binocular-physiology.md) | A resolved 37-neuron / 360-edge circuit is stable and reduces DNp15 translation sensitivity relative to HS/H2. However, the feed-forward control is more selective and key calcium targets remain unmatched; the proposed recurrent enhancement is not reproduced. |
 
-The concise cross-experiment state is maintained in [research
-progress](reports/RESEARCH_PROGRESS.md). Machine-readable parameters and results
+The concise cross-experiment state is maintained in [project
+status](reports/RESEARCH_PROGRESS.md). Machine-readable parameters and results
 are under `experiments/`.
 
 ![EXP-002 local motion result](figures/EXP-002-direction-selectivity.png)
@@ -41,7 +58,7 @@ The figure shows a model-internal activity result. Activity is dimensionless,
 the workbook axes are not mapped to canonical visual directions, and the
 upstream inhibitory drive is partly imposed rather than fully propagated.
 
-## Scientific boundaries
+## Evidence and assumptions
 
 The project keeps four evidence layers separate:
 
@@ -160,16 +177,6 @@ identity crosswalk, observation assumptions, physiological target and controls.
 CI runs the fast checks without downloading MaleCNS or executing body
 simulations. A separate workflow scans all reachable Git history with a
 checksum-verified Gitleaks binary.
-
-## Next scientific gate
-
-The controlled EXP-004 model passes numerical validation but does not reproduce
-the [published recurrent enhancement](https://doi.org/10.1038/s41593-025-01948-9).
-Its intermediate response mismatches, observation-transfer assumptions and
-electrical/common-mode effects must be resolved with independent physiology
-before claiming the mechanism or reconnecting spatial motion and body work.
-The stable partial/negative result remains frozen evidence, not a target for
-unreported parameter tuning.
 
 ## Sources
 

@@ -1,6 +1,6 @@
-# CNS research progress — 2026-09-13
+# CNS experimental progress — 2026-09-13
 
-## Current conclusion
+## Current state
 
 CNS has one reproducible model-internal visual-motion result and several
 informative negative results. It does not yet have a biologically calibrated
@@ -68,7 +68,7 @@ Wall-clock rendering measurements vary across runs and are not treated as
 scientific benchmarks. See [implementation and
 performance](../docs/implementation.md) for methods and remaining limits.
 
-## Next scientific gate
+## Current direction
 
 EXP-004's resolved neural implementation has stable, deterministic dynamics,
 fixed physiological comparisons and complete mechanistic controls. The next
