@@ -264,6 +264,19 @@
           "sha256": "0d79fcef0205b2eb27cd0f1e205862ecebea7610fb5bbb43fa6421c370bdc7d2"
         }
       ]
+    },
+    {
+      "name": "EXP-007 native CvNA2 primary figure measurement",
+      "files": [
+        {
+          "path": "data/exp007_motor_boundary/CvNA2_velocity_native.png",
+          "bytes": 94928,
+          "sha256": "a82ddaac51a2019dcb26d9e44f0f5619459a397e78b51e6b8d39fad9fb332431",
+          "source_path": "data/exp006_motor/gorko2024_supplement.pdf",
+          "source_location": "Page 15, Supplementary Figure 10g-i, native /Im6",
+          "redistributed": false
+        }
+      ]
     }
   ]
 }

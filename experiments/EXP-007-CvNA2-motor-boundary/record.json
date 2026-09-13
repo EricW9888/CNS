@@ -1,0 +1,509 @@
+{
+  "experiment_id": "EXP-007-CvNA2-motor-boundary",
+  "status": "completed_movement_target_recruitment_unidentified",
+  "question": "Can CvNA2-specific primary physiology identify a quantitative or posture-conditioned DNp15-to-head motor interface?",
+  "metrics": {
+    "specification_sha256": "d8bee4f35747f5fe6108adbf7bfb5b42b738eeb2575d1211a84ecd0c2cfe2398",
+    "target_sha256": "1eac212f9ffbdf7408f6694d314e05046e62100c4a273896ef914a41fb4e6121",
+    "target_summary": {
+      "roll": {
+        "baseline_mean_deg_s": -0.600227790432805,
+        "absolute_mean_deg_s": 3.292237141829514,
+        "delta_mean_deg_s": 3.8924649322623193,
+        "delta_mean_extraction_envelope_deg_s": [
+          1.4454357990648612,
+          6.293185469368181
+        ],
+        "absolute_component_integral_degrees": 1.0133211845102497,
+        "delta_component_integral_degrees": 1.1909886104783602,
+        "delta_component_integral_extraction_envelope_degrees": [
+          0.4709000455580868,
+          1.8981882460136672
+        ],
+        "largest_abs_delta_absolute_velocity_deg_s": 9.150341685649206,
+        "largest_abs_delta_velocity_deg_s": 9.750569476082012,
+        "largest_abs_delta_time_ms": 120.0,
+        "extremum_time_resolution_plus_axis_error_ms": 9.294498381877023,
+        "extraction_compatible_extremum_sample_times_ms": [
+          32.0,
+          40.0,
+          64.0,
+          72.0,
+          80.0,
+          88.0,
+          104.0,
+          112.0,
+          120.0,
+          128.0,
+          192.0,
+          232.0,
+          264.0,
+          272.0,
+          280.0,
+          288.0
+        ],
+        "max_trace_envelope_half_range_deg_s": 2.8271070615033986,
+        "threshold_center_max_difference_deg_s": 0.1594533029612748
+      },
+      "pitch": {
+        "baseline_mean_deg_s": 6.610250569476079,
+        "absolute_mean_deg_s": -17.449952044119414,
+        "delta_mean_deg_s": -24.060202613595497,
+        "delta_mean_extraction_envelope_deg_s": [
+          -26.787013547536265,
+          -21.232751468648843
+        ],
+        "absolute_component_integral_degrees": -5.260273348519363,
+        "delta_component_integral_degrees": -7.216907517084283,
+        "delta_component_integral_extraction_envelope_degrees": [
+          -8.019113257403188,
+          -6.3842831890660605
+        ],
+        "largest_abs_delta_absolute_velocity_deg_s": -29.915717539863326,
+        "largest_abs_delta_velocity_deg_s": -36.5259681093394,
+        "largest_abs_delta_time_ms": 80.0,
+        "extremum_time_resolution_plus_axis_error_ms": 9.294498381877023,
+        "extraction_compatible_extremum_sample_times_ms": [
+          64.0,
+          72.0,
+          80.0,
+          88.0,
+          96.0,
+          104.0,
+          112.0,
+          120.0,
+          128.0
+        ],
+        "max_trace_envelope_half_range_deg_s": 2.892482915717537,
+        "threshold_center_max_difference_deg_s": 0.1594533029612748
+      },
+      "yaw": {
+        "baseline_mean_deg_s": 0.4771981776765335,
+        "absolute_mean_deg_s": 10.582484114614555,
+        "delta_mean_deg_s": 10.10528593693802,
+        "delta_mean_extraction_envelope_deg_s": [
+          7.340877592614795,
+          12.788037405586858
+        ],
+        "absolute_component_integral_degrees": 3.210217767653758,
+        "delta_component_integral_degrees": 3.068967107061504,
+        "delta_component_integral_extraction_envelope_degrees": [
+          2.252302141230069,
+          3.8562926651480636
+        ],
+        "largest_abs_delta_absolute_velocity_deg_s": 19.97722095671982,
+        "largest_abs_delta_velocity_deg_s": 19.500022779043285,
+        "largest_abs_delta_time_ms": 32.0,
+        "extremum_time_resolution_plus_axis_error_ms": 9.294498381877023,
+        "extraction_compatible_extremum_sample_times_ms": [
+          16.0,
+          24.0,
+          32.0,
+          40.0,
+          48.0,
+          56.0,
+          64.0,
+          72.0
+        ],
+        "max_trace_envelope_half_range_deg_s": 3.7917995444191313,
+        "threshold_center_max_difference_deg_s": 0.1594533029612748
+      }
+    },
+    "target_tendency_check_passed": true,
+    "extraction_deterministic": true,
+    "frozen_replay": {
+      "full": {
+        "preflight": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9753099120283326,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208506e-44,
+          "chemical_edges": 4,
+          "incoming_weight_mass": [
+            0.009871018689128718,
+            0.010411244143675169,
+            0.017241379310344827,
+            0.00636053366428793
+          ]
+        },
+        "half_dt_preflight": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9875778004938814,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208356e-44,
+          "chemical_edges": 4,
+          "incoming_weight_mass": [
+            0.009871018689128718,
+            0.010411244143675169,
+            0.017241379310344827,
+            0.00636053366428793
+          ]
+        },
+        "conditions": {
+          "yaw_L_F": {
+            "motor_replay_relative_error": 0.0,
+            "torque_replay_relative_error": 0.0,
+            "held_input_half_dt_relative_error": 9.65366115867279e-16,
+            "deterministic": true,
+            "DN_late": [
+              -4.5844080914334406e-05,
+              0.000803909802193831
+            ],
+            "motor_late": [
+              7.935408681829238e-06,
+              3.6433372391124244e-56,
+              1.3860513830928396e-05,
+              2.225821317791902e-56
+            ]
+          },
+          "yaw_R_F": {
+            "motor_replay_relative_error": 0.0,
+            "torque_replay_relative_error": 0.0,
+            "held_input_half_dt_relative_error": 1.2400221285897926e-15,
+            "deterministic": true,
+            "DN_late": [
+              0.0007772547752472707,
+              -4.3310312284645975e-05
+            ],
+            "motor_late": [
+              3.3580147039462102e-56,
+              8.092189226936845e-06,
+              5.865332349559374e-56,
+              4.9437551636888894e-06
+            ]
+          }
+        }
+      },
+      "DN_disconnected": {
+        "preflight": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9753099120283326,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208506e-44,
+          "chemical_edges": 0,
+          "incoming_weight_mass": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "half_dt_preflight": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9875778004938814,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208356e-44,
+          "chemical_edges": 0,
+          "incoming_weight_mass": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "conditions": {
+          "yaw_L_F": {
+            "motor_replay_relative_error": 0.0,
+            "torque_replay_relative_error": 0.0,
+            "held_input_half_dt_relative_error": 0.0,
+            "deterministic": true,
+            "DN_late": [
+              -4.5844080914334406e-05,
+              0.000803909802193831
+            ],
+            "motor_late": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "yaw_R_F": {
+            "motor_replay_relative_error": 0.0,
+            "torque_replay_relative_error": 0.0,
+            "held_input_half_dt_relative_error": 0.0,
+            "deterministic": true,
+            "DN_late": [
+              0.0007772547752472707,
+              -4.3310312284645975e-05
+            ],
+            "motor_late": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "DN_L_disconnected": {
+        "preflight": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9753099120283326,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208506e-44,
+          "chemical_edges": 2,
+          "incoming_weight_mass": [
+            0.0,
+            0.010411244143675169,
+            0.0,
+            0.00636053366428793
+          ]
+        },
+        "half_dt_preflight": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9875778004938814,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208356e-44,
+          "chemical_edges": 2,
+          "incoming_weight_mass": [
+            0.0,
+            0.010411244143675169,
+            0.0,
+            0.00636053366428793
+          ]
+        },
+        "conditions": {
+          "yaw_L_F": {
+            "motor_replay_relative_error": 0.0,
+            "torque_replay_relative_error": 0.0,
+            "held_input_half_dt_relative_error": 2.440101074149291e-16,
+            "deterministic": true,
+            "DN_late": [
+              -4.5844080914334406e-05,
+              0.000803909802193831
+            ],
+            "motor_late": [
+              0.0,
+              3.6433372391124244e-56,
+              0.0,
+              2.225821317791902e-56
+            ]
+          },
+          "yaw_R_F": {
+            "motor_replay_relative_error": 0.0,
+            "torque_replay_relative_error": 0.0,
+            "held_input_half_dt_relative_error": 1.2400221285897926e-15,
+            "deterministic": true,
+            "DN_late": [
+              0.0007772547752472707,
+              -4.3310312284645975e-05
+            ],
+            "motor_late": [
+              0.0,
+              8.092189226936845e-06,
+              0.0,
+              4.9437551636888894e-06
+            ]
+          }
+        }
+      },
+      "DN_R_disconnected": {
+        "preflight": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9753099120283326,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208506e-44,
+          "chemical_edges": 2,
+          "incoming_weight_mass": [
+            0.009871018689128718,
+            0.0,
+            0.017241379310344827,
+            0.0
+          ]
+        },
+        "half_dt_preflight": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9875778004938814,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208356e-44,
+          "chemical_edges": 2,
+          "incoming_weight_mass": [
+            0.009871018689128718,
+            0.0,
+            0.017241379310344827,
+            0.0
+          ]
+        },
+        "conditions": {
+          "yaw_L_F": {
+            "motor_replay_relative_error": 0.0,
+            "torque_replay_relative_error": 0.0,
+            "held_input_half_dt_relative_error": 9.65366115867279e-16,
+            "deterministic": true,
+            "DN_late": [
+              -4.5844080914334406e-05,
+              0.000803909802193831
+            ],
+            "motor_late": [
+              7.935408681829238e-06,
+              0.0,
+              1.3860513830928396e-05,
+              0.0
+            ]
+          },
+          "yaw_R_F": {
+            "motor_replay_relative_error": 0.0,
+            "torque_replay_relative_error": 0.0,
+            "held_input_half_dt_relative_error": 4.0418788823628037e-16,
+            "deterministic": true,
+            "DN_late": [
+              0.0007772547752472707,
+              -4.3310312284645975e-05
+            ],
+            "motor_late": [
+              3.3580147039462102e-56,
+              0.0,
+              5.865332349559374e-56,
+              0.0
+            ]
+          }
+        }
+      },
+      "motor_disconnected": {
+        "preflight": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9753099120283326,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208506e-44,
+          "chemical_edges": 4,
+          "incoming_weight_mass": [
+            0.009871018689128718,
+            0.010411244143675169,
+            0.017241379310344827,
+            0.00636053366428793
+          ]
+        },
+        "half_dt_preflight": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9875778004938814,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208356e-44,
+          "chemical_edges": 4,
+          "incoming_weight_mass": [
+            0.009871018689128718,
+            0.010411244143675169,
+            0.017241379310344827,
+            0.00636053366428793
+          ]
+        },
+        "conditions": {
+          "yaw_L_F": {
+            "motor_replay_relative_error": 0.0,
+            "torque_replay_relative_error": 0.0,
+            "held_input_half_dt_relative_error": 9.65366115867279e-16,
+            "deterministic": true,
+            "DN_late": [
+              -4.5844080914334406e-05,
+              0.000803909802193831
+            ],
+            "motor_late": [
+              7.935408681829238e-06,
+              3.6433372391124244e-56,
+              1.3860513830928396e-05,
+              2.225821317791902e-56
+            ]
+          },
+          "yaw_R_F": {
+            "motor_replay_relative_error": 0.0,
+            "torque_replay_relative_error": 0.0,
+            "held_input_half_dt_relative_error": 1.2400221285897926e-15,
+            "deterministic": true,
+            "DN_late": [
+              0.0007772547752472707,
+              -4.3310312284645975e-05
+            ],
+            "motor_late": [
+              3.3580147039462102e-56,
+              8.092189226936845e-06,
+              5.865332349559374e-56,
+              4.9437551636888894e-06
+            ]
+          }
+        }
+      }
+    },
+    "cervical_output_side_contract_passed": true,
+    "identical_LED_data_do_not_identify_DN_gain": true,
+    "implementation_LF_sha256": {
+      "src/motor_boundary.py": "27fe0820a8e0eaa4d7da801f3c693c8a6d315d10190d8f5926851992a45fe289",
+      "scripts/prepare_exp007_target.py": "45f7641218ac4926567cc96bdd7d017cdbe2c7cb85b461c527b34f4591b73ec3",
+      "scripts/run_exp007_boundary.py": "584736d58c4b2e0337473424e27c7a4570cf73145b1eacc4b732649db9b6f5ed"
+    }
+  },
+  "identity": [
+    {
+      "bodyId": 801678,
+      "type": "ADNM1 MN",
+      "somaSide": "R",
+      "manc_body_id": 20860,
+      "manc_type": "ADNM1",
+      "manc_instance": "MNnm04_CvN_L",
+      "axon_side": "L",
+      "paper_cell": "CvNA1",
+      "muscle": "TH1",
+      "identity_source": "https://doi.org/10.1038/s41586-024-07222-5; Supplementary Table 2; official MaleCNS mancBodyid",
+      "muscle_source": "https://doi.org/10.1038/s41586-024-07222-5; Figure 4h; CvNA2 also Supplementary Figure 10d",
+      "laterality_source": "manc:v1.2.1 explicit CvN_L/R instance; NOT soma side"
+    },
+    {
+      "bodyId": 804343,
+      "type": "ADNM2 MN",
+      "somaSide": "L",
+      "manc_body_id": 14549,
+      "manc_type": "ADNM2",
+      "manc_instance": "MNnm05_CvN_R",
+      "axon_side": "R",
+      "paper_cell": "CvNA2",
+      "muscle": "TH2",
+      "identity_source": "https://doi.org/10.1038/s41586-024-07222-5; Supplementary Table 2; official MaleCNS mancBodyid",
+      "muscle_source": "https://doi.org/10.1038/s41586-024-07222-5; Figure 4h; CvNA2 also Supplementary Figure 10d",
+      "laterality_source": "manc:v1.2.1 explicit CvN_L/R instance; NOT soma side"
+    },
+    {
+      "bodyId": 813696,
+      "type": "ADNM2 MN",
+      "somaSide": "R",
+      "manc_body_id": 17653,
+      "manc_type": "ADNM2",
+      "manc_instance": "MNnm05_CvN_L",
+      "axon_side": "L",
+      "paper_cell": "CvNA2",
+      "muscle": "TH2",
+      "identity_source": "https://doi.org/10.1038/s41586-024-07222-5; Supplementary Table 2; official MaleCNS mancBodyid",
+      "muscle_source": "https://doi.org/10.1038/s41586-024-07222-5; Figure 4h; CvNA2 also Supplementary Figure 10d",
+      "laterality_source": "manc:v1.2.1 explicit CvN_L/R instance; NOT soma side"
+    },
+    {
+      "bodyId": 903152,
+      "type": "ADNM1 MN",
+      "somaSide": "L",
+      "manc_body_id": 10407,
+      "manc_type": "ADNM1",
+      "manc_instance": "MNnm04_CvN_R",
+      "axon_side": "R",
+      "paper_cell": "CvNA1",
+      "muscle": "TH1",
+      "identity_source": "https://doi.org/10.1038/s41586-024-07222-5; Supplementary Table 2; official MaleCNS mancBodyid",
+      "muscle_source": "https://doi.org/10.1038/s41586-024-07222-5; Figure 4h; CvNA2 also Supplementary Figure 10d",
+      "laterality_source": "manc:v1.2.1 explicit CvN_L/R instance; NOT soma side"
+    }
+  ],
+  "calibration_gate": {
+    "new_bridge_evaluated": false,
+    "DN_to_CvNA_gain_sign_latency_measured": false,
+    "CvNA2_posture_coefficients_extracted": false,
+    "CvNA2_movement_target_digitized": true,
+    "CvN7_calibration_substituted": false,
+    "ready_to_replace_EXP006_bridge": false
+  },
+  "scope": {
+    "EXP001_through_EXP006_changed": false,
+    "upstream_rerun": false,
+    "body_rerun": false,
+    "parameter_fit_or_search": false,
+    "closed_loop": false
+  },
+  "conclusion": "CvNA2-specific grand-mean movement can be quantified from primary figures. Neither DNp15 recruitment nor a posture-conditioned movement transform is identified. Anatomy provides direct contacts and cervical-output sides, not physiological gain/sign/latency. Frozen EXP-006 remains an uncalibrated torque approximation; no replacement or closed-loop gate is justified. This is a calibration boundary, not a negative test of biological function.",
+  "minimum_next_evidence": [
+    "Identified DNp15 stimulation/recording with simultaneous CvNA1/CvNA2 voltage or spikes, independent units and cervical-output side, over controlled state/posture",
+    "CvNA2-specific trial quaternions with pre-onset pose, fly IDs and training/validation split, plus authors' CvNA2 fit parameters or a held-out refit",
+    "CvNA2-specific activation/firing-to-head transfer; LED expression gain alone cannot convert dimensionless DN activity into motor firing or torque"
+  ],
+  "outputs": {
+    "figure": "figures/EXP-007-CvNA2-motor-boundary.png",
+    "report": "reports/EXP-007-CvNA2-motor-boundary.md",
+    "target": "results/exp007_motor_boundary/CvNA2_digitized_target.json",
+    "metrics": "results/exp007_motor_boundary/metrics.json"
+  }
+}

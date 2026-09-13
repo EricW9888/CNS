@@ -1,0 +1,80 @@
+{
+  "experiment_id": "EXP-007-CvNA2-motor-boundary",
+  "parent_commit": "6f44b9e",
+  "frozen_EXP006_commit": "9db9e90",
+  "question": "Can CvNA2-specific primary physiology identify a quantitative or posture-conditioned DNp15-to-head motor interface?",
+  "scope": "Reuse frozen anatomy and saved descending/motor outputs. Extract only CvNA2 movement. No new upstream, body, controller, motor targets or physiology parameters.",
+  "baseline_files": [
+    {"path": "experiments/EXP-006-DNp15-neck-motor/specification.json", "sha256": "05528df69e92f31be12c0e4e3381ae46aef44a7d749acd74a29197e72dfef3d0"},
+    {"path": "experiments/EXP-006-DNp15-neck-motor/record.json", "sha256": "b4844f731baa877afe7b7b991abe8120084306e209364ff7c1dd718ab3e639c7"},
+    {"path": "results/exp006_neck/stage_traces.npz", "sha256": "8d681a5b30018eb7afae6df1191fdf3ac54eadb259eb636c0fa306bde235ca69"}
+  ],
+  "frozen_trace_arrays_sha256": "169b753d284ba74c9d6102b09c800c8febbf8ab445b88114927cedfa85f6ca74",
+  "source_files": [
+    {"path": "data/exp006_motor/gorko2024.pdf", "sha256": "20bd67cf19d82e56e2c7eca1a465ac553d7f6c94ecfb4fa4f11d22dc69b2ad7a"},
+    {"path": "data/exp006_motor/gorko2024_supplement.pdf", "sha256": "0d79fcef0205b2eb27cd0f1e205862ecebea7610fb5bbb43fa6421c370bdc7d2"},
+    {"path": "data/exp007_motor_boundary/CvNA2_velocity_native.png", "sha256": "a82ddaac51a2019dcb26d9e44f0f5619459a397e78b51e6b8d39fad9fb332431"}
+  ],
+  "anatomical_evidence": {
+    "source": "Frozen EXP-006 induced MaleCNS v1.0 graph and official mancBodyid correspondence to MANC v1.2.1; Gorko Supplementary Table 2 and Figure 4h / Supplementary Figure 10d",
+    "selection_changed": false,
+    "direct_edges": [[12069, 801678, 150], [11215, 903152, 82], [12069, 813696, 76], [11215, 804343, 40]],
+    "unmodeled_motor_edges": [[801678, 813696, 1], [804343, 903152, 1]],
+    "functional_strength_from_synapse_count": false,
+    "cervical_output_side_not_soma_side": true
+  },
+  "physiological_evidence": [
+    {"source": "https://doi.org/10.1038/s41586-024-07222-5", "location": "Methods pp. 9-10; Supplementary Fig. 10 and caption p. 22; model methods pp. 31-33", "supports": "Direct unilateral CvNA2 optogenetic activation, TH2 innervation, right-axon-standardized movement with posture dependence", "does_not_measure": "Identified DNp15-to-CvNA1/CvNA2 synaptic transfer, CvNA2 firing calibration or force/torque", "calibration_caveat": "Patch-clamp optogenetic firing calibration is CvN7-specific. The movement model fits LED gain per fly on training data; it does not calibrate DN recruitment."},
+    {"source": "https://doi.org/10.1523/JNEUROSCI.2277-16.2016", "location": "Suver et al. 2016, abstract and Figures 2, 3, 6, 7", "supports": "DNHS1 visual physiology and putative neck/haltere terminal regions", "does_not_measure": "Identified CvNA1/CvNA2 recruitment transfer. DNOVS1-associated neck dye coupling is not DNHS1-to-CvNA evidence."},
+    {"source": "https://doi.org/10.1038/s41593-025-01948-9", "location": "Erginkaya et al. 2025, DNp15 identity, optic-flow physiology and MANC projections", "supports": "DNp15 = DNHS1; upstream and DN optic-flow processing", "does_not_measure": "Identified DNp15-to-CvNA1/CvNA2 gain, latency or side-dependent recruitment"},
+    {"source": "https://doi.org/10.1523/JNEUROSCI.2915-09.2009", "location": "Huston and Krapp 2009, Methods and Results", "supports": "Context-dependent subthreshold visual / haltere integration in Calliphora vicina neck neurons", "does_not_measure": "Drosophila DNp15-to-CvNA1/CvNA2. No cross-species cell or numerical calibration substitution is permitted."}
+  ],
+  "source_data_access": {
+    "repository": "https://bitbucket.org/stephenhuston/code_data_gorko_et_al/src/master/",
+    "commit": "8700dc2a74d4796025938f773498ac91b48240a1",
+    "read_code": ["Readme.txt", "runThisFirst_GenerateAllFigures.m", "figure_4/4kl/plotDynamics.m"],
+    "CvNA2_source_neuron_number": 15,
+    "main_figure_data_file": "figure_4/4kl/dynamicsByNeuronIDoutput_20211230T122706.mat",
+    "main_figure_data_bytes": 1638799259,
+    "access_limit": "Two prior bounded header requests (30 s API / 25 s raw) and this run's 20 s API metadata request timed out. No MAT bytes or fitted CvNA2 coefficients obtained. Supplement-specific generation code was not identified in the supplied tree; main-Figure-4 preprocessing is not assumed for Supplementary Figure 10.",
+    "fallback": "Lossless export of native /Im6 plot bitmap from frozen Supplementary PDF page 15, using optional pypdf 6.10.0. No resampling. Published axes determine units. Raster digitization with extraction uncertainty, not recovered raw trials."
+  },
+  "measurement_contract": {
+    "source": "Gorko Supplementary Figure 10g-i; caption on p. 22",
+    "motor_neuron": "CvNA2 only; not CvN7",
+    "trial_structure": {"validation_trials": 677, "flies": 11, "only_validation_half_plotted": true, "grand_mean": "Caption-reported grand mean of flies from per-fly trial means; exact weighting code not recovered. Grey curves are not independent trials."},
+    "activation": {"unilateral": true, "duration_ms": 300, "wavelength_nm": 625, "power_mW_per_mm2": 0.37, "camera_fps": 125, "protocol_flashes_per_fly": 120, "protocol_interval_s": 1.5, "state": "Tethered flying norpA-blind flies; post hoc neuron identity"},
+    "coordinates": "Right-axon standardization; left-axon data reflected to right. Lab-frame right-handed X/Y/Z = roll/pitch/yaw, body 40 degrees above horizontal. Axes label Euler-component angular velocities (degrees/s), although caption calls them time series of ZYX Euler angles. Do not reinterpret as body torque or axis-angle action-field coordinates.",
+    "panels": {
+      "roll": {"x_pixels": [64, 373], "y_pixels": [8, 447], "time_ms": [-100, 300], "velocity_deg_s": [60, -80], "trace_columns": [66, 372]},
+      "pitch": {"x_pixels": [473, 782], "y_pixels": [8, 447], "time_ms": [-100, 300], "velocity_deg_s": [60, -80], "trace_columns": [475, 781]},
+      "yaw": {"x_pixels": [881, 1190], "y_pixels": [8, 447], "time_ms": [-100, 300], "velocity_deg_s": [60, -80], "trace_columns": [883, 1189]}
+    },
+    "trace_y_rows": [12, 404],
+    "dark_threshold": 64,
+    "threshold_sensitivity": [48, 80],
+    "require_one_contiguous_thick_dark_run_per_column": true,
+    "minimum_run_thickness_pixels": 3,
+    "maximum_run_thickness_pixels": 24,
+    "trace_center": "Midpoint of first and last dark pixel in the unique run at least 3 pixels thick; isolated axis ticks / thin marks are rejected, not gap-filled. Linear interpolation to 8-ms source-frame spacing. No smoothing.",
+    "extraction_protocol_correction": "Initial all-dark-pixels-contiguous rule stopped at the first column because 1-pixel y-axis tick marks also intersected that column. Before any movement summary or bridge evaluation, revised to the uniquely thick grand-mean stroke. One isolated thin mark also appears at threshold 80. The provisional 16-pixel run-width cap rejected the steep rising yaw stroke (17 pixels); geometric cap increased to 24 pixels. Axis calibration, windows, target checks and model remain unchanged.",
+    "sample_time_ms": [-96, 296],
+    "sample_step_ms": 8,
+    "baseline_window_ms_inclusive": [-80, -8],
+    "response_window_ms_inclusive": [0, 296],
+    "uncertainty": "Envelope from threshold variants, line half-thickness, one extra pixel in both coordinate axes; timing reported no finer than one 8-ms camera frame plus x-axis pixel error. List all sampling times whose maximum possible absolute delta can exceed the largest minimum possible absolute delta; frame resolution alone is not a peak-timing confidence interval. This is digitization uncertainty only, not SEM, biological CI or raw-data noise.",
+    "magnitude_and_sign": "Retain signed absolute velocities and baseline-subtracted velocities; summarize extrema/time, mean velocity and trapezoidal component integrals. Integrated Euler-component rates are not total quaternion rotation or torque.",
+    "predeclared_target_check": "Digitized right-axon grand mean has positive baseline-subtracted mean yaw and negative baseline-subtracted mean pitch over 0-296 ms, with extraction envelopes excluding zero. This checks target extraction, not a new DN-driven physiological model. No CvNA2 onset latency or full posture function is inferred from grand means."
+  },
+  "calibration_contract": {
+    "required_for_bridge_replacement": ["Identified DNp15-to-CvNA recruitment with independent activation/firing units and side mapping", "CvNA2-specific activation-to-movement transfer with initial pose and per-fly trial structure", "Matched coordinate and state convention; held-out movement validation"],
+    "acceptance": "Causal DN dependence, cervical-output mapping from crosswalk (not soma), CvNA2 movement tendency, deterministic output and timestep robustness are necessary. Neither a matching sign nor optogenetic grand means identify quantitative DN-to-movement strength. If recruitment or pose coefficients remain unidentified, retain the frozen bridge and record the exact calibration boundary; do not run a purported replacement.",
+    "fitting": "None. No parameter search, trajectory fit or body-gain adjustment.",
+    "identifiability_witness": "q_LED = K_pose * b_LED * u_LED and q_DN = K_pose * a_DN * x_DN. Even granting a known K_pose and positive recruitment, the same LED data permit a_DN = 0, 1 or 10. These illustrative dimensionless coefficients are an algebraic non-identifiability example, not fitted gains, biological bounds or simulated bridges.",
+    "witness_coefficients": [0, 1, 10],
+    "frozen_replay": "Only saved EXP-006 descending traces are replayed through its unchanged motor model. DN disconnect/side disconnect and held-input dt-halving checks do not supply missing physiology.",
+    "frozen_replay_relative_error_max": 1e-12,
+    "held_input_dt_relative_error_max": 1e-12,
+    "upstream_and_body_rerun": false
+  }
+}
