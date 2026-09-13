@@ -30,11 +30,11 @@ exact EXP-002 time constants, delay, inferred coordinates, or normalization.
 
 ## Bilateral HS/H2 and DNp15
 
-- Haag and Borst (2006), *Nonlinear, binocular interactions underlying flow
+- Farrow, Haag and Borst (2006), *Nonlinear, binocular interactions underlying flow
   field selectivity of a motion-sensitive neuron*,
-  [PMID 16964250](https://pubmed.ncbi.nlm.nih.gov/16964250/). This supports a
-  specific contralateral H2–HSE electrical interaction, not generic H2-to-all-HS
-  coupling.
+  [PMID 16964250](https://pubmed.ncbi.nlm.nih.gov/16964250/). This blowfly study
+  supports a specific contralateral H2–HSE electrical interaction, not generic
+  H2-to-all-HS coupling. Species transfer requires separate justification.
 - Pokusaeva et al. (2024), *Bilateral interactions of optic-flow sensitive
   neurons coordinate course control in flies*,
   [Nature Communications 15:8830](https://doi.org/10.1038/s41467-024-53173-w).

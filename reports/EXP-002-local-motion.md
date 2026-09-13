@@ -12,7 +12,9 @@ orders of neighboring optic-column activity?
 
 EXP-002 replaces spike-gated propagation with continuous graded state updates,
 adds direct T4 input classes Mi4, Mi9, C3, and CT1, and supplies class-specific
-sign/timing assumptions motivated qualitatively by early visual physiology.
+sign/timing assumptions motivated qualitatively by
+[ON-pathway anatomy](https://elifesciences.org/articles/24394) and
+[fast excitation with delayed, spatially offset inhibition](https://pmc.ncbi.nlm.nih.gov/articles/PMC5967973/).
 MaleCNS still supplies neuron identities, directed edges, and synapse counts.
 
 For state `x_i`, each node follows a first-order low pass toward a weighted

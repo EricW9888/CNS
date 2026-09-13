@@ -34,7 +34,8 @@ both T4-to-target pathways makes both commands exactly zero. The pre-body sign
 gate fails, so embodiment is correctly skipped.
 
 Two independent unilateral proxies followed by subtraction do not reproduce
-the known nonlinear binocular transformation. This does not falsify biology:
+the [experimentally observed nonlinear binocular
+transformation](https://doi.org/10.1038/s41593-025-01948-9). This does not falsify biology:
 the model omits HS/H2 cross-hemisphere electrical and recurrent inhibitory
 interactions and still lacks calibrated workbook-to-visual geometry.
 

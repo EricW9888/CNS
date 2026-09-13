@@ -1,11 +1,17 @@
-# CNS — executable MaleCNS visual-circuit experiments
+# CNS — toward an executable digital fruit fly
 
-CNS is a small, reproducible research project for testing how visual-motion
-signals propagate through circuits derived from the [MaleCNS v1.0
-connectome](https://male-cns.janelia.org/). The current work follows local optic
-column inputs through T4 motion neurons and selected downstream pathways. It is
-not a whole-brain model and does not yet establish biologically calibrated
-direction labels, DNp15 optic-flow selectivity, or steering behavior.
+CNS is an effort toward an executable digital fruit fly built from the
+[MaleCNS v1.0 connectome](https://male-cns.janelia.org/): anatomical circuits,
+physiologically constrained neural dynamics, and eventually an embodied animal.
+That is the long-term research goal, not a result already achieved.
+
+The present implementation consists of small, reproducible visual-motion
+experiments following local optic-column inputs through
+[T4 motion neurons](https://elifesciences.org/articles/24394) and selected
+downstream pathways. It is not a whole-CNS simulation and does not yet establish
+biologically calibrated direction labels,
+[DNp15 optic-flow selectivity](https://doi.org/10.1038/s41593-025-01948-9), or
+biologically interpretable steering behavior.
 
 The organizing scientific question is:
 
@@ -147,7 +153,8 @@ checksum-verified Gitleaks binary.
 ## Next scientific gate
 
 EXP-004 restarts as a neural physiology experiment, without FlyGym. Controlled
-HS/H2 inputs representing published optic-flow stimulus classes must first be
+HS/H2 inputs representing [published optic-flow stimulus
+classes](https://doi.org/10.1038/s41593-025-01948-9) must first be
 mapped onto identified cells. Any literature-added electrical coupling must use
 specific supported pairs and a diffusive `other_state - self_state` current.
 Interpretation is gated on effective-transition stability, zero-input decay,
@@ -163,8 +170,10 @@ physiology target fixed before evaluation.
 
 ## Release status
 
-The canonical GitHub repository is private. It must remain private until the
-owner selects an explicit license for this project's code. Upstream MaleCNS
-data remains governed by its own license and is never copied into the tracked
-tree. Git identity normalization is documented in the secondary
-[history-normalization note](docs/history-normalization.md).
+Project code and original documentation are licensed under
+[Apache-2.0](LICENSE). Upstream MaleCNS data retains its
+[separate data license](https://male-cns.janelia.org/download/) and is not copied
+into the tracked tree; third-party works retain their original terms.
+The canonical GitHub repository remains private. The code license enables
+future publication; it does not change the scientific limitations above or
+authorize making the repository public.

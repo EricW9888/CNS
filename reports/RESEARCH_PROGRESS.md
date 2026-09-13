@@ -81,7 +81,9 @@ downloaded MaleCNS data, generated bulk results, environments, caches, or
 credentials. CI runs tests, compilation, dependency checks, data-manifest
 validation, repository policy, and a full-history secret scan.
 
-Public release additionally requires an explicit owner-selected code license.
+Project code and original documentation now have an explicit
+[Apache-2.0 license](../LICENSE); upstream data retains its separate terms.
+The repository remains private pending an explicit publication decision.
 Scientific uncertainty is documented in the experiment reports rather than
 treated as a reason to hide negative results.
 

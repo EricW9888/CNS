@@ -41,7 +41,10 @@ current at equal states and currents that reduce unequal states.
 
 The provisional gap matrix also connects contralateral H2 generically to HSE,
 HSN, and HSS. The cited literature supports specific pairings and does not
-justify this all-HS construction.
+justify this all-HS construction: the specific contralateral
+[H2–HSE interaction](https://pubmed.ncbi.nlm.nih.gov/16964250/) was described in
+blowflies, with [Drosophila coupling evidence](https://doi.org/10.1038/s41467-024-53173-w)
+requiring its own cell-pair justification.
 
 ## Uninterpretable output
 
