@@ -27,6 +27,69 @@
       "bytes": 111565,
       "sha256": "d4af1cacb751036f7e84bfecc9bec79ca010066ac066559c29b566003ec080d3",
       "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/source_fig1.xlsx",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41593-025-01948-9/MediaObjects/41593_2025_1948_MOESM6_ESM.xlsx",
+      "bytes": 9402,
+      "sha256": "b5a36e2363279a1bf908bcdcc9da7dda93ce6710487ceb31add0a284d9db9488",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/source_fig3.xlsx",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41593-025-01948-9/MediaObjects/41593_2025_1948_MOESM8_ESM.xlsx",
+      "bytes": 17228,
+      "sha256": "7a75f3270fc515c8bed83462fdd24005505c7c673d98a9a656010af946e7c705",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/source_fig4.xlsx",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41593-025-01948-9/MediaObjects/41593_2025_1948_MOESM9_ESM.xlsx",
+      "bytes": 14903,
+      "sha256": "9283b28e43a8e0e1386bd03dd81f9fb6ed8ace6556f05236eaac6867bb830bea",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/supplement.pdf",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41593-025-01948-9/MediaObjects/41593_2025_1948_MOESM1_ESM.pdf",
+      "bytes": 4746009,
+      "sha256": "51b5774aa7cf6a7bae21107fc084288bd12637e9abd22b2b229803897d428fa1",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/flywire_annotations.tsv",
+      "url": "https://raw.githubusercontent.com/flyconnectome/flywire_annotations/8587524c1748ce5ef2080822a2fc890fc03bf597/supplemental_files/Supplemental_file1_neuron_annotations.tsv",
+      "bytes": 31718505,
+      "sha256": "9a4f8b2f843196074431ebd7cd883536afa1be86c8a4ce90970441e8be81d1be",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/flywire_annotations_v630.tsv",
+      "url": "https://raw.githubusercontent.com/flyconnectome/flywire_annotations/df6bb136f5b3d91c3992df4e8de2642329e2a384/supplemental_files/Supplemental_file1_annotations.tsv",
+      "bytes": 21714061,
+      "sha256": "55c99c61eecf8db6cc36f1a684b35e4c4208afbab02197d753ccc8dc2a6e2e76",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/flywire_columns_v630.md",
+      "url": "https://raw.githubusercontent.com/flyconnectome/flywire_annotations/df6bb136f5b3d91c3992df4e8de2642329e2a384/supplemental_files/Supplemental_files_columns.md",
+      "bytes": 6337,
+      "sha256": "ffc633fa1e5910fad032ade31992645ad4d87737e2a32d530fcefe8cf68a404b",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/flywire_columns_v783.md",
+      "url": "https://raw.githubusercontent.com/flyconnectome/flywire_annotations/8587524c1748ce5ef2080822a2fc890fc03bf597/supplemental_files/README.md",
+      "bytes": 7525,
+      "sha256": "49e884a1273105427ded3c110d48266702a3f90148006cf02c1a0fa50919eb71",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/PaperFiguresImaging.m",
+      "url": "https://raw.githubusercontent.com/ChiappeLab/Erginkaya_et_al_2025/b1b59653a9758335cfff28a81d42010ea6ff082a/scripts/matlab/PaperFiguresImaging.m",
+      "bytes": 375695,
+      "sha256": "19983ab9378bce5ec975be07fe11dfd08ae246c52dd4213338b5e6817b9f7d17",
+      "redistributed": false
     }
   ],
   "materializations": [
@@ -104,6 +167,32 @@
         {"path": "data/malecns_exp003_bilateral/right_downstream/manifest.json", "bytes": 1568, "sha256": "663b247214a1df0869b0f96727e1e5fc0310402e91c5dfdec4a96b6e2ddeef59"},
         {"path": "data/malecns_exp003_bilateral/right_downstream/nodes.parquet", "bytes": 16365, "sha256": "72eedef9ac875265e1ebdfcb50ef0264e3cb44d4012bc96467ddbdd40d7a6657"},
         {"path": "data/malecns_exp003_bilateral/right_downstream/edges.parquet", "bytes": 8419, "sha256": "8035f85ab41155407e587c9100d9a4c05287a27c11c3b8cb8005cb2aca822f77"}
+      ]
+    },
+    {
+      "name": "EXP-004 controlled binocular physiology circuit",
+      "command": "python scripts/prepare_exp004_physiology.py --download-sources --check-specification",
+      "files": [
+        {
+          "path": "data/malecns_exp004_physiology/manifest.json",
+          "bytes": 1238,
+          "sha256": "afedef251f9b458d7b78f400f86989f80a0fefe65fc0cb858eaba2e59859d1ea"
+        },
+        {
+          "path": "data/malecns_exp004_physiology/nodes.parquet",
+          "bytes": 8330,
+          "sha256": "df0d78644fee1f76185e61fc14c83dd959328495a9c91b0df4b5dea6830e21aa"
+        },
+        {
+          "path": "data/malecns_exp004_physiology/edges.parquet",
+          "bytes": 3747,
+          "sha256": "df0be04bdca2d50b057c9f5ba1f87e72f06e7d590a2c582579af7d58189cecc8"
+        },
+        {
+          "path": "data/malecns_exp004_physiology/bips_neighborhood.json",
+          "bytes": 119824,
+          "sha256": "c80acb7b454fce44bb4fe7b87ecdfb51ca1c75ffcdf919e663aa0ebc5d77534a"
+        }
       ]
     }
   ]

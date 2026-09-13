@@ -1,0 +1,967 @@
+{
+  "experiment_id": "EXP-004-binocular-physiology",
+  "stage": "controlled HS/H2 input; neural only",
+  "external_target": {
+    "paper": "https://doi.org/10.1038/s41593-025-01948-9",
+    "source_fig1": "1h",
+    "source_fig3": "3e",
+    "di_formula": "(OF_translation - OF_yaw) / (abs(OF_translation) + abs(OF_yaw))",
+    "response_window_ms": [
+      3500,
+      4000
+    ],
+    "zero_denominator": "undefined (JSON null), not zero selectivity",
+    "observed": {
+      "bIPS": {
+        "n_rois": 11,
+        "mean_di": 0.12644218810612343,
+        "descriptive_roi_t95_interval": [
+          -0.00022442171870490357,
+          0.25310879793095176
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 2
+      },
+      "HS": {
+        "n_rois": 17,
+        "mean_di": -0.1043038661807931,
+        "descriptive_roi_t95_interval": [
+          -0.2545542861950705,
+          0.04594655383348431
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 3
+      },
+      "H2": {
+        "n_rois": 11,
+        "mean_di": -0.41858665338279377,
+        "descriptive_roi_t95_interval": [
+          -0.5923053878119213,
+          -0.24486791895366627
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 4
+      },
+      "H2rn": {
+        "n_rois": 9,
+        "mean_di": -0.8946671486892463,
+        "descriptive_roi_t95_interval": [
+          -1.0011460900759004,
+          -0.7881882073025922
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 5
+      },
+      "uLPTCrn": {
+        "n_rois": 8,
+        "mean_di": -0.5006791714204679,
+        "descriptive_roi_t95_interval": [
+          -0.6557598206049017,
+          -0.34559852223603416
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 6
+      },
+      "DNp15": {
+        "n_rois": 7,
+        "mean_di": -0.6409234916912422,
+        "descriptive_roi_t95_interval": [
+          -0.8730863581843051,
+          -0.40876062519817924
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 7
+      }
+    },
+    "published_hs_dnp15_rank_sum_p": 0.00076248,
+    "bIPS_GABA_receptor_control": {
+      "bIPS control": {
+        "n_rois": 22,
+        "mean_di": 0.24451347417619795,
+        "descriptive_roi_t95_interval": [
+          0.0788920141176381,
+          0.4101349342347578
+        ],
+        "source_sheet": "4f",
+        "source_excel_row": 2
+      },
+      "bIPS RdlFLPStop": {
+        "n_rois": 16,
+        "mean_di": -0.05387282059127245,
+        "descriptive_roi_t95_interval": [
+          -0.16246588244508364,
+          0.054720241262538744
+        ],
+        "source_sheet": "4f",
+        "source_excel_row": 3
+      }
+    },
+    "published_bips_rdl_rank_sum_p": 0.00051284,
+    "comparison": "report per-body signed DI then population mean against the published ROI means. The primary acceptance uses the separate observation_contract magnitude, polarity, matched-upstream and recurrent-mechanism requirements; signed DI alone cannot pass.",
+    "quantitative_check": "report error relative to source ROI means and descriptive ROI t95 intervals; these are not independent-fly confidence intervals or calibrated model acceptance thresholds",
+    "measurement_limit": "female-fly z-scored calcium versus male anatomy/dimensionless state proxy; no voltage/calcium scale or noise model fit"
+  },
+  "observation_contract": {
+    "primary_transform": "C_proxy(t) = x(t) - mean_pre_stimulus(x); baseline is exactly zero here. A shared unit positive linear gain, no fitted class gains, convolution, clipping, z-scoring or condition normalization. This is an explicit uncalibrated late-response calcium proxy, not a prediction of fluorescence or membrane voltage.",
+    "justification_and_limit": "Published OF/DI use baseline-referenced calcium late in a 2-s motion epoch. A common positive gain cancels in DI and translation/yaw ratios. The identity transform is a modeling assumption: no measured GCaMP transfer function is available for these modeled states. Quantitative absolute amplitudes, onset kinetics and noise are therefore not validated.",
+    "primary_window_ms": [
+      3500,
+      4000
+    ],
+    "sample_convention": "pre-update samples; [3500,4000) ms, analogue of author code strict 3.5<t<4 s on 12.2-Hz calcium frames",
+    "signed_DI": "preserve published signed OF and DI conventions, including negative responses; never select a modeled neuron's preferred direction post hoc",
+    "magnitude_check": "also report (abs(OF_translation)-abs(OF_yaw))/(abs(OF_translation)+abs(OF_yaw)); signed DI alone cannot pass",
+    "matched_upstream": "for each DNp15 side, use its ipsilateral three HS cells plus contralateral-dendritic-eye H2. RMS each unit's late OF contrasts before pooling, so opposing translation signs cannot cancel. Use the same observation transform and window for input, intermediate and DN nodes.",
+    "common_mode": "max(abs(C_FF),abs(C_BB))/max(abs(C_yaw_LF),abs(C_yaw_RF)); upstream numerator/denominator use RMS over matched units before maxima, not signed population averages",
+    "acceptance": "both DNp15 bodies must have positive declared preferred yaw response and OF_yaw; abs(OF_translation)/abs(OF_yaw) AND common-mode/yaw ratio must be strictly below their matched upstream ratios. DN mean magnitude DI must also be more rotational than both HS and H2 population magnitude DI. All differences must exceed numerical epsilon 1e-10. A superposition residual records nonlinearity but does not by itself prove a recurrent mechanism; controls determine necessity. Report yaw retention versus feed-forward control without an uncalibrated absolute biological amplitude cutoff.",
+    "numerical_epsilon": 1e-10,
+    "timestep_convergence": "all conditions and every control: rerun dt=0.25 ms, compare raw states at original sample times (max absolute discrepancy <=0.01 unit drive) and late-response/DI discrepancy <=1e-6; no dynamics/parameter fitting",
+    "result_scope": "passing these contracts establishes only a qualitative surrogate neural transformation; descriptive ROI interval agreement is reported, never used as a fitted threshold or proof of calibrated physiology",
+    "recurrent_mechanism_contract": "in addition to the limited magnitude/polarity gate, DNp15 must show a nonzero bilateral-superposition residual above 1e-10 and lower translation/yaw and common-mode/yaw ratios in the full model than in the fixed-weight feedforward_chemical_only control on both sides. Otherwise a feed-forward structure can account for the selectivity and recurrent enhancement is not reproduced."
+  },
+  "parameters": {
+    "dt_ms": 0.5,
+    "tau_ms": 20.0,
+    "chemical_gain": 0.5,
+    "gap_conductance": 0.1,
+    "input_amplitude": 1.0,
+    "onset_ms": 2000.0,
+    "offset_ms": 4000.0,
+    "duration_ms": 6000.0
+  },
+  "parameter_basis": "one declared default set, not measured or fitted: 20-ms low-pass, 0.5 chemical gain bounds normalized absolute recurrent mass below leak; 0.1 conductance relative to leak; unit signed controlled upstream drive",
+  "dynamics_contract": "tau dx/dt=-x+Wchem max(x,0)+Gdiff x+u(t); Wchem post-by-pre: chemical_gain*presynaptic_sign*MaleCNS_count/full_retained_incoming_count; normalize full graph once before ablations. Gap pairs each contribute g*(other_state-self_state) in both directions. Signed dimensionless point-neuron states, zero baseline, no tonic drive/no compartmental or presynaptic gating; explicit Euler dt=0.5 ms and independent dt-halving verification.",
+  "stimuli": {
+    "yaw_L_F": [
+      1,
+      -1
+    ],
+    "yaw_R_F": [
+      -1,
+      1
+    ],
+    "translation_F": [
+      1,
+      1
+    ],
+    "translation_B": [
+      -1,
+      -1
+    ],
+    "left_F": [
+      1,
+      0
+    ],
+    "left_B": [
+      -1,
+      0
+    ],
+    "right_F": [
+      0,
+      1
+    ],
+    "right_B": [
+      0,
+      -1
+    ],
+    "zero": [
+      0,
+      0
+    ]
+  },
+  "stimulus_encoding": "vector is [left-eye, right-eye] horizontal motion: F=published front-to-back, B=back-to-front; controlled HS drive = ipsilateral vector value; H2 drive = its negative, using MaleCNS LOP postsynaptic side. No workbook indices. Independent 2-s baseline/2-s motion/2-s washout, rather than the paper's paired 13-s trial. Negative input preserves nonpreferred subthreshold inhibition; no fitted binocular input term.",
+  "anatomy": {
+    "dataset": "male-cns:v1.0",
+    "release": "MaleCNS v1.0",
+    "neuprint_endpoint": "https://neuprint.janelia.org/api/custom/custom",
+    "node_count": 37,
+    "edge_count": 360,
+    "stage_counts": {
+      "DNp15": 2,
+      "H2": 2,
+      "H2rn": 8,
+      "HS": 6,
+      "bIPS": 2,
+      "uLPTCrn": 17
+    },
+    "query": "MATCH (a:Neuron)-[c:ConnectsTo]->(b:Neuron) WHERE a.bodyId IN [10015, 10016, 10019, 10023, 10025, 10034, 10181, 10419, 11215, 11919, 12069, 12072, 32628, 34260, 34506, 35103, 35185, 39213, 39912, 41916, 44944, 54118, 65132, 68944, 73647, 76787, 78362, 93253, 94797, 110619, 136904, 511817, 512038, 513339, 513340, 533741, 534559] AND b.bodyId IN [10015, 10016, 10019, 10023, 10025, 10034, 10181, 10419, 11215, 11919, 12069, 12072, 32628, 34260, 34506, 35103, 35185, 39213, 39912, 41916, 44944, 54118, 65132, 68944, 73647, 76787, 78362, 93253, 94797, 110619, 136904, 511817, 512038, 513339, 513340, 533741, 534559] RETURN a.bodyId AS pre_body,b.bodyId AS post_body,c.weight AS synapse_count ORDER BY pre_body,post_body",
+    "chemical_graph_only": true,
+    "selection": "induced graph of explicitly crosswalked populations; all positive chemical counts; no synapse threshold, extra hop, electrical edge, T4/T5 or DNa02"
+  },
+  "anatomy_files": [
+    {
+      "path": "data/malecns_exp004_physiology/manifest.json",
+      "bytes": 1238,
+      "sha256": "afedef251f9b458d7b78f400f86989f80a0fefe65fc0cb858eaba2e59859d1ea"
+    },
+    {
+      "path": "data/malecns_exp004_physiology/nodes.parquet",
+      "bytes": 8330,
+      "sha256": "df0d78644fee1f76185e61fc14c83dd959328495a9c91b0df4b5dea6830e21aa"
+    },
+    {
+      "path": "data/malecns_exp004_physiology/edges.parquet",
+      "bytes": 3747,
+      "sha256": "df0be04bdca2d50b057c9f5ba1f87e72f06e7d590a2c582579af7d58189cecc8"
+    },
+    {
+      "path": "data/malecns_exp004_physiology/bips_neighborhood.json",
+      "bytes": 119824,
+      "sha256": "c80acb7b454fce44bb4fe7b87ecdfb51ca1c75ffcdf919e663aa0ebc5d77534a"
+    }
+  ],
+  "upstream_input_eye_verification": [
+    {
+      "bodyId": 10015,
+      "controlled_input_eye": "R",
+      "LOP_post": {
+        "L": 0,
+        "R": 16873
+      }
+    },
+    {
+      "bodyId": 10016,
+      "controlled_input_eye": "R",
+      "LOP_post": {
+        "L": 0,
+        "R": 18436
+      }
+    },
+    {
+      "bodyId": 10019,
+      "controlled_input_eye": "L",
+      "LOP_post": {
+        "L": 30814,
+        "R": 0
+      }
+    },
+    {
+      "bodyId": 10023,
+      "controlled_input_eye": "R",
+      "LOP_post": {
+        "L": 0,
+        "R": 17773
+      }
+    },
+    {
+      "bodyId": 10025,
+      "controlled_input_eye": "R",
+      "LOP_post": {
+        "L": 0,
+        "R": 32851
+      }
+    },
+    {
+      "bodyId": 10034,
+      "controlled_input_eye": "L",
+      "LOP_post": {
+        "L": 17939,
+        "R": 0
+      }
+    },
+    {
+      "bodyId": 10181,
+      "controlled_input_eye": "L",
+      "LOP_post": {
+        "L": 15881,
+        "R": 0
+      }
+    },
+    {
+      "bodyId": 10419,
+      "controlled_input_eye": "L",
+      "LOP_post": {
+        "L": 16834,
+        "R": 0
+      }
+    }
+  ],
+  "bips_connectivity_verification": {
+    "unrestricted_neighborhood_edges": 898,
+    "retained_induced_edges_checked": 80,
+    "target_type_filter": null,
+    "synapse_threshold": null,
+    "selection_consistency_passed": true
+  },
+  "nodes": [
+    {
+      "bodyId": 10015,
+      "type": "HSN",
+      "instance": "HSN_R",
+      "somaSide": "R",
+      "superclass": "visual_projection",
+      "stage": "HS",
+      "status": "Traced",
+      "consensus_nt": "acetylcholine",
+      "predicted_nt": "acetylcholine",
+      "predicted_nt_confidence": 0.7686471990567109,
+      "hemibrainType": "HSN",
+      "flywireType": "HSN"
+    },
+    {
+      "bodyId": 10016,
+      "type": "HSE",
+      "instance": "HSE_R",
+      "somaSide": "R",
+      "superclass": "visual_projection",
+      "stage": "HS",
+      "status": "Traced",
+      "consensus_nt": "acetylcholine",
+      "predicted_nt": "acetylcholine",
+      "predicted_nt_confidence": 0.9067309742528643,
+      "hemibrainType": "HSE",
+      "flywireType": "HSE"
+    },
+    {
+      "bodyId": 10019,
+      "type": "H2",
+      "instance": "H2_L",
+      "somaSide": "L",
+      "superclass": "visual_projection",
+      "stage": "H2",
+      "status": "Traced",
+      "consensus_nt": "acetylcholine",
+      "predicted_nt": "acetylcholine",
+      "predicted_nt_confidence": 0.9420438516233015,
+      "hemibrainType": "H2",
+      "flywireType": "H2"
+    },
+    {
+      "bodyId": 10023,
+      "type": "HSS",
+      "instance": "HSS_R",
+      "somaSide": "R",
+      "superclass": "visual_projection",
+      "stage": "HS",
+      "status": "Traced",
+      "consensus_nt": "acetylcholine",
+      "predicted_nt": "acetylcholine",
+      "predicted_nt_confidence": 0.878377274430018,
+      "hemibrainType": "HSS",
+      "flywireType": "HSS"
+    },
+    {
+      "bodyId": 10025,
+      "type": "H2",
+      "instance": "H2_R",
+      "somaSide": "R",
+      "superclass": "visual_projection",
+      "stage": "H2",
+      "status": "Traced",
+      "consensus_nt": "acetylcholine",
+      "predicted_nt": "acetylcholine",
+      "predicted_nt_confidence": 0.892786576194037,
+      "hemibrainType": "H2",
+      "flywireType": "H2"
+    },
+    {
+      "bodyId": 10034,
+      "type": "HSE",
+      "instance": "HSE_L",
+      "somaSide": "L",
+      "superclass": "visual_projection",
+      "stage": "HS",
+      "status": "Traced",
+      "consensus_nt": "acetylcholine",
+      "predicted_nt": "acetylcholine",
+      "predicted_nt_confidence": 0.907382053894564,
+      "hemibrainType": "HSE",
+      "flywireType": "HSE"
+    },
+    {
+      "bodyId": 10181,
+      "type": "HSN",
+      "instance": "HSN_L",
+      "somaSide": "L",
+      "superclass": "visual_projection",
+      "stage": "HS",
+      "status": "Traced",
+      "consensus_nt": "acetylcholine",
+      "predicted_nt": "acetylcholine",
+      "predicted_nt_confidence": 0.8319657489364902,
+      "hemibrainType": "HSN",
+      "flywireType": "HSN"
+    },
+    {
+      "bodyId": 10419,
+      "type": "HSS",
+      "instance": "HSS_L",
+      "somaSide": "L",
+      "superclass": "visual_projection",
+      "stage": "HS",
+      "status": "Traced",
+      "consensus_nt": "acetylcholine",
+      "predicted_nt": "acetylcholine",
+      "predicted_nt_confidence": 0.8725563284196668,
+      "hemibrainType": "HSS",
+      "flywireType": "HSS"
+    },
+    {
+      "bodyId": 11215,
+      "type": "DNp15",
+      "instance": "DNp15_R",
+      "somaSide": "R",
+      "superclass": "descending_neuron",
+      "stage": "DNp15",
+      "status": "Traced",
+      "consensus_nt": "acetylcholine",
+      "predicted_nt": "acetylcholine",
+      "predicted_nt_confidence": 0.9560438230696373,
+      "hemibrainType": "DNp15",
+      "flywireType": "DNp15"
+    },
+    {
+      "bodyId": 11919,
+      "type": "PS321",
+      "instance": "PS321(hb1963869636)_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "bIPS",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8385622426891773,
+      "hemibrainType": "(hb1963869636)",
+      "flywireType": "CB0268"
+    },
+    {
+      "bodyId": 12069,
+      "type": "DNp15",
+      "instance": "DNp15_L",
+      "somaSide": "L",
+      "superclass": "descending_neuron",
+      "stage": "DNp15",
+      "status": "Traced",
+      "consensus_nt": "acetylcholine",
+      "predicted_nt": "acetylcholine",
+      "predicted_nt_confidence": 0.9535348238397681,
+      "hemibrainType": "DNp15",
+      "flywireType": "DNp15"
+    },
+    {
+      "bodyId": 12072,
+      "type": "PS321",
+      "instance": "PS321(hb1932497911)_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "bIPS",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8467761664399296,
+      "hemibrainType": "(hb1932497911)",
+      "flywireType": "CB0268"
+    },
+    {
+      "bodyId": 32628,
+      "type": "PS072",
+      "instance": "PS072_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8296929126625003,
+      "hemibrainType": "PS072",
+      "flywireType": "CB3177,CB3560"
+    },
+    {
+      "bodyId": 34260,
+      "type": "PS072",
+      "instance": "PS072_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.845539351213918,
+      "hemibrainType": "PS072",
+      "flywireType": "CB1693"
+    },
+    {
+      "bodyId": 34506,
+      "type": "CB3740",
+      "instance": "CB3740_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "H2rn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.7148866302857431,
+      "hemibrainType": null,
+      "flywireType": "CB3740"
+    },
+    {
+      "bodyId": 35103,
+      "type": "CB3748",
+      "instance": "CB3748_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "H2rn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.734691363773797,
+      "hemibrainType": null,
+      "flywireType": "CB3748"
+    },
+    {
+      "bodyId": 35185,
+      "type": "PS074",
+      "instance": "PS074_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.7362251225902271,
+      "hemibrainType": "PS074",
+      "flywireType": "CB2697"
+    },
+    {
+      "bodyId": 39213,
+      "type": "CB3748",
+      "instance": "CB3748_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "H2rn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.7669341835596369,
+      "hemibrainType": null,
+      "flywireType": "CB3748"
+    },
+    {
+      "bodyId": 39912,
+      "type": "PS072",
+      "instance": "PS072_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8137143677000027,
+      "hemibrainType": "PS072",
+      "flywireType": "CB1693"
+    },
+    {
+      "bodyId": 41916,
+      "type": "CB3748",
+      "instance": "CB3748_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "H2rn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.693973157123451,
+      "hemibrainType": null,
+      "flywireType": "CB3748"
+    },
+    {
+      "bodyId": 44944,
+      "type": "PS072",
+      "instance": "PS072_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8486106013520293,
+      "hemibrainType": "PS072",
+      "flywireType": "CB1693"
+    },
+    {
+      "bodyId": 54118,
+      "type": "PS072",
+      "instance": "PS072_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.7881661149027734,
+      "hemibrainType": "PS072",
+      "flywireType": "CB3560,CB3177"
+    },
+    {
+      "bodyId": 65132,
+      "type": "PS072",
+      "instance": "PS072_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8588222639060514,
+      "hemibrainType": "PS072",
+      "flywireType": "CB3560,CB3177"
+    },
+    {
+      "bodyId": 68944,
+      "type": "PS074",
+      "instance": "PS074_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.7815419002935252,
+      "hemibrainType": "PS074",
+      "flywireType": "CB2697"
+    },
+    {
+      "bodyId": 73647,
+      "type": "PS072",
+      "instance": "PS072_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8513257618361226,
+      "hemibrainType": "PS072",
+      "flywireType": "CB2473"
+    },
+    {
+      "bodyId": 76787,
+      "type": "CB3740",
+      "instance": "CB3740_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "H2rn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.7599453768858276,
+      "hemibrainType": null,
+      "flywireType": "CB3740"
+    },
+    {
+      "bodyId": 78362,
+      "type": "PS070",
+      "instance": "PS070_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8199506578997788,
+      "hemibrainType": "PS070",
+      "flywireType": "CB2473"
+    },
+    {
+      "bodyId": 93253,
+      "type": "PS072",
+      "instance": "PS072_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8253037175074014,
+      "hemibrainType": "PS072",
+      "flywireType": "CB1693"
+    },
+    {
+      "bodyId": 94797,
+      "type": "CB3740",
+      "instance": "CB3740_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "H2rn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.7838316578636928,
+      "hemibrainType": null,
+      "flywireType": "CB3740"
+    },
+    {
+      "bodyId": 110619,
+      "type": "CB3748",
+      "instance": "CB3748_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "H2rn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8225574149568837,
+      "hemibrainType": null,
+      "flywireType": "CB3748"
+    },
+    {
+      "bodyId": 136904,
+      "type": "CB3740",
+      "instance": "CB3740_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "H2rn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.7215110059574155,
+      "hemibrainType": null,
+      "flywireType": "CB3740"
+    },
+    {
+      "bodyId": 511817,
+      "type": "PS072",
+      "instance": "PS072_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8087795564368531,
+      "hemibrainType": "PS072",
+      "flywireType": "CB2473"
+    },
+    {
+      "bodyId": 512038,
+      "type": "PS072",
+      "instance": "PS072_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8088614313950353,
+      "hemibrainType": "PS072",
+      "flywireType": "CB3177,CB3560"
+    },
+    {
+      "bodyId": 513339,
+      "type": "PS072",
+      "instance": "PS072_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.801338927890039,
+      "hemibrainType": "PS072",
+      "flywireType": "CB1792"
+    },
+    {
+      "bodyId": 513340,
+      "type": "PS070",
+      "instance": "PS070_R",
+      "somaSide": "R",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8086031983515692,
+      "hemibrainType": "PS070",
+      "flywireType": "CB2473"
+    },
+    {
+      "bodyId": 533741,
+      "type": "PS074",
+      "instance": "PS074_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8437299096025622,
+      "hemibrainType": "PS074",
+      "flywireType": "PS074"
+    },
+    {
+      "bodyId": 534559,
+      "type": "PS074",
+      "instance": "PS074_L",
+      "somaSide": "L",
+      "superclass": "cb_intrinsic",
+      "stage": "uLPTCrn",
+      "status": "Traced",
+      "consensus_nt": "gaba",
+      "predicted_nt": "gaba",
+      "predicted_nt_confidence": 0.8051498619695119,
+      "hemibrainType": "PS074",
+      "flywireType": "CB2697"
+    }
+  ],
+  "identity_provenance": {
+    "HS_H2_DNp15": "exact MaleCNS types and instances",
+    "bIPS": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41593-025-01948-9/MediaObjects/41593_2025_1948_MOESM1_ESM.pdf Table 2 entries 21/23: hemibrain 1932497911/1963869636 + exact MaleCNS PS321 hemibrain-linked instances",
+    "uLPTCrn": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41593-025-01948-9/MediaObjects/41593_2025_1948_MOESM1_ESM.pdf Table 2 PS070-PS074 + MaleCNS hemibrainType; class-level correspondence only; no individual ROI/body matching",
+    "H2rn": {
+      "paper_roots": [
+        "720575940621865991",
+        "720575940622082451",
+        "720575940624756836",
+        "720575940617566769",
+        "720575940642076576"
+      ],
+      "source": "published Table 2 root630 -> v1.1.0 release630 exact root -> identical documented anchor supervoxel in pinned release783 annotation table -> current cell_type -> exact MaleCNS flywireType",
+      "released_crosswalk": [
+        {
+          "root_id_630": "720575940617566769",
+          "supervoxel_id": "78254716920480667",
+          "root_id_783": "720575940617566769",
+          "cell_type": "CB3740"
+        },
+        {
+          "root_id_630": "720575940621865991",
+          "supervoxel_id": "78183935993544196",
+          "root_id_783": "720575940620118430",
+          "cell_type": "CB3740"
+        },
+        {
+          "root_id_630": "720575940622082451",
+          "supervoxel_id": "78254098645935549",
+          "root_id_783": "720575940622812287",
+          "cell_type": "CB3740"
+        },
+        {
+          "root_id_630": "720575940624756836",
+          "supervoxel_id": "78254510896007186",
+          "root_id_783": "720575940624756836",
+          "cell_type": "CB3740"
+        },
+        {
+          "root_id_630": "720575940642076576",
+          "supervoxel_id": "78254716986961377",
+          "root_id_783": "720575940642076576",
+          "cell_type": "CB3748"
+        }
+      ],
+      "resolved_types": [
+        "CB3740",
+        "CB3748"
+      ],
+      "level": "identified source neurons establish the class crosswalk; MaleCNS homologues are not individual female-fly ROIs"
+    }
+  },
+  "electrical_pairs": [
+    {
+      "first": 10034,
+      "second": 10025,
+      "provenance": "https://doi.org/10.1038/s41467-024-53173-w",
+      "evidence": "Drosophila Fig. 7/dye-coupling text: HSE with contralateral H2; classic direct physiology in blowfly DOI 10.1038/nn1769"
+    },
+    {
+      "first": 10181,
+      "second": 12069,
+      "provenance": "https://doi.org/10.1038/s41467-024-53173-w",
+      "evidence": "Drosophila Fig. 7/dye-coupling text: HSN with DNp15; direct two-node conductance is a modeling approximation, not measured conductance"
+    },
+    {
+      "first": 10016,
+      "second": 10019,
+      "provenance": "https://doi.org/10.1038/s41467-024-53173-w",
+      "evidence": "Drosophila Fig. 7/dye-coupling text: HSE with contralateral H2; classic direct physiology in blowfly DOI 10.1038/nn1769"
+    },
+    {
+      "first": 10015,
+      "second": 11215,
+      "provenance": "https://doi.org/10.1038/s41467-024-53173-w",
+      "evidence": "Drosophila Fig. 7/dye-coupling text: HSN with DNp15; direct two-node conductance is a modeling approximation, not measured conductance"
+    }
+  ],
+  "electrical_omissions": "HS/bIPS dye coupling and within-HS coupling omitted because the cited material does not establish all direct pair/side combinations. No generic class-wide gaps. Homologous L/R physiology transfer and equal state scales are explicit assumptions.",
+  "chemical_signs": {
+    "acetylcholine": 1,
+    "gaba": -1,
+    "basis": "MaleCNS consensus transmitter predictions; excitatory cholinergic and inhibitory GABA-A functional interpretation from https://doi.org/10.1038/s41593-025-01948-9; not measured edge-specific receptor conductance"
+  },
+  "analysis_orientation": "fixed before evaluation: per soma/dendritic side HS, bIPS, uLPTCrn and DNp15 yaw uses ipsilateral F/contralateral B; H2 yaw uses opposite order. Translation is F-minus-B except H2 and H2rn use B-minus-F, following authors' Figure 3e code. Source-table side labels are not treated as MaleCNS body correspondences. Preserve both raw signed OF and magnitude-only DI; H2rn/pooled intermediate ROI correspondence remains class-level.",
+  "controls": {
+    "full": "all retained chemical edges plus four separately specified electrical pairs",
+    "no_electrical": "disable only literature-added electrical operator; chemical graph unchanged. Model intervention, not ShakB: the published Flp-shakB intervention largely preserves HS-to-descending coupling, whereas this control removes HSN-to-DNp15 too.",
+    "no_bIPS_chemical_output": "disable all bIPS chemical output, analogous to TNT; electrical pairings unchanged",
+    "no_bIPS_GABA_input": "disable all retained GABAergic chemical input to bIPS, idealized Rdl/fast-GABA-receptor perturbation",
+    "no_DNp15_GABA_input": "disable all retained GABAergic chemical input to DNp15, idealized Rdl/fast-GABA-receptor perturbation",
+    "no_chemical_feedback": "disable intermediate-to-input and intermediate-to-intermediate chemical recurrence; preserve every chemical DN input and literature-added electrical pair",
+    "feedforward_chemical_only": "retain only HS/H2-to-intermediate, HS/H2-to-DNp15 and intermediate-to-DNp15 edges; remove electrical interactions. Surviving chemical weights/denominators unchanged. Stage-DAG structural control, not a biological manipulation.",
+    "normalization": "normalize full chemical graph once; preserve weights/denominators of surviving edges under ablation"
+  },
+  "sources": [
+    {
+      "path": "data/exp004_physiology/source_fig1.xlsx",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41593-025-01948-9/MediaObjects/41593_2025_1948_MOESM6_ESM.xlsx",
+      "bytes": 9402,
+      "sha256": "b5a36e2363279a1bf908bcdcc9da7dda93ce6710487ceb31add0a284d9db9488",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/source_fig3.xlsx",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41593-025-01948-9/MediaObjects/41593_2025_1948_MOESM8_ESM.xlsx",
+      "bytes": 17228,
+      "sha256": "7a75f3270fc515c8bed83462fdd24005505c7c673d98a9a656010af946e7c705",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/source_fig4.xlsx",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41593-025-01948-9/MediaObjects/41593_2025_1948_MOESM9_ESM.xlsx",
+      "bytes": 14903,
+      "sha256": "9283b28e43a8e0e1386bd03dd81f9fb6ed8ace6556f05236eaac6867bb830bea",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/supplement.pdf",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41593-025-01948-9/MediaObjects/41593_2025_1948_MOESM1_ESM.pdf",
+      "bytes": 4746009,
+      "sha256": "51b5774aa7cf6a7bae21107fc084288bd12637e9abd22b2b229803897d428fa1",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/flywire_annotations.tsv",
+      "url": "https://raw.githubusercontent.com/flyconnectome/flywire_annotations/8587524c1748ce5ef2080822a2fc890fc03bf597/supplemental_files/Supplemental_file1_neuron_annotations.tsv",
+      "bytes": 31718505,
+      "sha256": "9a4f8b2f843196074431ebd7cd883536afa1be86c8a4ce90970441e8be81d1be",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/flywire_annotations_v630.tsv",
+      "url": "https://raw.githubusercontent.com/flyconnectome/flywire_annotations/df6bb136f5b3d91c3992df4e8de2642329e2a384/supplemental_files/Supplemental_file1_annotations.tsv",
+      "bytes": 21714061,
+      "sha256": "55c99c61eecf8db6cc36f1a684b35e4c4208afbab02197d753ccc8dc2a6e2e76",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/flywire_columns_v630.md",
+      "url": "https://raw.githubusercontent.com/flyconnectome/flywire_annotations/df6bb136f5b3d91c3992df4e8de2642329e2a384/supplemental_files/Supplemental_files_columns.md",
+      "bytes": 6337,
+      "sha256": "ffc633fa1e5910fad032ade31992645ad4d87737e2a32d530fcefe8cf68a404b",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/flywire_columns_v783.md",
+      "url": "https://raw.githubusercontent.com/flyconnectome/flywire_annotations/8587524c1748ce5ef2080822a2fc890fc03bf597/supplemental_files/README.md",
+      "bytes": 7525,
+      "sha256": "49e884a1273105427ded3c110d48266702a3f90148006cf02c1a0fa50919eb71",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp004_physiology/PaperFiguresImaging.m",
+      "url": "https://raw.githubusercontent.com/ChiappeLab/Erginkaya_et_al_2025/b1b59653a9758335cfff28a81d42010ea6ff082a/scripts/matlab/PaperFiguresImaging.m",
+      "bytes": 375695,
+      "sha256": "19983ab9378bce5ec975be07fe11dfd08ae246c52dd4213338b5e6817b9f7d17",
+      "redistributed": false
+    }
+  ],
+  "freeze": "created by anatomy/target-only preparation before first neural evaluation; runner verifies this exact specification, source hashes and anatomy counts"
+}

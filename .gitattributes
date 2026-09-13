@@ -1,0 +1,4 @@
+# Historical record bytes use LF on every platform.
+experiments/**/record.json text eol=lf
+# Preserve the exact specification bytes frozen before neural evaluation.
+experiments/EXP-004-binocular-physiology/specification.json -text whitespace=cr-at-eol

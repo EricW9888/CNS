@@ -1,0 +1,2977 @@
+{
+  "experiment_id": "EXP-004-binocular-physiology",
+  "title": "Controlled binocular HS/H2 recurrent network physiology validation",
+  "status": "completed_stable_negative",
+  "question": "Does the MaleCNS-constrained recurrent network enhance rotational/asymmetric selectivity at DNp15 relative to HS/H2 while suppressing symmetric translation-like responses?",
+  "parent_commit": "705f266",
+  "preserved_baselines": [
+    "EXP-001",
+    "EXP-002",
+    "EXP-003",
+    "EXP-004 provisional preflight failure"
+  ],
+  "model_scope": {
+    "direct_controlled_HS_H2_input": true,
+    "T4_T5_reconnected": false,
+    "body_simulation": false,
+    "parameter_search": false,
+    "DNa02_included": false
+  },
+  "anatomy": {
+    "dataset": "male-cns:v1.0",
+    "release": "MaleCNS v1.0",
+    "neuprint_endpoint": "https://neuprint.janelia.org/api/custom/custom",
+    "node_count": 37,
+    "edge_count": 360,
+    "stage_counts": {
+      "DNp15": 2,
+      "H2": 2,
+      "H2rn": 8,
+      "HS": 6,
+      "bIPS": 2,
+      "uLPTCrn": 17
+    },
+    "query": "MATCH (a:Neuron)-[c:ConnectsTo]->(b:Neuron) WHERE a.bodyId IN [10015, 10016, 10019, 10023, 10025, 10034, 10181, 10419, 11215, 11919, 12069, 12072, 32628, 34260, 34506, 35103, 35185, 39213, 39912, 41916, 44944, 54118, 65132, 68944, 73647, 76787, 78362, 93253, 94797, 110619, 136904, 511817, 512038, 513339, 513340, 533741, 534559] AND b.bodyId IN [10015, 10016, 10019, 10023, 10025, 10034, 10181, 10419, 11215, 11919, 12069, 12072, 32628, 34260, 34506, 35103, 35185, 39213, 39912, 41916, 44944, 54118, 65132, 68944, 73647, 76787, 78362, 93253, 94797, 110619, 136904, 511817, 512038, 513339, 513340, 533741, 534559] RETURN a.bodyId AS pre_body,b.bodyId AS post_body,c.weight AS synapse_count ORDER BY pre_body,post_body",
+    "chemical_graph_only": true,
+    "selection": "induced graph of explicitly crosswalked populations; all positive chemical counts; no synapse threshold, extra hop, electrical edge, T4/T5 or DNa02"
+  },
+  "electrical_pairs": [
+    {
+      "first": 10034,
+      "second": 10025,
+      "provenance": "https://doi.org/10.1038/s41467-024-53173-w",
+      "evidence": "Drosophila Fig. 7/dye-coupling text: HSE with contralateral H2; classic direct physiology in blowfly DOI 10.1038/nn1769"
+    },
+    {
+      "first": 10181,
+      "second": 12069,
+      "provenance": "https://doi.org/10.1038/s41467-024-53173-w",
+      "evidence": "Drosophila Fig. 7/dye-coupling text: HSN with DNp15; direct two-node conductance is a modeling approximation, not measured conductance"
+    },
+    {
+      "first": 10016,
+      "second": 10019,
+      "provenance": "https://doi.org/10.1038/s41467-024-53173-w",
+      "evidence": "Drosophila Fig. 7/dye-coupling text: HSE with contralateral H2; classic direct physiology in blowfly DOI 10.1038/nn1769"
+    },
+    {
+      "first": 10015,
+      "second": 11215,
+      "provenance": "https://doi.org/10.1038/s41467-024-53173-w",
+      "evidence": "Drosophila Fig. 7/dye-coupling text: HSN with DNp15; direct two-node conductance is a modeling approximation, not measured conductance"
+    }
+  ],
+  "equations": "tau dx/dt = -x + Wchem max(x,0) + Gdiff x + u(t); Wchem[i,j]=chemical_gain * sign(j) * synapses(j,i) / sum_k synapses(k,i) in the full retained graph; Gdiff x=sum_pairs g*(other-self); explicit Euler; pre-update samples",
+  "external_target": {
+    "paper": "https://doi.org/10.1038/s41593-025-01948-9",
+    "source_fig1": "1h",
+    "source_fig3": "3e",
+    "di_formula": "(OF_translation - OF_yaw) / (abs(OF_translation) + abs(OF_yaw))",
+    "response_window_ms": [
+      3500,
+      4000
+    ],
+    "zero_denominator": "undefined (JSON null), not zero selectivity",
+    "observed": {
+      "bIPS": {
+        "n_rois": 11,
+        "mean_di": 0.12644218810612343,
+        "descriptive_roi_t95_interval": [
+          -0.00022442171870490357,
+          0.25310879793095176
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 2
+      },
+      "HS": {
+        "n_rois": 17,
+        "mean_di": -0.1043038661807931,
+        "descriptive_roi_t95_interval": [
+          -0.2545542861950705,
+          0.04594655383348431
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 3
+      },
+      "H2": {
+        "n_rois": 11,
+        "mean_di": -0.41858665338279377,
+        "descriptive_roi_t95_interval": [
+          -0.5923053878119213,
+          -0.24486791895366627
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 4
+      },
+      "H2rn": {
+        "n_rois": 9,
+        "mean_di": -0.8946671486892463,
+        "descriptive_roi_t95_interval": [
+          -1.0011460900759004,
+          -0.7881882073025922
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 5
+      },
+      "uLPTCrn": {
+        "n_rois": 8,
+        "mean_di": -0.5006791714204679,
+        "descriptive_roi_t95_interval": [
+          -0.6557598206049017,
+          -0.34559852223603416
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 6
+      },
+      "DNp15": {
+        "n_rois": 7,
+        "mean_di": -0.6409234916912422,
+        "descriptive_roi_t95_interval": [
+          -0.8730863581843051,
+          -0.40876062519817924
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 7
+      }
+    },
+    "published_hs_dnp15_rank_sum_p": 0.00076248,
+    "bIPS_GABA_receptor_control": {
+      "bIPS control": {
+        "n_rois": 22,
+        "mean_di": 0.24451347417619795,
+        "descriptive_roi_t95_interval": [
+          0.0788920141176381,
+          0.4101349342347578
+        ],
+        "source_sheet": "4f",
+        "source_excel_row": 2
+      },
+      "bIPS RdlFLPStop": {
+        "n_rois": 16,
+        "mean_di": -0.05387282059127245,
+        "descriptive_roi_t95_interval": [
+          -0.16246588244508364,
+          0.054720241262538744
+        ],
+        "source_sheet": "4f",
+        "source_excel_row": 3
+      }
+    },
+    "published_bips_rdl_rank_sum_p": 0.00051284,
+    "comparison": "report per-body signed DI then population mean against the published ROI means. The primary acceptance uses the separate observation_contract magnitude, polarity, matched-upstream and recurrent-mechanism requirements; signed DI alone cannot pass.",
+    "quantitative_check": "report error relative to source ROI means and descriptive ROI t95 intervals; these are not independent-fly confidence intervals or calibrated model acceptance thresholds",
+    "measurement_limit": "female-fly z-scored calcium versus male anatomy/dimensionless state proxy; no voltage/calcium scale or noise model fit"
+  },
+  "controls": {
+    "full": "all retained chemical edges plus four separately specified electrical pairs",
+    "no_electrical": "disable only literature-added electrical operator; chemical graph unchanged. Model intervention, not ShakB: the published Flp-shakB intervention largely preserves HS-to-descending coupling, whereas this control removes HSN-to-DNp15 too.",
+    "no_bIPS_chemical_output": "disable all bIPS chemical output, analogous to TNT; electrical pairings unchanged",
+    "no_bIPS_GABA_input": "disable all retained GABAergic chemical input to bIPS, idealized Rdl/fast-GABA-receptor perturbation",
+    "no_DNp15_GABA_input": "disable all retained GABAergic chemical input to DNp15, idealized Rdl/fast-GABA-receptor perturbation",
+    "no_chemical_feedback": "disable intermediate-to-input and intermediate-to-intermediate chemical recurrence; preserve every chemical DN input and literature-added electrical pair",
+    "feedforward_chemical_only": "retain only HS/H2-to-intermediate, HS/H2-to-DNp15 and intermediate-to-DNp15 edges; remove electrical interactions. Surviving chemical weights/denominators unchanged. Stage-DAG structural control, not a biological manipulation.",
+    "normalization": "normalize full chemical graph once; preserve weights/denominators of surviving edges under ablation"
+  },
+  "metrics": {
+    "specification_sha256": "1dc992eb7ed695544365dfe5dcee14de2dbbc34e5b0a2c18bd4e754ac628aafb",
+    "parameters": {
+      "dt_ms": 0.5,
+      "tau_ms": 20.0,
+      "chemical_gain": 0.5,
+      "gap_conductance": 0.1,
+      "input_amplitude": 1.0,
+      "onset_ms": 2000.0,
+      "offset_ms": 4000.0,
+      "duration_ms": 6000.0
+    },
+    "preflight": {
+      "full": {
+        "passed": true,
+        "global_euler_lipschitz_inf_bound": 0.9874999999999999,
+        "baseline_one_sided_effective_transition_rho_max": 0.9830404925485406,
+        "zero_input_2000ms_final_initial_inf_ratios": [
+          2.1599061238061133e-43,
+          1.0434287387331227e-44,
+          2.5372575081547733e-43,
+          8.472111890994013e-44
+        ],
+        "equal_state_gap_current_norm": 0.0,
+        "electrical_min_eigenvalue": -0.2,
+        "electrical_pair_count": 4,
+        "removed_chemical_edges": 0,
+        "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights",
+        "surviving_chemical_weights_identical": true,
+        "half_dt_preflight": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.99375,
+          "baseline_one_sided_effective_transition_rho_max": 0.9915202462742723,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            4.04307446005305e-43,
+            1.9807715427419676e-44,
+            4.768130487424911e-43,
+            1.5886330185978967e-43
+          ],
+          "equal_state_gap_current_norm": 0.0,
+          "electrical_min_eigenvalue": -0.2,
+          "electrical_pair_count": 4,
+          "removed_chemical_edges": 0,
+          "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights"
+        },
+        "encountered_effective_transition_rho_max": 0.9773991923014034,
+        "encountered_rectifier_masks": 148,
+        "timestep_convergence": {
+          "passed": true,
+          "dt_ms": 0.5,
+          "half_dt_ms": 0.25,
+          "max_abs_trace_difference_by_condition": {
+            "yaw_L_F": 0.002491093050207227,
+            "yaw_R_F": 0.0024691366823500482,
+            "translation_F": 0.0024106929926199783,
+            "translation_B": 0.002453497136889249,
+            "left_F": 0.0023930718502368498,
+            "left_B": 0.0024319562217995916,
+            "right_F": 0.0023960207961668534,
+            "right_B": 0.0024460713532331035,
+            "zero": 0.0
+          },
+          "max_abs_late_response_or_index_difference": 9.85878045867139e-14
+        }
+      },
+      "no_electrical": {
+        "passed": true,
+        "global_euler_lipschitz_inf_bound": 0.9874999999999999,
+        "baseline_one_sided_effective_transition_rho_max": 0.983038679287399,
+        "zero_input_2000ms_final_initial_inf_ratios": [
+          2.156796208743185e-43,
+          1.0434287387331227e-44,
+          2.5372575081547733e-43,
+          8.472111890994013e-44
+        ],
+        "equal_state_gap_current_norm": 0.0,
+        "electrical_min_eigenvalue": 0.0,
+        "electrical_pair_count": 0,
+        "removed_chemical_edges": 0,
+        "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights",
+        "surviving_chemical_weights_identical": true,
+        "half_dt_preflight": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.99375,
+          "baseline_one_sided_effective_transition_rho_max": 0.9915193396437,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            4.037025393692127e-43,
+            1.9807715427419676e-44,
+            4.768130487424911e-43,
+            1.5886330185978967e-43
+          ],
+          "equal_state_gap_current_norm": 0.0,
+          "electrical_min_eigenvalue": 0.0,
+          "electrical_pair_count": 0,
+          "removed_chemical_edges": 0,
+          "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights"
+        },
+        "encountered_effective_transition_rho_max": 0.9774451886979543,
+        "encountered_rectifier_masks": 147,
+        "timestep_convergence": {
+          "passed": true,
+          "dt_ms": 0.5,
+          "half_dt_ms": 0.25,
+          "max_abs_trace_difference_by_condition": {
+            "yaw_L_F": 0.00250198896653836,
+            "yaw_R_F": 0.0024768191091724123,
+            "translation_F": 0.002426630145841824,
+            "translation_B": 0.0024683264084708334,
+            "left_F": 0.0023920303460785997,
+            "left_B": 0.0024491532387317383,
+            "right_F": 0.0023943941875803065,
+            "right_B": 0.0024677602061194404,
+            "zero": 0.0
+          },
+          "max_abs_late_response_or_index_difference": 1.1612932837579137e-13
+        }
+      },
+      "no_bIPS_chemical_output": {
+        "passed": true,
+        "global_euler_lipschitz_inf_bound": 0.9874999999999999,
+        "baseline_one_sided_effective_transition_rho_max": 0.9830368983928763,
+        "zero_input_2000ms_final_initial_inf_ratios": [
+          3.1847688937856535e-43,
+          1.0434287387331227e-44,
+          2.5372575081547733e-43,
+          1.0405110508958848e-43
+        ],
+        "equal_state_gap_current_norm": 0.0,
+        "electrical_min_eigenvalue": -0.2,
+        "electrical_pair_count": 4,
+        "removed_chemical_edges": 30,
+        "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights",
+        "surviving_chemical_weights_identical": true,
+        "half_dt_preflight": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.99375,
+          "baseline_one_sided_effective_transition_rho_max": 0.9915184491964419,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            5.965925045219786e-43,
+            1.9807715427419676e-44,
+            4.768130487424911e-43,
+            1.8798378263371643e-43
+          ],
+          "equal_state_gap_current_norm": 0.0,
+          "electrical_min_eigenvalue": -0.2,
+          "electrical_pair_count": 4,
+          "removed_chemical_edges": 30,
+          "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights"
+        },
+        "encountered_effective_transition_rho_max": 0.9771811939301567,
+        "encountered_rectifier_masks": 131,
+        "timestep_convergence": {
+          "passed": true,
+          "dt_ms": 0.5,
+          "half_dt_ms": 0.25,
+          "max_abs_trace_difference_by_condition": {
+            "yaw_L_F": 0.0024898012210874954,
+            "yaw_R_F": 0.002466123150392352,
+            "translation_F": 0.0023964437324872634,
+            "translation_B": 0.002451907428051625,
+            "left_F": 0.0023962082378465865,
+            "left_B": 0.0024317793859389703,
+            "right_F": 0.0024000737243276005,
+            "right_B": 0.0024459552691740716,
+            "zero": 0.0
+          },
+          "max_abs_late_response_or_index_difference": 7.127631818093505e-14
+        }
+      },
+      "no_bIPS_GABA_input": {
+        "passed": true,
+        "global_euler_lipschitz_inf_bound": 0.9874999999999999,
+        "baseline_one_sided_effective_transition_rho_max": 0.983036753003452,
+        "zero_input_2000ms_final_initial_inf_ratios": [
+          3.887518205677465e-43,
+          1.0434287387331227e-44,
+          2.5372575081547733e-43,
+          8.472111890994013e-44
+        ],
+        "equal_state_gap_current_norm": 0.0,
+        "electrical_min_eigenvalue": -0.2,
+        "electrical_pair_count": 4,
+        "removed_chemical_edges": 37,
+        "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights",
+        "surviving_chemical_weights_identical": true,
+        "half_dt_preflight": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.99375,
+          "baseline_one_sided_effective_transition_rho_max": 0.9915183765017278,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            7.275740314128258e-43,
+            1.9807715427419676e-44,
+            4.768130487424911e-43,
+            1.5886330185978967e-43
+          ],
+          "equal_state_gap_current_norm": 0.0,
+          "electrical_min_eigenvalue": -0.2,
+          "electrical_pair_count": 4,
+          "removed_chemical_edges": 37,
+          "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights"
+        },
+        "encountered_effective_transition_rho_max": 0.9771535491588339,
+        "encountered_rectifier_masks": 136,
+        "timestep_convergence": {
+          "passed": true,
+          "dt_ms": 0.5,
+          "half_dt_ms": 0.25,
+          "max_abs_trace_difference_by_condition": {
+            "yaw_L_F": 0.0024911884531728656,
+            "yaw_R_F": 0.002469293287908292,
+            "translation_F": 0.00241321882276746,
+            "translation_B": 0.002454307520813548,
+            "left_F": 0.0023930361492796592,
+            "left_B": 0.0024320584940336065,
+            "right_F": 0.002396007358202168,
+            "right_B": 0.0024461237027075255,
+            "zero": 0.0
+          },
+          "max_abs_late_response_or_index_difference": 9.103828801926284e-14
+        }
+      },
+      "no_DNp15_GABA_input": {
+        "passed": true,
+        "global_euler_lipschitz_inf_bound": 0.9874999999999999,
+        "baseline_one_sided_effective_transition_rho_max": 0.9830405958288241,
+        "zero_input_2000ms_final_initial_inf_ratios": [
+          3.022236851796699e-43,
+          1.0434287387331227e-44,
+          2.5372575081547733e-43,
+          8.51548240858957e-44
+        ],
+        "equal_state_gap_current_norm": 0.0,
+        "electrical_min_eigenvalue": -0.2,
+        "electrical_pair_count": 4,
+        "removed_chemical_edges": 25,
+        "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights",
+        "surviving_chemical_weights_identical": true,
+        "half_dt_preflight": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.99375,
+          "baseline_one_sided_effective_transition_rho_max": 0.9915202979144132,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            5.57639440484259e-43,
+            1.9807715427419676e-44,
+            4.768130487424911e-43,
+            1.5886330185978967e-43
+          ],
+          "equal_state_gap_current_norm": 0.0,
+          "electrical_min_eigenvalue": -0.2,
+          "electrical_pair_count": 4,
+          "removed_chemical_edges": 25,
+          "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights"
+        },
+        "encountered_effective_transition_rho_max": 0.9773991923014034,
+        "encountered_rectifier_masks": 143,
+        "timestep_convergence": {
+          "passed": true,
+          "dt_ms": 0.5,
+          "half_dt_ms": 0.25,
+          "max_abs_trace_difference_by_condition": {
+            "yaw_L_F": 0.002491093313508219,
+            "yaw_R_F": 0.0024691513118517694,
+            "translation_F": 0.0024106849151809273,
+            "translation_B": 0.0024534970440981407,
+            "left_F": 0.0023930488214072287,
+            "left_B": 0.0024319649350713624,
+            "right_F": 0.002396020821662792,
+            "right_B": 0.002446071445226239,
+            "zero": 0.0
+          },
+          "max_abs_late_response_or_index_difference": 7.238654120556021e-14
+        }
+      },
+      "no_chemical_feedback": {
+        "passed": true,
+        "global_euler_lipschitz_inf_bound": 0.9874999999999999,
+        "baseline_one_sided_effective_transition_rho_max": 0.9760721698596794,
+        "zero_input_2000ms_final_initial_inf_ratios": [
+          3.461871639852485e-42,
+          1.0434287387331227e-44,
+          2.9381775977554105e-44,
+          2.3925261918407395e-43
+        ],
+        "equal_state_gap_current_norm": 0.0,
+        "electrical_min_eigenvalue": -0.2,
+        "electrical_pair_count": 4,
+        "removed_chemical_edges": 244,
+        "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights",
+        "surviving_chemical_weights_identical": true,
+        "half_dt_preflight": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.9937499999999999,
+          "baseline_one_sided_effective_transition_rho_max": 0.9880359226351141,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            6.317876287047391e-42,
+            1.9807715427419676e-44,
+            5.52890294254327e-44,
+            4.378906600356855e-43
+          ],
+          "equal_state_gap_current_norm": 0.0,
+          "electrical_min_eigenvalue": -0.2,
+          "electrical_pair_count": 4,
+          "removed_chemical_edges": 244,
+          "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights"
+        },
+        "encountered_effective_transition_rho_max": 0.9764232156386322,
+        "encountered_rectifier_masks": 31,
+        "timestep_convergence": {
+          "passed": true,
+          "dt_ms": 0.5,
+          "half_dt_ms": 0.25,
+          "max_abs_trace_difference_by_condition": {
+            "yaw_L_F": 0.0023418078804685605,
+            "yaw_R_F": 0.002339934547085032,
+            "translation_F": 0.002346956235314779,
+            "translation_B": 0.0023486836238055253,
+            "left_F": 0.002333874599882324,
+            "left_B": 0.0023357041592361183,
+            "right_F": 0.0023354240853419306,
+            "right_B": 0.0023357041592361183,
+            "zero": 0.0
+          },
+          "max_abs_late_response_or_index_difference": 8.204548151979907e-14
+        }
+      },
+      "feedforward_chemical_only": {
+        "passed": true,
+        "global_euler_lipschitz_inf_bound": 0.9874999999999999,
+        "baseline_one_sided_effective_transition_rho_max": 0.975,
+        "zero_input_2000ms_final_initial_inf_ratios": [
+          2.9800772361866506e-42,
+          1.0434287387331227e-44,
+          4.635219056870375e-44,
+          5.411339234810747e-43
+        ],
+        "equal_state_gap_current_norm": 0.0,
+        "electrical_min_eigenvalue": 0.0,
+        "electrical_pair_count": 0,
+        "removed_chemical_edges": 258,
+        "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights",
+        "surviving_chemical_weights_identical": true,
+        "half_dt_preflight": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.99375,
+          "baseline_one_sided_effective_transition_rho_max": 0.9875,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            5.512562955806714e-42,
+            1.9807715427419676e-44,
+            8.701720555710705e-44,
+            9.989971267225525e-43
+          ],
+          "equal_state_gap_current_norm": 0.0,
+          "electrical_min_eigenvalue": 0.0,
+          "electrical_pair_count": 0,
+          "removed_chemical_edges": 258,
+          "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights"
+        },
+        "encountered_effective_transition_rho_max": 0.975,
+        "encountered_rectifier_masks": 27,
+        "timestep_convergence": {
+          "passed": true,
+          "dt_ms": 0.5,
+          "half_dt_ms": 0.25,
+          "max_abs_trace_difference_by_condition": {
+            "yaw_L_F": 0.0023357041592361183,
+            "yaw_R_F": 0.0023357041592361183,
+            "translation_F": 0.0023357041592361183,
+            "translation_B": 0.0023357041592361183,
+            "left_F": 0.0023357041592361183,
+            "left_B": 0.0023357041592361183,
+            "right_F": 0.0023357041592361183,
+            "right_B": 0.0023357041592361183,
+            "zero": 0.0
+          },
+          "max_abs_late_response_or_index_difference": 7.599476603559197e-14
+        }
+      }
+    },
+    "responses": {
+      "full": {
+        "populations": {
+          "HS": {
+            "n_bodies": 6,
+            "defined_di_bodies": 6,
+            "mean_di": -0.03645813007113927,
+            "mean_magnitude_di": -0.03645813007113927,
+            "mean_of_yaw": 1.950751520595812,
+            "mean_of_translation": 1.8178391572306623,
+            "condition_mean_signed_state": {
+              "yaw_L_F": -0.02289894344842014,
+              "yaw_R_F": -0.025024730895978693,
+              "translation_F": 0.8895900266390351,
+              "translation_B": -0.9282491305916271,
+              "left_F": 0.4403305938023368,
+              "left_B": -0.46845735669649113,
+              "right_F": 0.44318865710228045,
+              "right_B": -0.46346073515555797,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.47841856652402653,
+              "yaw_R_F": 0.47299535660168,
+              "translation_F": 0.8895900266390351,
+              "translation_B": 0.0,
+              "left_F": 0.4655228190111065,
+              "left_B": 0.0125431796126494,
+              "right_F": 0.4653086006554193,
+              "right_B": 0.016699706401657664,
+              "zero": 0.0
+            }
+          },
+          "H2": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.08286692633976167,
+            "mean_magnitude_di": -0.08286692633976167,
+            "mean_of_yaw": 1.9055708279616366,
+            "mean_of_translation": 1.61391814013975,
+            "condition_mean_signed_state": {
+              "yaw_L_F": -0.05809319587398276,
+              "yaw_R_F": -0.050903475558313205,
+              "translation_F": -0.8528212445721328,
+              "translation_B": 0.7610968955676172,
+              "left_F": -0.4315276906495592,
+              "left_B": 0.37879336537570285,
+              "right_F": -0.42988166667035443,
+              "right_B": 0.37330446488474883,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.4460983063389644,
+              "yaw_R_F": 0.45218877192570595,
+              "translation_F": 0.0,
+              "translation_B": 0.7610968955676172,
+              "left_F": 0.02993057557619137,
+              "left_B": 0.4214219525070594,
+              "right_F": 0.03058921738520248,
+              "right_B": 0.41606909080375637,
+              "zero": 0.0
+            }
+          },
+          "bIPS": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": 0.06667758398156477,
+            "mean_magnitude_di": 0.06667758398156477,
+            "mean_of_yaw": 0.0801772599140343,
+            "mean_of_translation": 0.09382353555973807,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.08421835527033948,
+              "yaw_R_F": 0.08605818561057699,
+              "translation_F": 0.12389810045375368,
+              "translation_B": 0.030074564894015603,
+              "left_F": 0.06614575893160873,
+              "left_B": 0.019393850498226176,
+              "right_F": 0.06680466301938975,
+              "right_B": 0.01857163643918555,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.08421835527033948,
+              "yaw_R_F": 0.08605818561057699,
+              "translation_F": 0.12389810045375368,
+              "translation_B": 0.030074564894015603,
+              "left_F": 0.06614575893160873,
+              "left_B": 0.019393850498226176,
+              "right_F": 0.06680466301938975,
+              "right_B": 0.01857163643918555,
+              "zero": 0.0
+            }
+          },
+          "uLPTCrn": {
+            "n_bodies": 17,
+            "defined_di_bodies": 16,
+            "mean_di": -0.6176820279361239,
+            "mean_magnitude_di": -0.44482050776577864,
+            "mean_of_yaw": 0.11858874142628115,
+            "mean_of_translation": -0.011844280752711088,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.04712659246649925,
+              "yaw_R_F": 0.044632414142488135,
+              "translation_F": 0.035375542136261186,
+              "translation_B": 0.04721982288897227,
+              "left_F": 0.01922563274807481,
+              "left_B": 0.024524675454703965,
+              "right_F": 0.02030448563684489,
+              "right_B": 0.02818173824863434,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.057419882685094105,
+              "yaw_R_F": 0.05311528445392764,
+              "translation_F": 0.03715623666971486,
+              "translation_B": 0.050618998687308896,
+              "left_F": 0.02587780211954597,
+              "left_B": 0.028634033559068232,
+              "right_F": 0.025320019905111096,
+              "right_B": 0.03190283241432251,
+              "zero": 0.0
+            }
+          },
+          "H2rn": {
+            "n_bodies": 8,
+            "defined_di_bodies": 8,
+            "mean_di": -0.22283261475933192,
+            "mean_magnitude_di": -0.22283261475933192,
+            "mean_of_yaw": 0.27353200577633785,
+            "mean_of_translation": 0.1813539693345076,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.15615723677006305,
+              "yaw_R_F": 0.117232689473751,
+              "translation_F": 0.02501490679045094,
+              "translation_B": 0.20636887612495852,
+              "left_F": 0.029789791698979128,
+              "left_B": 0.10299049371318528,
+              "right_F": 0.014257364314290238,
+              "right_B": 0.126336176738224,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.15622827653632493,
+              "yaw_R_F": 0.117232689473751,
+              "translation_F": 0.027089011333075227,
+              "translation_B": 0.20636887612495852,
+              "left_F": 0.02985689354083295,
+              "left_B": 0.10299049371318528,
+              "right_F": 0.014456211360494093,
+              "right_B": 0.1263400922277503,
+              "zero": 0.0
+            }
+          },
+          "DNp15": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.35167835740357234,
+            "mean_magnitude_di": -0.35167835740357234,
+            "mean_of_yaw": 0.41249618500726504,
+            "mean_of_translation": 0.19784413332073938,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.11030210484158631,
+              "yaw_R_F": 0.10545602586188799,
+              "translation_F": 0.1938070317174323,
+              "translation_B": -0.004037101603307084,
+              "left_F": 0.10449552358550566,
+              "left_B": 0.0026696072421693515,
+              "right_F": 0.10287750886835059,
+              "right_B": 0.00583447432111267,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.15976662232395714,
+              "yaw_R_F": 0.15436053553141255,
+              "translation_F": 0.1938070317174323,
+              "translation_B": 0.0,
+              "left_F": 0.11029352354589125,
+              "left_B": 0.04659943361854614,
+              "right_F": 0.10786919612911477,
+              "right_B": 0.049560001675445026,
+              "zero": 0.0
+            }
+          }
+        },
+        "bilateral_minus_sum_of_unilateral_max_abs_state": {
+          "HS": {
+            "yaw_L_F": 0.0007823351230975412,
+            "yaw_R_F": 0.0008460661180270668,
+            "translation_F": 0.011437505385334168,
+            "translation_B": 0.00623381188262051
+          },
+          "H2": {
+            "yaw_L_F": 0.00019727991803919487,
+            "yaw_R_F": 0.00035520406688671624,
+            "translation_F": 0.008882278944402744,
+            "translation_B": 0.00965708177279212
+          },
+          "bIPS": {
+            "yaw_L_F": 0.0010092079022564482,
+            "yaw_R_F": 0.00027614959008863404,
+            "translation_F": 0.00919789517380036,
+            "translation_B": 0.00791834408145635
+          },
+          "uLPTCrn": {
+            "yaw_L_F": 0.0020621127036336007,
+            "yaw_R_F": 0.0024273087088100102,
+            "translation_F": 0.013297432444049462,
+            "translation_B": 0.014013703813082881
+          },
+          "H2rn": {
+            "yaw_L_F": 8.226305456360272e-05,
+            "yaw_R_F": 0.00030177396319105987,
+            "translation_F": 0.02862625858389635,
+            "translation_B": 0.03399518956479208
+          },
+          "DNp15": {
+            "yaw_L_F": 0.00017380579475377578,
+            "yaw_R_F": 0.00021618843249682218,
+            "translation_F": 0.014097533080212415,
+            "translation_B": 0.01327170924261152
+          }
+        },
+        "matched_upstream_magnitude_comparison": [
+          {
+            "bodyId": 11215,
+            "somaSide": "R",
+            "matched_upstream_body_ids": [
+              10015,
+              10016,
+              10019,
+              10023
+            ],
+            "upstream_yaw_of_rms": 1.9401472909618787,
+            "upstream_translation_of_rms": 1.775969476588774,
+            "DNp15_yaw_of_magnitude": 0.40765010602756674,
+            "DNp15_translation_of_magnitude": 0.19610770381938608,
+            "upstream_translation_yaw_ratio": 0.9153786853514048,
+            "DNp15_translation_yaw_ratio": 0.4810686932732567,
+            "upstream_common_mode_yaw_ratio": 0.8926595114361475,
+            "DNp15_common_mode_yaw_ratio": 0.6155875872125751,
+            "declared_preferred_yaw_state": 0.3087210710628251,
+            "declared_preferred_yaw_of": 0.40765010602756674
+          },
+          {
+            "bodyId": 12069,
+            "somaSide": "L",
+            "matched_upstream_body_ids": [
+              10025,
+              10034,
+              10181,
+              10419
+            ],
+            "upstream_yaw_of_rms": 1.9397662634103794,
+            "upstream_translation_of_rms": 1.7700870292078874,
+            "DNp15_yaw_of_magnitude": 0.4173422639869634,
+            "DNp15_translation_of_magnitude": 0.1995805628220927,
+            "upstream_translation_yaw_ratio": 0.9125259380972158,
+            "DNp15_translation_yaw_ratio": 0.4782179521322744,
+            "upstream_common_mode_yaw_ratio": 0.8876715863936165,
+            "DNp15_common_mode_yaw_ratio": 0.6183056301240728,
+            "declared_preferred_yaw_state": 0.31953324464791427,
+            "declared_preferred_yaw_of": 0.4173422639869634
+          }
+        ],
+        "DNp15_per_body": [
+          {
+            "control": "full",
+            "bodyId": 11215,
+            "type": "DNp15",
+            "somaSide": "R",
+            "stage": "DNp15",
+            "yaw_L_F": -0.09892903496474163,
+            "yaw_L_F_emission": 0.0,
+            "yaw_R_F": 0.3087210710628251,
+            "yaw_R_F_emission": 0.3087210710628251,
+            "translation_F": 0.19004485925724646,
+            "translation_F_emission": 0.19004485925724646,
+            "translation_B": -0.006062844562139636,
+            "translation_B_emission": 0.0,
+            "left_F": -0.011595999920771177,
+            "left_F_emission": 0.0,
+            "left_B": 0.09319886723709228,
+            "left_B_emission": 0.09319886723709228,
+            "right_F": 0.21573839225822955,
+            "right_F_emission": 0.21573839225822955,
+            "right_B": -0.08745105470866471,
+            "right_B_emission": 0.0,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.40765010602756674,
+            "of_translation": 0.19610770381938608,
+            "di": -0.3503762580923048,
+            "magnitude_di": -0.3503762580923048
+          },
+          {
+            "control": "full",
+            "bodyId": 12069,
+            "type": "DNp15",
+            "somaSide": "L",
+            "stage": "DNp15",
+            "yaw_L_F": 0.31953324464791427,
+            "yaw_L_F_emission": 0.31953324464791427,
+            "yaw_R_F": -0.09780901933904913,
+            "yaw_R_F_emission": 0.0,
+            "translation_F": 0.19756920417761814,
+            "translation_F_emission": 0.19756920417761814,
+            "translation_B": -0.002011358644474534,
+            "translation_B_emission": 0.0,
+            "left_F": 0.2205870470917825,
+            "left_F_emission": 0.2205870470917825,
+            "left_B": -0.08785965275275358,
+            "left_B_emission": 0.0,
+            "right_F": -0.009983374521528355,
+            "right_F_emission": 0.0,
+            "right_B": 0.09912000335089005,
+            "right_B_emission": 0.09912000335089005,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.4173422639869634,
+            "of_translation": 0.1995805628220927,
+            "di": -0.3529804567148399,
+            "magnitude_di": -0.3529804567148399
+          }
+        ],
+        "washout_final_max_abs_state": 2.0819540851447425e-43,
+        "zero_condition_max_abs_state": 0.0
+      },
+      "no_electrical": {
+        "populations": {
+          "HS": {
+            "n_bodies": 6,
+            "defined_di_bodies": 6,
+            "mean_di": -0.005900251357928698,
+            "mean_magnitude_di": -0.005900251357928698,
+            "mean_of_yaw": 2.004523152200277,
+            "mean_of_translation": 1.9803485262875051,
+            "condition_mean_signed_state": {
+              "yaw_L_F": -0.026209334709668502,
+              "yaw_R_F": -0.02816076263699842,
+              "translation_F": 0.9657889749180854,
+              "translation_B": -1.0145595513694197,
+              "left_F": 0.4787221287038214,
+              "left_B": -0.5111913090343975,
+              "right_F": 0.4824604452862991,
+              "right_B": -0.5052453954660291,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.49032029962939366,
+              "yaw_R_F": 0.48475622779741134,
+              "translation_F": 0.9657889749180854,
+              "translation_B": 0.0,
+              "left_F": 0.4910873288709328,
+              "left_B": 0.0,
+              "right_F": 0.4916164886703081,
+              "right_B": 0.0032039516182281592,
+              "zero": 0.0
+            }
+          },
+          "H2": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": 0.008264472455942716,
+            "mean_magnitude_di": 0.008264472455942716,
+            "mean_of_yaw": 1.8956171165119327,
+            "mean_of_translation": 1.927205720949252,
+            "condition_mean_signed_state": {
+              "yaw_L_F": -0.06111300561059141,
+              "yaw_R_F": -0.05338151018863424,
+              "translation_F": -1.0203947888403402,
+              "translation_B": 0.9068109321089117,
+              "left_F": -0.5121107959330261,
+              "left_B": 0.45633569229484067,
+              "right_F": -0.510817403070223,
+              "right_B": 0.44944931202607286,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.4416597706566159,
+              "yaw_R_F": 0.4489015296997376,
+              "translation_F": 0.0,
+              "translation_B": 0.9068109321089117,
+              "left_F": 0.0,
+              "left_B": 0.45703212704984353,
+              "right_F": 0.0,
+              "right_B": 0.4501620343398859,
+              "zero": 0.0
+            }
+          },
+          "bIPS": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": 0.10832308568743416,
+            "mean_magnitude_di": 0.10832308568743416,
+            "mean_of_yaw": 0.08027103105055416,
+            "mean_of_translation": 0.10195142821704672,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.08562256562597516,
+              "yaw_R_F": 0.08767536968857349,
+              "translation_F": 0.13775781513316598,
+              "translation_B": 0.035806386916119246,
+              "left_F": 0.06851589186788978,
+              "left_B": 0.017898294999400086,
+              "right_F": 0.07062377687452083,
+              "right_B": 0.01777337388519033,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.08562256562597516,
+              "yaw_R_F": 0.08767536968857349,
+              "translation_F": 0.13775781513316598,
+              "translation_B": 0.035806386916119246,
+              "left_F": 0.06851589186788978,
+              "left_B": 0.018107303630074144,
+              "right_F": 0.07062377687452083,
+              "right_B": 0.01777337388519033,
+              "zero": 0.0
+            }
+          },
+          "uLPTCrn": {
+            "n_bodies": 17,
+            "defined_di_bodies": 16,
+            "mean_di": -0.6168754042920859,
+            "mean_magnitude_di": -0.3836225982259722,
+            "mean_of_yaw": 0.1184414842816581,
+            "mean_of_translation": -0.01824633463378729,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.046810769358733954,
+              "yaw_R_F": 0.04446682303745214,
+              "translation_F": 0.037975641673238206,
+              "translation_B": 0.056221976307025495,
+              "left_F": 0.017665408033758063,
+              "left_B": 0.02587415634691491,
+              "right_F": 0.01930579470367569,
+              "right_B": 0.029931756090343715,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.057170382415807866,
+              "yaw_R_F": 0.05300479409096242,
+              "translation_F": 0.039979255883712816,
+              "translation_B": 0.06027622993305957,
+              "left_F": 0.02429811816472574,
+              "left_B": 0.030145427320996624,
+              "right_F": 0.024436551940322123,
+              "right_B": 0.03379459160446845,
+              "zero": 0.0
+            }
+          },
+          "H2rn": {
+            "n_bodies": 8,
+            "defined_di_bodies": 8,
+            "mean_di": -0.142194033172425,
+            "mean_magnitude_di": -0.142194033172425,
+            "mean_of_yaw": 0.27154077441343044,
+            "mean_of_translation": 0.21677137544447964,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.1550460968041515,
+              "yaw_R_F": 0.11634792664523558,
+              "translation_F": 0.02927290463449718,
+              "translation_B": 0.24604428007897677,
+              "left_F": 0.022599058314431552,
+              "left_B": 0.11142257413474675,
+              "right_F": 0.006915817874110665,
+              "right_B": 0.13482898918160008,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.15511947228617318,
+              "yaw_R_F": 0.11634792664523558,
+              "translation_F": 0.03164039546129878,
+              "translation_B": 0.24604428007897677,
+              "left_F": 0.024426142029017037,
+              "left_B": 0.11142257413474675,
+              "right_F": 0.007627403951713171,
+              "right_B": 0.13482945834769797,
+              "zero": 0.0
+            }
+          },
+          "DNp15": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.7711702341349935,
+            "mean_magnitude_di": -0.7711702341349935,
+            "mean_of_yaw": 0.268012999764797,
+            "mean_of_translation": 0.03464192182208321,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.12511939544272285,
+              "yaw_R_F": 0.11975998967275465,
+              "translation_F": 0.1386299376176301,
+              "translation_B": 0.10398801579554688,
+              "left_F": 0.07229102171349118,
+              "left_B": 0.050805817506566285,
+              "right_F": 0.07032729131937018,
+              "right_B": 0.053825267979917116,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.13108108125328588,
+              "yaw_R_F": 0.12536511118685137,
+              "translation_F": 0.1386299376176301,
+              "translation_B": 0.10398801579554688,
+              "left_F": 0.0767532298483917,
+              "left_B": 0.052509245329543576,
+              "right_F": 0.07429255442499066,
+              "right_B": 0.055383885646215006,
+              "zero": 0.0
+            }
+          }
+        },
+        "bilateral_minus_sum_of_unilateral_max_abs_state": {
+          "HS": {
+            "yaw_L_F": 0.0012264130278093408,
+            "yaw_R_F": 0.0015212045004373564,
+            "translation_F": 0.009045038522142557,
+            "translation_B": 0.004150417291184476
+          },
+          "H2": {
+            "yaw_L_F": 0.003042910358350137,
+            "yaw_R_F": 0.002148653310937991,
+            "translation_F": 0.0027261921729733185,
+            "translation_B": 0.0012244781386282488
+          },
+          "bIPS": {
+            "yaw_L_F": 0.0013400494663726864,
+            "yaw_R_F": 0.0013454444247669867,
+            "translation_F": 0.0016339485549581312,
+            "translation_B": 0.00027742879685925976
+          },
+          "uLPTCrn": {
+            "yaw_L_F": 0.003441927881608603,
+            "yaw_R_F": 0.0047442395403354265,
+            "translation_F": 0.007993935936524504,
+            "translation_B": 0.0036168856148447587
+          },
+          "H2rn": {
+            "yaw_L_F": 0.006536259128673172,
+            "yaw_R_F": 0.005810789164441459,
+            "translation_F": 0.0018483287027373785,
+            "translation_B": 0.0010618631368365938
+          },
+          "DNp15": {
+            "yaw_L_F": 0.002112068482634566,
+            "yaw_R_F": 0.0028733771353672832,
+            "translation_F": 0.004352920613346745,
+            "translation_B": 0.0014369587518954091
+          }
+        },
+        "matched_upstream_magnitude_comparison": [
+          {
+            "bodyId": 11215,
+            "somaSide": "R",
+            "matched_upstream_body_ids": [
+              10015,
+              10016,
+              10019,
+              10023
+            ],
+            "upstream_yaw_of_rms": 1.9787734995691197,
+            "upstream_translation_of_rms": 1.9718291566039556,
+            "DNp15_yaw_of_magnitude": 0.2626535939948288,
+            "DNp15_translation_of_magnitude": 0.03325569727032392,
+            "upstream_translation_yaw_ratio": 0.9964905821880694,
+            "DNp15_translation_yaw_ratio": 0.1266142860050819,
+            "upstream_common_mode_yaw_ratio": 0.9699196162655455,
+            "DNp15_common_mode_yaw_ratio": 0.5396548157850916,
+            "declared_preferred_yaw_state": 0.25073022237370274,
+            "declared_preferred_yaw_of": 0.2626535939948288
+          },
+          {
+            "bodyId": 12069,
+            "somaSide": "L",
+            "matched_upstream_body_ids": [
+              10025,
+              10034,
+              10181,
+              10419
+            ],
+            "upstream_yaw_of_rms": 1.9780005768861957,
+            "upstream_translation_of_rms": 1.9626098911025267,
+            "DNp15_yaw_of_magnitude": 0.2733724055347652,
+            "DNp15_translation_of_magnitude": 0.03602814637384251,
+            "upstream_translation_yaw_ratio": 0.9922190691127617,
+            "DNp15_translation_yaw_ratio": 0.13179145240853782,
+            "upstream_common_mode_yaw_ratio": 0.9620177969062532,
+            "DNp15_common_mode_yaw_ratio": 0.5414667849517232,
+            "declared_preferred_yaw_state": 0.26216216250657176,
+            "declared_preferred_yaw_of": 0.2733724055347652
+          }
+        ],
+        "DNp15_per_body": [
+          {
+            "control": "no_electrical",
+            "bodyId": 11215,
+            "type": "DNp15",
+            "somaSide": "R",
+            "stage": "DNp15",
+            "yaw_L_F": -0.011923371621126073,
+            "yaw_L_F_emission": 0.0,
+            "yaw_R_F": 0.25073022237370274,
+            "yaw_R_F_emission": 0.25073022237370274,
+            "translation_F": 0.1353077719668356,
+            "translation_F_emission": 0.1353077719668356,
+            "translation_B": 0.10205207469651169,
+            "translation_B_emission": 0.10205207469651169,
+            "left_F": -0.00892441626980103,
+            "left_F_emission": 0.0,
+            "left_B": 0.10501849065908715,
+            "left_B_emission": 0.10501849065908715,
+            "right_F": 0.14858510884998133,
+            "right_F_emission": 0.14858510884998133,
+            "right_B": -0.003117235332595778,
+            "right_B_emission": 0.0,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.2626535939948288,
+            "of_translation": 0.03325569727032392,
+            "di": -0.7752304624965305,
+            "magnitude_di": -0.7752304624965305
+          },
+          {
+            "control": "no_electrical",
+            "bodyId": 12069,
+            "type": "DNp15",
+            "somaSide": "L",
+            "stage": "DNp15",
+            "yaw_L_F": 0.26216216250657176,
+            "yaw_L_F_emission": 0.26216216250657176,
+            "yaw_R_F": -0.01121024302819344,
+            "yaw_R_F_emission": 0.0,
+            "translation_F": 0.14195210326842458,
+            "translation_F_emission": 0.14195210326842458,
+            "translation_B": 0.10592395689458207,
+            "translation_B_emission": 0.10592395689458207,
+            "left_F": 0.1535064596967834,
+            "left_F_emission": 0.1535064596967834,
+            "left_B": -0.0034068556459545788,
+            "left_B_emission": 0.0,
+            "right_F": -0.007930526211240975,
+            "right_F_emission": 0.0,
+            "right_B": 0.11076777129243001,
+            "right_B_emission": 0.11076777129243001,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.2733724055347652,
+            "of_translation": 0.03602814637384251,
+            "di": -0.7671100057734566,
+            "magnitude_di": -0.7671100057734566
+          }
+        ],
+        "washout_final_max_abs_state": 2.4294148444798656e-43,
+        "zero_condition_max_abs_state": 0.0
+      },
+      "no_bIPS_chemical_output": {
+        "populations": {
+          "HS": {
+            "n_bodies": 6,
+            "defined_di_bodies": 6,
+            "mean_di": -0.026774368970298626,
+            "mean_magnitude_di": -0.026774368970298626,
+            "mean_of_yaw": 1.9316255367463409,
+            "mean_of_translation": 1.834366076948772,
+            "condition_mean_signed_state": {
+              "yaw_L_F": -0.004858292237396959,
+              "yaw_R_F": -0.007960615460698059,
+              "translation_F": 0.9110794489029317,
+              "translation_B": -0.9232866280458404,
+              "left_F": 0.4542645343359677,
+              "left_B": -0.4645603442668162,
+              "right_F": 0.45638230807360797,
+              "right_B": -0.45923899528396145,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.48125281887371213,
+              "yaw_R_F": 0.47815049565041096,
+              "translation_F": 0.9110794489029317,
+              "translation_B": 0.0,
+              "left_F": 0.46815342322485654,
+              "left_B": 0.012766904387958354,
+              "right_F": 0.4702711969624967,
+              "right_B": 0.016940653791118917,
+              "zero": 0.0
+            }
+          },
+          "H2": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.08228329779005675,
+            "mean_magnitude_di": -0.08228329779005675,
+            "mean_of_yaw": 1.8997021212833185,
+            "mean_of_translation": 1.6108364976700682,
+            "condition_mean_signed_state": {
+              "yaw_L_F": -0.053546144472253254,
+              "yaw_R_F": -0.04675173424442791,
+              "translation_F": -0.848911277046966,
+              "translation_B": 0.761925220623102,
+              "left_F": -0.42807717786759114,
+              "left_B": 0.37981152611862395,
+              "right_F": -0.42673873063767465,
+              "right_B": 0.37443174341577456,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.4464538555277467,
+              "yaw_R_F": 0.45324826575557203,
+              "translation_F": 0.0,
+              "translation_B": 0.761925220623102,
+              "left_F": 0.030256155465735894,
+              "left_B": 0.42147819278529036,
+              "right_F": 0.03159460269565242,
+              "right_B": 0.416098410082441,
+              "zero": 0.0
+            }
+          },
+          "bIPS": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": 0.08297703335984377,
+            "mean_magnitude_di": 0.08297703335984377,
+            "mean_of_yaw": 0.07946052560735184,
+            "mean_of_translation": 0.09609049706873121,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.08452202035410712,
+              "yaw_R_F": 0.08670010451061301,
+              "translation_F": 0.12573601116352323,
+              "translation_B": 0.02964551409479202,
+              "left_F": 0.0663927322606525,
+              "left_B": 0.01942568717865102,
+              "right_F": 0.06742614984756012,
+              "right_B": 0.01863457947964216,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.08452202035410712,
+              "yaw_R_F": 0.08670010451061301,
+              "translation_F": 0.12573601116352323,
+              "translation_B": 0.02964551409479202,
+              "left_F": 0.0663927322606525,
+              "left_B": 0.01942568717865102,
+              "right_F": 0.06742614984756012,
+              "right_B": 0.01863457947964216,
+              "zero": 0.0
+            }
+          },
+          "uLPTCrn": {
+            "n_bodies": 17,
+            "defined_di_bodies": 16,
+            "mean_di": -0.5700490406733084,
+            "mean_magnitude_di": -0.4358405015420727,
+            "mean_of_yaw": 0.10963690838150915,
+            "mean_of_translation": -0.0026195732518838406,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.05596945027296982,
+              "yaw_R_F": 0.05366745810853934,
+              "translation_F": 0.047432058942012204,
+              "translation_B": 0.050051632193896044,
+              "left_F": 0.026113198247574985,
+              "left_B": 0.026556790620275807,
+              "right_F": 0.02733853258092481,
+              "right_B": 0.030194897754516076,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.059229733539954255,
+              "yaw_R_F": 0.0560455514482688,
+              "translation_F": 0.04942749850005368,
+              "translation_B": 0.05366907609426461,
+              "left_F": 0.027578236047432217,
+              "left_B": 0.028736741090203136,
+              "right_F": 0.028104397648612205,
+              "right_B": 0.03201548054064947,
+              "zero": 0.0
+            }
+          },
+          "H2rn": {
+            "n_bodies": 8,
+            "defined_di_bodies": 8,
+            "mean_di": -0.22581265642732778,
+            "mean_magnitude_di": -0.22581265642732778,
+            "mean_of_yaw": 0.27416979004690234,
+            "mean_of_translation": 0.18108262191515154,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.15644354977905542,
+              "yaw_R_F": 0.1177262402678469,
+              "translation_F": 0.025505938421131913,
+              "translation_B": 0.20658856033628345,
+              "left_F": 0.030051092033640425,
+              "left_B": 0.10307691886706746,
+              "right_F": 0.014670255448140487,
+              "right_B": 0.12636116115629994,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.15644354977905542,
+              "yaw_R_F": 0.1177262402678469,
+              "translation_F": 0.02769804277517265,
+              "translation_B": 0.20658856033628345,
+              "left_F": 0.030051092033640425,
+              "left_B": 0.10307691886706746,
+              "right_F": 0.014845641754024072,
+              "right_B": 0.12636116115629994,
+              "zero": 0.0
+            }
+          },
+          "DNp15": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.30854343721904054,
+            "mean_magnitude_di": -0.30854343721904054,
+            "mean_of_yaw": 0.4047806391470977,
+            "mean_of_translation": 0.21387784932192117,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.12105754624325504,
+              "yaw_R_F": 0.11705642623717716,
+              "translation_F": 0.21341172559996935,
+              "translation_B": -0.0004661237219517957,
+              "left_F": 0.11306942957904575,
+              "left_B": 0.0050977188985592,
+              "right_F": 0.11206806467521041,
+              "right_B": 0.008075609485171213,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.16272421290992142,
+              "yaw_R_F": 0.15872309290384354,
+              "translation_F": 0.21341172559996935,
+              "translation_B": 0.0008746812110297688,
+              "left_F": 0.11306942957904575,
+              "left_B": 0.04676438556522559,
+              "right_F": 0.11206806467521041,
+              "right_B": 0.0497422761518376,
+              "zero": 0.0
+            }
+          }
+        },
+        "bilateral_minus_sum_of_unilateral_max_abs_state": {
+          "HS": {
+            "yaw_L_F": 0.0007887167657431304,
+            "yaw_R_F": 0.000853525327834892,
+            "translation_F": 0.003394977438563762,
+            "translation_B": 0.003737489031195529
+          },
+          "H2": {
+            "yaw_L_F": 0.0001985799591230908,
+            "yaw_R_F": 0.0003509405492246598,
+            "translation_F": 0.006017517294698349,
+            "translation_B": 0.008237384808644665
+          },
+          "bIPS": {
+            "yaw_L_F": 0.0010191956153752096,
+            "yaw_R_F": 0.00029864959325562324,
+            "translation_F": 0.008211905207894277,
+            "translation_B": 0.008419635638665341
+          },
+          "uLPTCrn": {
+            "yaw_L_F": 0.0020789199120219218,
+            "yaw_R_F": 0.002337471826065418,
+            "translation_F": 0.013145722857381331,
+            "translation_B": 0.01473329595744624
+          },
+          "H2rn": {
+            "yaw_L_F": 8.286683520275506e-05,
+            "yaw_R_F": 0.00029354231670888215,
+            "translation_F": 0.028321342075084105,
+            "translation_B": 0.033859436120162734
+          },
+          "DNp15": {
+            "yaw_L_F": 0.00017498564192777732,
+            "yaw_R_F": 0.00021871467317946536,
+            "translation_F": 0.011965592671275393,
+            "translation_B": 0.014401856548281758
+          }
+        },
+        "matched_upstream_magnitude_comparison": [
+          {
+            "bodyId": 11215,
+            "somaSide": "R",
+            "matched_upstream_body_ids": [
+              10015,
+              10016,
+              10019,
+              10023
+            ],
+            "upstream_yaw_of_rms": 1.9234924589731983,
+            "upstream_translation_of_rms": 1.7906857771509086,
+            "DNp15_yaw_of_magnitude": 0.40077951914101984,
+            "DNp15_translation_of_magnitude": 0.21485214654510404,
+            "upstream_translation_yaw_ratio": 0.930955444507859,
+            "DNp15_translation_yaw_ratio": 0.536085643811318,
+            "upstream_common_mode_yaw_ratio": 0.9171591369338641,
+            "DNp15_common_mode_yaw_ratio": 0.668366942697105,
+            "declared_preferred_yaw_state": 0.3174461858076871,
+            "declared_preferred_yaw_of": 0.40077951914101984
+          },
+          {
+            "bodyId": 12069,
+            "somaSide": "L",
+            "matched_upstream_body_ids": [
+              10025,
+              10034,
+              10181,
+              10419
+            ],
+            "upstream_yaw_of_rms": 1.9248301260248815,
+            "upstream_translation_of_rms": 1.77810839841744,
+            "DNp15_yaw_of_magnitude": 0.4087817591531756,
+            "DNp15_translation_of_magnitude": 0.21290355209873826,
+            "upstream_translation_yaw_ratio": 0.9237741940841044,
+            "DNp15_translation_yaw_ratio": 0.5208244921196707,
+            "upstream_common_mode_yaw_ratio": 0.9140835412020107,
+            "DNp15_common_mode_yaw_ratio": 0.6595604633209144,
+            "declared_preferred_yaw_state": 0.32544842581984285,
+            "declared_preferred_yaw_of": 0.4087817591531756
+          }
+        ],
+        "DNp15_per_body": [
+          {
+            "control": "no_bIPS_chemical_output",
+            "bodyId": 11215,
+            "type": "DNp15",
+            "somaSide": "R",
+            "stage": "DNp15",
+            "yaw_L_F": -0.08333333333333277,
+            "yaw_L_F_emission": 0.0,
+            "yaw_R_F": 0.3174461858076871,
+            "yaw_R_F_emission": 0.3174461858076871,
+            "translation_F": 0.2121705366791409,
+            "translation_F_emission": 0.2121705366791409,
+            "translation_B": -0.002681609865963129,
+            "translation_B_emission": 0.0,
+            "left_F": 0.0,
+            "left_F_emission": 0.0,
+            "left_B": 0.09352877113045117,
+            "left_B_emission": 0.09352877113045117,
+            "right_F": 0.22413612935042082,
+            "right_F_emission": 0.22413612935042082,
+            "right_B": -0.08333333333333277,
+            "right_B_emission": 0.0,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.40077951914101984,
+            "of_translation": 0.21485214654510404,
+            "di": -0.3020107362227689,
+            "magnitude_di": -0.3020107362227689
+          },
+          {
+            "control": "no_bIPS_chemical_output",
+            "bodyId": 12069,
+            "type": "DNp15",
+            "somaSide": "L",
+            "stage": "DNp15",
+            "yaw_L_F": 0.32544842581984285,
+            "yaw_L_F_emission": 0.32544842581984285,
+            "yaw_R_F": -0.08333333333333277,
+            "yaw_R_F_emission": 0.0,
+            "translation_F": 0.2146529145207978,
+            "translation_F_emission": 0.2146529145207978,
+            "translation_B": 0.0017493624220595377,
+            "translation_B_emission": 0.0017493624220595377,
+            "left_F": 0.2261388591580915,
+            "left_F_emission": 0.2261388591580915,
+            "left_B": -0.08333333333333277,
+            "left_B_emission": 0.0,
+            "right_F": 0.0,
+            "right_F_emission": 0.0,
+            "right_B": 0.0994845523036752,
+            "right_B_emission": 0.0994845523036752,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.4087817591531756,
+            "of_translation": 0.21290355209873826,
+            "di": -0.3150761382153121,
+            "magnitude_di": -0.3150761382153121
+          }
+        ],
+        "washout_final_max_abs_state": 3.221911726298262e-43,
+        "zero_condition_max_abs_state": 0.0
+      },
+      "no_bIPS_GABA_input": {
+        "populations": {
+          "HS": {
+            "n_bodies": 6,
+            "defined_di_bodies": 6,
+            "mean_di": -0.03820827891818689,
+            "mean_magnitude_di": -0.03820827891818689,
+            "mean_of_yaw": 1.9617820860383326,
+            "mean_of_translation": 1.8215005783253233,
+            "condition_mean_signed_state": {
+              "yaw_L_F": -0.029726528427951333,
+              "yaw_R_F": -0.030087867763520126,
+              "translation_F": 0.8875680426025024,
+              "translation_B": -0.9339325357228209,
+              "left_F": 0.43835695215972237,
+              "left_B": -0.47193624624675673,
+              "right_F": 0.4415649434765096,
+              "right_B": -0.46832818170881785,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.4781347028441216,
+              "yaw_R_F": 0.47284914207930906,
+              "translation_F": 0.8875680426025024,
+              "translation_B": 0.0,
+              "left_F": 0.4654171615926875,
+              "left_B": 0.012422657852055893,
+              "right_F": 0.46526576563077854,
+              "right_B": 0.01649264727721988,
+              "zero": 0.0
+            }
+          },
+          "H2": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.0838280599788464,
+            "mean_magnitude_di": -0.0838280599788464,
+            "mean_of_yaw": 1.9085359520830654,
+            "mean_of_translation": 1.6133010127364158,
+            "condition_mean_signed_state": {
+              "yaw_L_F": -0.05992385496953079,
+              "yaw_R_F": -0.052234563821272006,
+              "translation_F": -0.853177350985562,
+              "translation_B": 0.7601236617508539,
+              "left_F": -0.43205359159614004,
+              "left_B": 0.3778793477614846,
+              "right_F": -0.43030887766387904,
+              "right_B": 0.37199665390189507,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.4460547963653436,
+              "yaw_R_F": 0.4521339702807876,
+              "translation_F": 0.0,
+              "translation_B": 0.7601236617508539,
+              "left_F": 0.029915273865046953,
+              "left_B": 0.42138416269030093,
+              "right_F": 0.03057235450229375,
+              "right_B": 0.4160414442069527,
+              "zero": 0.0
+            }
+          },
+          "bIPS": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.30252092898809246,
+            "mean_magnitude_di": -0.30252092898809246,
+            "mean_of_yaw": 0.13120889352553183,
+            "mean_of_translation": 0.0716593928604625,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.11412870748997761,
+              "yaw_R_F": 0.11121814964746135,
+              "translation_F": 0.13568929934761204,
+              "translation_B": 0.06402990648714955,
+              "left_F": 0.07485063033533028,
+              "left_B": 0.03668595365628251,
+              "right_F": 0.07487221251150859,
+              "right_B": 0.03984130520315775,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.11412870748997761,
+              "yaw_R_F": 0.11121814964746135,
+              "translation_F": 0.13568929934761204,
+              "translation_B": 0.06402990648714955,
+              "left_F": 0.07485063033533028,
+              "left_B": 0.03668595365628251,
+              "right_F": 0.07487221251150859,
+              "right_B": 0.03984130520315775,
+              "zero": 0.0
+            }
+          },
+          "uLPTCrn": {
+            "n_bodies": 17,
+            "defined_di_bodies": 16,
+            "mean_di": -0.6151806667395829,
+            "mean_magnitude_di": -0.46857176398521583,
+            "mean_of_yaw": 0.12407227984086301,
+            "mean_of_translation": -0.00977786896543949,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.04388297929395867,
+              "yaw_R_F": 0.041999767400149116,
+              "translation_F": 0.03421884740425233,
+              "translation_B": 0.04399671636969182,
+              "left_F": 0.01828492307631336,
+              "left_B": 0.022714046712102393,
+              "right_F": 0.019460215986643565,
+              "right_B": 0.025869507265030713,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.05727546393387639,
+              "yaw_R_F": 0.05304496734457549,
+              "translation_F": 0.036151626149792004,
+              "translation_B": 0.04716816637937665,
+              "left_F": 0.025819881742980357,
+              "left_B": 0.028582475741631634,
+              "right_F": 0.025300238281013375,
+              "right_B": 0.03181302998740299,
+              "zero": 0.0
+            }
+          },
+          "H2rn": {
+            "n_bodies": 8,
+            "defined_di_bodies": 8,
+            "mean_di": -0.22308408092166893,
+            "mean_magnitude_di": -0.22308408092166893,
+            "mean_of_yaw": 0.27339650094124196,
+            "mean_of_translation": 0.18116387001514483,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.15612062866834625,
+              "yaw_R_F": 0.11712373046462113,
+              "translation_F": 0.024956928719317602,
+              "translation_B": 0.2061207987344624,
+              "left_F": 0.02977706261585772,
+              "left_B": 0.10291532513099039,
+              "right_F": 0.014222451819298366,
+              "right_B": 0.12631239679893824,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.15619669957248355,
+              "yaw_R_F": 0.11712373046462113,
+              "translation_F": 0.027016620696906385,
+              "translation_B": 0.2061207987344624,
+              "left_F": 0.029846272713724774,
+              "left_B": 0.10291532513099039,
+              "right_F": 0.014421687112715294,
+              "right_B": 0.12631926090297774,
+              "zero": 0.0
+            }
+          },
+          "DNp15": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.353266468276607,
+            "mean_magnitude_di": -0.353266468276607,
+            "mean_of_yaw": 0.4184859890188628,
+            "mean_of_translation": 0.19999066112970942,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.10670826610412601,
+              "yaw_R_F": 0.10232691000468647,
+              "translation_F": 0.1919329605226976,
+              "translation_B": -0.008057700607011806,
+              "left_F": 0.1034423959126067,
+              "left_B": 0.0005179643329555547,
+              "right_F": 0.10187493489645849,
+              "right_B": 0.0032852526010907837,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.15952547450372873,
+              "yaw_R_F": 0.15423510806010893,
+              "translation_F": 0.1919329605226976,
+              "translation_B": 0.0,
+              "left_F": 0.11019753915334699,
+              "left_B": 0.04650992754193155,
+              "right_F": 0.10783239410574617,
+              "right_B": 0.04941309121542986,
+              "zero": 0.0
+            }
+          }
+        },
+        "bilateral_minus_sum_of_unilateral_max_abs_state": {
+          "HS": {
+            "yaw_L_F": 0.0007752324575043198,
+            "yaw_R_F": 0.0008425645001527426,
+            "translation_F": 0.01240455369588589,
+            "translation_B": 0.009547475868926347
+          },
+          "H2": {
+            "yaw_L_F": 0.00019615658669203118,
+            "yaw_R_F": 0.0003549061763943595,
+            "translation_F": 0.009507835448351876,
+            "translation_B": 0.0108979875595826
+          },
+          "bIPS": {
+            "yaw_L_F": 0.001124820403466481,
+            "yaw_R_F": 0.00066949830401139,
+            "translation_F": 0.014114715005039483,
+            "translation_B": 0.012858368869678324
+          },
+          "uLPTCrn": {
+            "yaw_L_F": 0.0020432599598581985,
+            "yaw_R_F": 0.0024289732035131795,
+            "translation_F": 0.013061221953019786,
+            "translation_B": 0.013448690364652599
+          },
+          "H2rn": {
+            "yaw_L_F": 8.173320600990408e-05,
+            "yaw_R_F": 0.00030174956916943774,
+            "translation_F": 0.028691584193131683,
+            "translation_B": 0.034133766755163886
+          },
+          "DNp15": {
+            "yaw_L_F": 0.00017031173009889045,
+            "yaw_R_F": 0.00021442717513758813,
+            "translation_F": 0.013964603737554787,
+            "translation_B": 0.012602437394770793
+          }
+        },
+        "matched_upstream_magnitude_comparison": [
+          {
+            "bodyId": 11215,
+            "somaSide": "R",
+            "matched_upstream_body_ids": [
+              10015,
+              10016,
+              10019,
+              10023
+            ],
+            "upstream_yaw_of_rms": 1.950661085924703,
+            "upstream_translation_of_rms": 1.7790163793431986,
+            "DNp15_yaw_of_magnitude": 0.4141046329194233,
+            "DNp15_translation_of_magnitude": 0.19854511782462406,
+            "upstream_translation_yaw_ratio": 0.9120069048282997,
+            "DNp15_translation_yaw_ratio": 0.4794564031435434,
+            "upstream_common_mode_yaw_ratio": 0.8878777683413412,
+            "DNp15_common_mode_yaw_ratio": 0.6100747759683823,
+            "declared_preferred_yaw_state": 0.30847021612021785,
+            "declared_preferred_yaw_of": 0.4141046329194233
+          },
+          {
+            "bodyId": 12069,
+            "somaSide": "L",
+            "matched_upstream_body_ids": [
+              10025,
+              10034,
+              10181,
+              10419
+            ],
+            "upstream_yaw_of_rms": 1.9473372315437025,
+            "upstream_translation_of_rms": 1.7720568872917943,
+            "DNp15_yaw_of_magnitude": 0.4228673451183024,
+            "DNp15_translation_of_magnitude": 0.20143620443479476,
+            "upstream_translation_yaw_ratio": 0.9099897329478166,
+            "DNp15_translation_yaw_ratio": 0.4763579093070913,
+            "upstream_common_mode_yaw_ratio": 0.8838980480765958,
+            "DNp15_common_mode_yaw_ratio": 0.6133065068813229,
+            "declared_preferred_yaw_state": 0.31905094900745745,
+            "declared_preferred_yaw_of": 0.4228673451183024
+          }
+        ],
+        "DNp15_per_body": [
+          {
+            "control": "no_bIPS_GABA_input",
+            "bodyId": 11215,
+            "type": "DNp15",
+            "somaSide": "R",
+            "stage": "DNp15",
+            "yaw_L_F": -0.10563441679920542,
+            "yaw_L_F_emission": 0.0,
+            "yaw_R_F": 0.30847021612021785,
+            "yaw_R_F_emission": 0.30847021612021785,
+            "translation_F": 0.1881898979924604,
+            "translation_F_emission": 0.1881898979924604,
+            "translation_B": -0.010355219832163663,
+            "translation_B_emission": 0.0,
+            "left_F": -0.013510286481480548,
+            "left_F_emission": 0.0,
+            "left_B": 0.0930198550838631,
+            "left_B_emission": 0.0930198550838631,
+            "right_F": 0.21566478821149235,
+            "right_F_emission": 0.21566478821149235,
+            "right_B": -0.09225567722867815,
+            "right_B_emission": 0.0,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.4141046329194233,
+            "of_translation": 0.19854511782462406,
+            "di": -0.3518478785521544,
+            "magnitude_di": -0.3518478785521544
+          },
+          {
+            "control": "no_bIPS_GABA_input",
+            "bodyId": 12069,
+            "type": "DNp15",
+            "somaSide": "L",
+            "stage": "DNp15",
+            "yaw_L_F": 0.31905094900745745,
+            "yaw_L_F_emission": 0.31905094900745745,
+            "yaw_R_F": -0.10381639611084491,
+            "yaw_R_F_emission": 0.0,
+            "translation_F": 0.1956760230529348,
+            "translation_F_emission": 0.1956760230529348,
+            "translation_B": -0.00576018138185995,
+            "translation_B_emission": 0.0,
+            "left_F": 0.22039507830669397,
+            "left_F_emission": 0.22039507830669397,
+            "left_B": -0.09198392641795199,
+            "left_B_emission": 0.0,
+            "right_F": -0.011914918418575353,
+            "right_F_emission": 0.0,
+            "right_B": 0.09882618243085972,
+            "right_B_emission": 0.09882618243085972,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.4228673451183024,
+            "of_translation": 0.20143620443479476,
+            "di": -0.3546850580010596,
+            "magnitude_di": -0.3546850580010596
+          }
+        ],
+        "washout_final_max_abs_state": 3.3779489747166563e-43,
+        "zero_condition_max_abs_state": 0.0
+      },
+      "no_DNp15_GABA_input": {
+        "populations": {
+          "HS": {
+            "n_bodies": 6,
+            "defined_di_bodies": 6,
+            "mean_di": -0.03668677050358906,
+            "mean_magnitude_di": -0.03668677050358906,
+            "mean_of_yaw": 1.951346328050714,
+            "mean_of_translation": 1.8175741876755327,
+            "condition_mean_signed_state": {
+              "yaw_L_F": -0.02229672495628343,
+              "yaw_R_F": -0.02442308637116865,
+              "translation_F": 0.8899812992747081,
+              "translation_B": -0.9275928884008243,
+              "left_F": 0.44056049664042957,
+              "left_B": -0.4680933644905178,
+              "right_F": 0.4434274406629153,
+              "right_B": -0.46308609214856494,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.4788657147899369,
+              "yaw_R_F": 0.47344754357169405,
+              "translation_F": 0.8899812992747081,
+              "translation_B": 0.0,
+              "left_F": 0.4656331818948118,
+              "left_B": 0.012861718031594036,
+              "right_F": 0.4654425655311581,
+              "right_B": 0.017022333375239767,
+              "zero": 0.0
+            }
+          },
+          "H2": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.08286234153369566,
+            "mean_magnitude_di": -0.08286234153369566,
+            "mean_of_yaw": 1.9055546306510596,
+            "mean_of_translation": 1.613919375286017,
+            "condition_mean_signed_state": {
+              "yaw_L_F": -0.05809661128031507,
+              "yaw_R_F": -0.0509233135051505,
+              "translation_F": -0.8528321642873486,
+              "translation_B": 0.7610872109986684,
+              "left_F": -0.4315285336229703,
+              "left_B": 0.3787793865338694,
+              "right_F": -0.4298875506099112,
+              "right_B": 0.37330238239710767,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.4460972850763929,
+              "yaw_R_F": 0.45217006785640407,
+              "translation_F": 0.0,
+              "translation_B": 0.7610872109986684,
+              "left_F": 0.029930323513305494,
+              "left_B": 0.4214087723884349,
+              "right_F": 0.030583668791059938,
+              "right_B": 0.41606869406358354,
+              "zero": 0.0
+            }
+          },
+          "bIPS": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": 0.06691514205400184,
+            "mean_magnitude_di": 0.06691514205400184,
+            "mean_of_yaw": 0.0801839265319807,
+            "mean_of_translation": 0.09387620481230496,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.08427571087213438,
+              "yaw_R_F": 0.08611161438029566,
+              "translation_F": 0.12394657865925854,
+              "translation_B": 0.030070373846953585,
+              "left_F": 0.06615991515247005,
+              "left_B": 0.01943151773353624,
+              "right_F": 0.0668204807859649,
+              "right_B": 0.018612977726334395,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.08427571087213438,
+              "yaw_R_F": 0.08611161438029566,
+              "translation_F": 0.12394657865925854,
+              "translation_B": 0.030070373846953585,
+              "left_F": 0.06615991515247005,
+              "left_B": 0.01943151773353624,
+              "right_F": 0.0668204807859649,
+              "right_B": 0.018612977726334395,
+              "zero": 0.0
+            }
+          },
+          "uLPTCrn": {
+            "n_bodies": 17,
+            "defined_di_bodies": 16,
+            "mean_di": -0.6176650353666273,
+            "mean_magnitude_di": -0.44478956776382894,
+            "mean_of_yaw": 0.11858579607756509,
+            "mean_of_translation": -0.011845742676439534,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.04712426055410567,
+              "yaw_R_F": 0.04461915818858058,
+              "translation_F": 0.03536885332358604,
+              "translation_B": 0.04721459600002558,
+              "left_F": 0.01922505719719914,
+              "left_B": 0.024515294791465615,
+              "right_F": 0.020300545661519516,
+              "right_B": 0.02817891904579527,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.05742152485451318,
+              "yaw_R_F": 0.05310512421920316,
+              "translation_F": 0.03715192049143773,
+              "translation_B": 0.05061430112650184,
+              "left_F": 0.025878207431534673,
+              "left_B": 0.028626834221134736,
+              "right_F": 0.0253170517000961,
+              "right_B": 0.03190270603802225,
+              "zero": 0.0
+            }
+          },
+          "H2rn": {
+            "n_bodies": 8,
+            "defined_di_bodies": 8,
+            "mean_di": -0.22291216047512158,
+            "mean_magnitude_di": -0.22291216047512158,
+            "mean_of_yaw": 0.2735848420485415,
+            "mean_of_translation": 0.18135309349010784,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.15615671824279323,
+              "yaw_R_F": 0.11728588520754127,
+              "translation_F": 0.02504216094768163,
+              "translation_B": 0.20639525443778944,
+              "left_F": 0.029789663718688558,
+              "left_B": 0.103028013115154,
+              "right_F": 0.014273112074962315,
+              "right_B": 0.12633590416089152,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.15622783754189673,
+              "yaw_R_F": 0.11728588520754127,
+              "translation_F": 0.027116183654597937,
+              "translation_B": 0.20639525443778944,
+              "left_F": 0.029856785190437923,
+              "left_B": 0.103028013115154,
+              "right_F": 0.014472017446499525,
+              "right_B": 0.12633987967820717,
+              "zero": 0.0
+            }
+          },
+          "DNp15": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.3893685056947319,
+            "mean_magnitude_di": -0.3893685056947319,
+            "mean_of_yaw": 0.43102010325929496,
+            "mean_of_translation": 0.18941934470116661,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.12994675391801577,
+              "yaw_R_F": 0.12527519081286137,
+              "translation_F": 0.20657938792801656,
+              "translation_B": 0.01716004322684995,
+              "left_F": 0.11202590492658965,
+              "left_B": 0.01465578958016632,
+              "right_F": 0.11074688154151094,
+              "right_B": 0.017996475779642612,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.17401479444754633,
+              "yaw_R_F": 0.1691062295475397,
+              "translation_F": 0.20657938792801656,
+              "translation_B": 0.01716004322684995,
+              "left_F": 0.11381018565302664,
+              "left_B": 0.057001064111928006,
+              "right_F": 0.11223774146091943,
+              "right_B": 0.06029835143485241,
+              "zero": 0.0
+            }
+          }
+        },
+        "bilateral_minus_sum_of_unilateral_max_abs_state": {
+          "HS": {
+            "yaw_L_F": 0.0007793196003706426,
+            "yaw_R_F": 0.0008459802100494462,
+            "translation_F": 0.011439668285621263,
+            "translation_B": 0.006233205996635349
+          },
+          "H2": {
+            "yaw_L_F": 0.00019653499900806892,
+            "yaw_R_F": 0.0003552533538113273,
+            "translation_F": 0.00888214112776553,
+            "translation_B": 0.00965961172992702
+          },
+          "bIPS": {
+            "yaw_L_F": 0.001005429792426682,
+            "yaw_R_F": 0.0002761549582347145,
+            "translation_F": 0.009174896349079809,
+            "translation_B": 0.008017309505956617
+          },
+          "uLPTCrn": {
+            "yaw_L_F": 0.0020543145349127268,
+            "yaw_R_F": 0.0024275432125726148,
+            "translation_F": 0.01329484812960069,
+            "translation_B": 0.014020211941358732
+          },
+          "H2rn": {
+            "yaw_L_F": 8.195243531922136e-05,
+            "yaw_R_F": 0.00030186307879223606,
+            "translation_F": 0.028626280716346056,
+            "translation_B": 0.033994590213961895
+          },
+          "DNp15": {
+            "yaw_L_F": 0.00018748528066536707,
+            "yaw_R_F": 0.00026515205061242164,
+            "translation_F": 0.01685145465696508,
+            "translation_B": 0.01627250343392042
+          }
+        },
+        "matched_upstream_magnitude_comparison": [
+          {
+            "bodyId": 11215,
+            "somaSide": "R",
+            "matched_upstream_body_ids": [
+              10015,
+              10016,
+              10019,
+              10023
+            ],
+            "upstream_yaw_of_rms": 1.940577764038535,
+            "upstream_translation_of_rms": 1.7758123705382438,
+            "DNp15_yaw_of_magnitude": 0.42634854015414053,
+            "DNp15_translation_of_magnitude": 0.18936903073056974,
+            "upstream_translation_yaw_ratio": 0.9150946710028264,
+            "DNp15_translation_yaw_ratio": 0.444164839082376,
+            "upstream_common_mode_yaw_ratio": 0.8923705309493123,
+            "DNp15_common_mode_yaw_ratio": 0.6033351561263492,
+            "declared_preferred_yaw_state": 0.3382124590950794,
+            "declared_preferred_yaw_of": 0.42634854015414053
+          },
+          {
+            "bodyId": 12069,
+            "somaSide": "L",
+            "matched_upstream_body_ids": [
+              10025,
+              10034,
+              10181,
+              10419
+            ],
+            "upstream_yaw_of_rms": 1.9402064822329241,
+            "upstream_translation_of_rms": 1.7698385889805817,
+            "DNp15_yaw_of_magnitude": 0.43569166636444934,
+            "DNp15_translation_of_magnitude": 0.1894696586717635,
+            "upstream_translation_yaw_ratio": 0.9121908442155748,
+            "DNp15_translation_yaw_ratio": 0.4348709725222861,
+            "upstream_common_mode_yaw_ratio": 0.887333360538706,
+            "DNp15_common_mode_yaw_ratio": 0.6008204926135099,
+            "declared_preferred_yaw_state": 0.34802958889509267,
+            "declared_preferred_yaw_of": 0.43569166636444934
+          }
+        ],
+        "DNp15_per_body": [
+          {
+            "control": "no_DNp15_GABA_input",
+            "bodyId": 11215,
+            "type": "DNp15",
+            "somaSide": "R",
+            "stage": "DNp15",
+            "yaw_L_F": -0.08813608105906112,
+            "yaw_L_F_emission": 0.0,
+            "yaw_R_F": 0.3382124590950794,
+            "yaw_R_F_emission": 0.3382124590950794,
+            "translation_F": 0.20405546681200623,
+            "translation_F_emission": 0.20405546681200623,
+            "translation_B": 0.014686436081436483,
+            "translation_B_emission": 0.014686436081436483,
+            "left_F": -0.0035685614528739866,
+            "left_F_emission": 0.0,
+            "left_B": 0.11400212822385601,
+            "left_B_emission": 0.11400212822385601,
+            "right_F": 0.22447548292183886,
+            "right_F_emission": 0.22447548292183886,
+            "right_B": -0.0846037513104196,
+            "right_B_emission": 0.0,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.42634854015414053,
+            "of_translation": 0.18936903073056974,
+            "di": -0.38488346058252076,
+            "magnitude_di": -0.38488346058252076
+          },
+          {
+            "control": "no_DNp15_GABA_input",
+            "bodyId": 12069,
+            "type": "DNp15",
+            "somaSide": "L",
+            "stage": "DNp15",
+            "yaw_L_F": 0.34802958889509267,
+            "yaw_L_F_emission": 0.34802958889509267,
+            "yaw_R_F": -0.0876620774693567,
+            "yaw_R_F_emission": 0.0,
+            "translation_F": 0.2091033090440269,
+            "translation_F_emission": 0.2091033090440269,
+            "translation_B": 0.01963365037226341,
+            "translation_B_emission": 0.01963365037226341,
+            "left_F": 0.22762037130605328,
+            "left_F_emission": 0.22762037130605328,
+            "left_B": -0.08469054906352337,
+            "left_B_emission": 0.0,
+            "right_F": -0.002981719838816972,
+            "right_F_emission": 0.0,
+            "right_B": 0.12059670286970482,
+            "right_B_emission": 0.12059670286970482,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.43569166636444934,
+            "of_translation": 0.1894696586717635,
+            "di": -0.393853550806943,
+            "magnitude_di": -0.393853550806943
+          }
+        ],
+        "washout_final_max_abs_state": 2.3183788011012884e-43,
+        "zero_condition_max_abs_state": 0.0
+      },
+      "no_chemical_feedback": {
+        "populations": {
+          "HS": {
+            "n_bodies": 6,
+            "defined_di_bodies": 6,
+            "mean_di": -0.03683658720813899,
+            "mean_magnitude_di": -0.03683658720813899,
+            "mean_of_yaw": 1.978617150000199,
+            "mean_of_translation": 1.841307975457281,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.019291893150123213,
+              "yaw_R_F": 0.013899370049315315,
+              "translation_F": 0.9351622893509312,
+              "translation_B": -0.9061456861063496,
+              "left_F": 0.46762427725415523,
+              "left_B": -0.45565646520523845,
+              "right_F": 0.46955583525455324,
+              "right_B": -0.4483323841040212,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.5056585736328923,
+              "yaw_R_F": 0.5002456329669265,
+              "translation_F": 0.9351622893509312,
+              "translation_B": 0.0,
+              "left_F": 0.48166352545179686,
+              "left_B": 0.016666625725680177,
+              "right_F": 0.48357900724124764,
+              "right_B": 0.02399504818109686,
+              "zero": 0.0
+            }
+          },
+          "H2": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.09516361928463851,
+            "mean_magnitude_di": -0.09516361928463851,
+            "mean_of_yaw": 2.0098722675179417,
+            "mean_of_translation": 1.6605762773118076,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.006620241656147552,
+              "yaw_R_F": 0.003252025861794461,
+              "translation_F": -0.8260558594580557,
+              "translation_B": 0.834520417853752,
+              "left_F": -0.41181149328046635,
+              "left_B": 0.4168465474518328,
+              "right_F": -0.41359452159003535,
+              "right_B": 0.41843173493660757,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.5066202416561475,
+              "yaw_R_F": 0.5032520258617944,
+              "translation_F": 0.0,
+              "translation_B": 0.834520417853752,
+              "left_F": 0.0465218400528607,
+              "left_B": 0.4585132141184992,
+              "right_F": 0.044738811743291695,
+              "right_B": 0.460098401603274,
+              "zero": 0.0
+            }
+          },
+          "bIPS": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.33629220974467866,
+            "mean_magnitude_di": -0.33629220974467866,
+            "mean_of_yaw": 0.14449552273531974,
+            "mean_of_translation": 0.07310212780801605,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.12396073419585832,
+              "yaw_R_F": 0.11926906878438746,
+              "translation_F": 0.1434250444932415,
+              "translation_B": 0.07032291668522547,
+              "left_F": 0.07890345492049072,
+              "left_B": 0.04050730489514147,
+              "right_F": 0.07876176388924726,
+              "right_B": 0.045057279275368164,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.12396073419585832,
+              "yaw_R_F": 0.11926906878438746,
+              "translation_F": 0.1434250444932415,
+              "translation_B": 0.07032291668522547,
+              "left_F": 0.07890345492049072,
+              "left_B": 0.04050730489514147,
+              "right_F": 0.07876176388924726,
+              "right_B": 0.045057279275368164,
+              "zero": 0.0
+            }
+          },
+          "uLPTCrn": {
+            "n_bodies": 17,
+            "defined_di_bodies": 14,
+            "mean_di": -0.887836387030445,
+            "mean_magnitude_di": -0.4752746750193873,
+            "mean_of_yaw": 0.1598771542385452,
+            "mean_of_translation": -0.027413311791372134,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.07860585134504076,
+              "yaw_R_F": 0.08127130289350444,
+              "translation_F": 0.05511477547894864,
+              "translation_B": 0.08252808727032078,
+              "left_F": 0.03237707707970025,
+              "left_B": 0.04730634731911828,
+              "right_F": 0.03396495557438663,
+              "right_B": 0.04622877426534052,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.07860585134504076,
+              "yaw_R_F": 0.08127130289350444,
+              "translation_F": 0.05511477547894864,
+              "translation_B": 0.08252808727032078,
+              "left_F": 0.03237707707970025,
+              "left_B": 0.04730634731911828,
+              "right_F": 0.03396495557438663,
+              "right_B": 0.04622877426534052,
+              "zero": 0.0
+            }
+          },
+          "H2rn": {
+            "n_bodies": 8,
+            "defined_di_bodies": 8,
+            "mean_di": -0.22571520089292163,
+            "mean_magnitude_di": -0.22571520089292163,
+            "mean_of_yaw": 0.3474360402883533,
+            "mean_of_translation": 0.22673541068829056,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.19475946474963063,
+              "yaw_R_F": 0.1526765755387227,
+              "translation_F": 0.030281093891770805,
+              "translation_B": 0.25701650458006137,
+              "left_F": 0.03917329206596403,
+              "left_B": 0.13079361762138225,
+              "right_F": 0.021882957917337683,
+              "right_B": 0.15558617268366914,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.19475946474963063,
+              "yaw_R_F": 0.1526765755387227,
+              "translation_F": 0.030281093891770805,
+              "translation_B": 0.25701650458006137,
+              "left_F": 0.03917329206596403,
+              "left_B": 0.13079361762138225,
+              "right_F": 0.021882957917337683,
+              "right_B": 0.15558617268366914,
+              "zero": 0.0
+            }
+          },
+          "DNp15": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.3578794197076398,
+            "mean_magnitude_di": -0.3578794197076398,
+            "mean_of_yaw": 0.43066296395933085,
+            "mean_of_translation": 0.20362660721757733,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.1186771582655104,
+              "yaw_R_F": 0.11293154126879895,
+              "translation_F": 0.20339586732429024,
+              "translation_B": -0.000230739893287081,
+              "left_F": 0.10934946372400783,
+              "left_B": 0.005120387786191373,
+              "right_F": 0.10781115348260792,
+              "right_B": 0.009327694541503596,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.16877761419676623,
+              "yaw_R_F": 0.16235821755005386,
+              "translation_F": 0.20339586732429024,
+              "translation_B": 0.0014889925323371446,
+              "left_F": 0.11431132091285046,
+              "left_B": 0.050115721839858476,
+              "right_F": 0.11224249571019435,
+              "right_B": 0.05446629328391552,
+              "zero": 0.0
+            }
+          }
+        },
+        "bilateral_minus_sum_of_unilateral_max_abs_state": {
+          "HS": {
+            "yaw_L_F": 2.6367796834847468e-15,
+            "yaw_R_F": 1.6653345369377348e-15,
+            "translation_F": 0.00359632285919053,
+            "translation_B": 0.00400754994151345
+          },
+          "H2": {
+            "yaw_L_F": 1.7763568394002505e-15,
+            "yaw_R_F": 1.915134717478395e-15,
+            "translation_F": 0.0009583189803499259,
+            "translation_B": 0.0011559674990616609
+          },
+          "bIPS": {
+            "yaw_L_F": 1.6653345369377348e-16,
+            "yaw_R_F": 3.0531133177191805e-16,
+            "translation_F": 0.014719977579538412,
+            "translation_B": 0.016067868220291895
+          },
+          "uLPTCrn": {
+            "yaw_L_F": 7.771561172376096e-16,
+            "yaw_R_F": 4.163336342344337e-16,
+            "translation_F": 0.022230954335934222,
+            "translation_B": 0.022363979209656215
+          },
+          "H2rn": {
+            "yaw_L_F": 6.661338147750939e-16,
+            "yaw_R_F": 5.689893001203927e-16,
+            "translation_F": 0.04202196903866702,
+            "translation_B": 0.040155723030121604
+          },
+          "DNp15": {
+            "yaw_L_F": 2.914335439641036e-16,
+            "yaw_R_F": 2.7755575615628914e-17,
+            "translation_F": 0.013934935301191895,
+            "translation_B": 0.01596393339581996
+          }
+        },
+        "matched_upstream_magnitude_comparison": [
+          {
+            "bodyId": 11215,
+            "somaSide": "R",
+            "matched_upstream_body_ids": [
+              10015,
+              10016,
+              10019,
+              10023
+            ],
+            "upstream_yaw_of_rms": 1.982392081451364,
+            "upstream_translation_of_rms": 1.8081850712375287,
+            "DNp15_yaw_of_magnitude": 0.4249173469626194,
+            "DNp15_translation_of_magnitude": 0.20440617743048756,
+            "upstream_translation_yaw_ratio": 0.9121228278483167,
+            "DNp15_translation_yaw_ratio": 0.48104926497262884,
+            "upstream_common_mode_yaw_ratio": 0.9107487747200442,
+            "DNp15_common_mode_yaw_ratio": 0.6188991096717433,
+            "declared_preferred_yaw_state": 0.3247164351001077,
+            "declared_preferred_yaw_of": 0.4249173469626194
+          },
+          {
+            "bodyId": 12069,
+            "somaSide": "L",
+            "matched_upstream_body_ids": [
+              10025,
+              10034,
+              10181,
+              10419
+            ],
+            "upstream_yaw_of_rms": 1.9923356793059959,
+            "upstream_translation_of_rms": 1.7946675533125775,
+            "DNp15_yaw_of_magnitude": 0.4364085809560423,
+            "DNp15_translation_of_magnitude": 0.2028470370046671,
+            "upstream_translation_yaw_ratio": 0.9007857320196798,
+            "DNp15_translation_yaw_ratio": 0.4648099186324182,
+            "upstream_common_mode_yaw_ratio": 0.897406512580866,
+            "DNp15_common_mode_yaw_ratio": 0.609752137595049,
+            "declared_preferred_yaw_state": 0.33755522839353247,
+            "declared_preferred_yaw_of": 0.4364085809560423
+          }
+        ],
+        "DNp15_per_body": [
+          {
+            "control": "no_chemical_feedback",
+            "bodyId": 11215,
+            "type": "DNp15",
+            "somaSide": "R",
+            "stage": "DNp15",
+            "yaw_L_F": -0.10020091186251168,
+            "yaw_L_F_emission": 0.0,
+            "yaw_R_F": 0.3247164351001077,
+            "yaw_R_F_emission": 0.3247164351001077,
+            "translation_F": 0.2009667125792391,
+            "translation_F_emission": 0.2009667125792391,
+            "translation_B": -0.0034394648512484512,
+            "translation_B_emission": 0.0,
+            "left_F": -0.009923714377685237,
+            "left_F_emission": 0.0,
+            "left_B": 0.10023144367971695,
+            "left_B_emission": 0.10023144367971695,
+            "right_F": 0.2244849914203887,
+            "right_F_emission": 0.2244849914203887,
+            "right_B": -0.09027719748482385,
+            "right_B_emission": 0.0,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.4249173469626194,
+            "of_translation": 0.20440617743048756,
+            "di": -0.3503939722335717,
+            "magnitude_di": -0.3503939722335717
+          },
+          {
+            "control": "no_chemical_feedback",
+            "bodyId": 12069,
+            "type": "DNp15",
+            "somaSide": "L",
+            "stage": "DNp15",
+            "yaw_L_F": 0.33755522839353247,
+            "yaw_L_F_emission": 0.33755522839353247,
+            "yaw_R_F": -0.09885335256250982,
+            "yaw_R_F_emission": 0.0,
+            "translation_F": 0.2058250220693414,
+            "translation_F_emission": 0.2058250220693414,
+            "translation_B": 0.002977985064674289,
+            "translation_B_emission": 0.002977985064674289,
+            "left_F": 0.2286226418257009,
+            "left_F_emission": 0.2286226418257009,
+            "left_B": -0.0899906681073342,
+            "left_B_emission": 0.0,
+            "right_F": -0.008862684455172855,
+            "right_F_emission": 0.0,
+            "right_B": 0.10893258656783104,
+            "right_B_emission": 0.10893258656783104,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.4364085809560423,
+            "of_translation": 0.2028470370046671,
+            "di": -0.36536486718170785,
+            "magnitude_di": -0.36536486718170785
+          }
+        ],
+        "washout_final_max_abs_state": 2.955697635682171e-42,
+        "zero_condition_max_abs_state": 0.0
+      },
+      "feedforward_chemical_only": {
+        "populations": {
+          "HS": {
+            "n_bodies": 6,
+            "defined_di_bodies": 6,
+            "mean_di": 0.0,
+            "mean_magnitude_di": 0.0,
+            "mean_of_yaw": 1.9999999999999998,
+            "mean_of_translation": 1.9999999999999998,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 3.700743415417188e-17,
+              "yaw_R_F": -3.700743415417188e-17,
+              "translation_F": 0.9999999999999999,
+              "translation_B": -0.9999999999999999,
+              "left_F": 0.49999999999999994,
+              "left_B": -0.49999999999999994,
+              "right_F": 0.49999999999999994,
+              "right_B": -0.49999999999999994,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.49999999999999994,
+              "yaw_R_F": 0.49999999999999994,
+              "translation_F": 0.9999999999999999,
+              "translation_B": 0.0,
+              "left_F": 0.49999999999999994,
+              "left_B": 0.0,
+              "right_F": 0.49999999999999994,
+              "right_B": 0.0,
+              "zero": 0.0
+            }
+          },
+          "H2": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": 0.0,
+            "mean_magnitude_di": 0.0,
+            "mean_of_yaw": 1.9999999999999998,
+            "mean_of_translation": 1.9999999999999998,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.0,
+              "yaw_R_F": 0.0,
+              "translation_F": -0.9999999999999999,
+              "translation_B": 0.9999999999999999,
+              "left_F": -0.49999999999999994,
+              "left_B": 0.49999999999999994,
+              "right_F": -0.49999999999999994,
+              "right_B": 0.49999999999999994,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.49999999999999994,
+              "yaw_R_F": 0.49999999999999994,
+              "translation_F": 0.0,
+              "translation_B": 0.9999999999999999,
+              "left_F": 0.0,
+              "left_B": 0.49999999999999994,
+              "right_F": 0.0,
+              "right_B": 0.49999999999999994,
+              "zero": 0.0
+            }
+          },
+          "bIPS": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.3365875912408728,
+            "mean_magnitude_di": -0.3365875912408728,
+            "mean_of_yaw": 0.14258911819887404,
+            "mean_of_translation": 0.07206587450489897,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.12207629768605341,
+              "yaw_R_F": 0.11851156973108219,
+              "translation_F": 0.1563268709610156,
+              "translation_B": 0.08426099645611664,
+              "left_F": 0.07767354596622938,
+              "left_B": 0.03985824473629319,
+              "right_F": 0.07865332499478758,
+              "right_B": 0.044402751719823615,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.12207629768605341,
+              "yaw_R_F": 0.11851156973108219,
+              "translation_F": 0.1563268709610156,
+              "translation_B": 0.08426099645611664,
+              "left_F": 0.07767354596622938,
+              "left_B": 0.03985824473629319,
+              "right_F": 0.07865332499478758,
+              "right_B": 0.044402751719823615,
+              "zero": 0.0
+            }
+          },
+          "uLPTCrn": {
+            "n_bodies": 17,
+            "defined_di_bodies": 14,
+            "mean_di": -0.8997210326189571,
+            "mean_magnitude_di": -0.41229061551526003,
+            "mean_of_yaw": 0.15760593413868892,
+            "mean_of_translation": -0.04018369289086475,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.07717665110832418,
+              "yaw_R_F": 0.08042928303036471,
+              "translation_F": 0.05871112062391178,
+              "translation_B": 0.09889481351477653,
+              "left_F": 0.028425836536220522,
+              "left_B": 0.05014399894267319,
+              "right_F": 0.030285284087691253,
+              "right_B": 0.04875081457210334,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.07717665110832418,
+              "yaw_R_F": 0.08042928303036471,
+              "translation_F": 0.05871112062391178,
+              "translation_B": 0.09889481351477653,
+              "left_F": 0.028425836536220522,
+              "left_B": 0.05014399894267319,
+              "right_F": 0.030285284087691253,
+              "right_B": 0.04875081457210334,
+              "zero": 0.0
+            }
+          },
+          "H2rn": {
+            "n_bodies": 8,
+            "defined_di_bodies": 8,
+            "mean_di": -0.1316408128908091,
+            "mean_magnitude_di": -0.1316408128908091,
+            "mean_of_yaw": 0.34213594482029985,
+            "mean_of_translation": 0.2737577892455878,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.1912114845938371,
+              "yaw_R_F": 0.15092446022646272,
+              "translation_F": 0.03418907778735618,
+              "translation_B": 0.307946867032944,
+              "left_F": 0.02521008403361281,
+              "left_B": 0.14194546647271958,
+              "right_F": 0.008978993753743366,
+              "right_B": 0.1660014005602244,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.1912114845938371,
+              "yaw_R_F": 0.15092446022646272,
+              "translation_F": 0.03418907778735618,
+              "translation_B": 0.307946867032944,
+              "left_F": 0.02521008403361281,
+              "left_B": 0.14194546647271958,
+              "right_F": 0.008978993753743366,
+              "right_B": 0.1660014005602244,
+              "zero": 0.0
+            }
+          },
+          "DNp15": {
+            "n_bodies": 2,
+            "defined_di_bodies": 2,
+            "mean_di": -0.7880350729716016,
+            "mean_magnitude_di": -0.7880350729716016,
+            "mean_of_yaw": 0.2846081288731672,
+            "mean_of_translation": 0.03372772670197519,
+            "condition_mean_signed_state": {
+              "yaw_L_F": 0.12751507483613791,
+              "yaw_R_F": 0.12217150532958816,
+              "translation_F": 0.14170715343384832,
+              "translation_B": 0.10797942673187313,
+              "left_F": 0.07197907871588567,
+              "left_B": 0.052443430611623786,
+              "right_F": 0.06972807471796308,
+              "right_B": 0.05553599612024902,
+              "zero": 0.0
+            },
+            "condition_mean_emission": {
+              "yaw_L_F": 0.1365791197524786,
+              "yaw_R_F": 0.13056823476696805,
+              "translation_F": 0.14170715343384832,
+              "translation_B": 0.10797942673187313,
+              "left_F": 0.0771950831320535,
+              "left_B": 0.056153172039522276,
+              "right_F": 0.07441506272744425,
+              "right_B": 0.059384036620422,
+              "zero": 0.0
+            }
+          }
+        },
+        "bilateral_minus_sum_of_unilateral_max_abs_state": {
+          "HS": {
+            "yaw_L_F": 0.0,
+            "yaw_R_F": 0.0,
+            "translation_F": 0.0,
+            "translation_B": 0.0
+          },
+          "H2": {
+            "yaw_L_F": 0.0,
+            "yaw_R_F": 0.0,
+            "translation_F": 0.0,
+            "translation_B": 0.0
+          },
+          "bIPS": {
+            "yaw_L_F": 0.0,
+            "yaw_R_F": 0.0,
+            "translation_F": 1.5265566588595902e-16,
+            "translation_B": 0.0
+          },
+          "uLPTCrn": {
+            "yaw_L_F": 2.498001805406602e-16,
+            "yaw_R_F": 2.7755575615628914e-16,
+            "translation_F": 0.0,
+            "translation_B": 0.0
+          },
+          "H2rn": {
+            "yaw_L_F": 5.551115123125783e-17,
+            "yaw_R_F": 1.3877787807814457e-16,
+            "translation_F": 0.0,
+            "translation_B": 0.0
+          },
+          "DNp15": {
+            "yaw_L_F": 1.4155343563970746e-15,
+            "yaw_R_F": 2.498001805406602e-16,
+            "translation_F": 9.367506770274758e-16,
+            "translation_B": 2.7755575615628914e-17
+          }
+        },
+        "matched_upstream_magnitude_comparison": [
+          {
+            "bodyId": 11215,
+            "somaSide": "R",
+            "matched_upstream_body_ids": [
+              10015,
+              10016,
+              10019,
+              10023
+            ],
+            "upstream_yaw_of_rms": 1.9999999999999998,
+            "upstream_translation_of_rms": 1.9999999999999998,
+            "DNp15_yaw_of_magnitude": 0.2792645593666175,
+            "DNp15_translation_of_magnitude": 0.03378785354385494,
+            "upstream_translation_yaw_ratio": 1.0,
+            "DNp15_translation_yaw_ratio": 0.1209886912270109,
+            "upstream_common_mode_yaw_ratio": 1.0,
+            "DNp15_common_mode_yaw_ratio": 0.5299838696201987,
+            "declared_preferred_yaw_state": 0.2611364695339361,
+            "declared_preferred_yaw_of": 0.2792645593666175
+          },
+          {
+            "bodyId": 12069,
+            "somaSide": "L",
+            "matched_upstream_body_ids": [
+              10025,
+              10034,
+              10181,
+              10419
+            ],
+            "upstream_yaw_of_rms": 1.9999999999999998,
+            "upstream_translation_of_rms": 1.9999999999999998,
+            "DNp15_yaw_of_magnitude": 0.28995169837971696,
+            "DNp15_translation_of_magnitude": 0.033667599860095446,
+            "upstream_translation_yaw_ratio": 1.0,
+            "DNp15_translation_yaw_ratio": 0.11611451165222973,
+            "upstream_common_mode_yaw_ratio": 1.0,
+            "DNp15_common_mode_yaw_ratio": 0.5308871169617871,
+            "declared_preferred_yaw_state": 0.2731582395049572,
+            "declared_preferred_yaw_of": 0.28995169837971696
+          }
+        ],
+        "DNp15_per_body": [
+          {
+            "control": "feedforward_chemical_only",
+            "bodyId": 11215,
+            "type": "DNp15",
+            "somaSide": "R",
+            "stage": "DNp15",
+            "yaw_L_F": -0.018128089832681365,
+            "yaw_L_F_emission": 0.0,
+            "yaw_R_F": 0.2611364695339361,
+            "yaw_R_F_emission": 0.2611364695339361,
+            "translation_F": 0.13839811662255258,
+            "translation_F_emission": 0.13839811662255258,
+            "translation_B": 0.10461026307869764,
+            "translation_B_emission": 0.10461026307869764,
+            "left_F": -0.010432008832335657,
+            "left_F_emission": 0.0,
+            "left_B": 0.11230634407904455,
+            "left_B_emission": 0.11230634407904455,
+            "right_F": 0.1488301254548885,
+            "right_F_emission": 0.1488301254548885,
+            "right_B": -0.007696081000345947,
+            "right_B_emission": 0.0,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.2792645593666175,
+            "of_translation": 0.03378785354385494,
+            "di": -0.7841393188461532,
+            "magnitude_di": -0.7841393188461532
+          },
+          {
+            "control": "feedforward_chemical_only",
+            "bodyId": 12069,
+            "type": "DNp15",
+            "somaSide": "L",
+            "stage": "DNp15",
+            "yaw_L_F": 0.2731582395049572,
+            "yaw_L_F_emission": 0.2731582395049572,
+            "yaw_R_F": -0.016793458874759765,
+            "yaw_R_F_emission": 0.0,
+            "translation_F": 0.1450161902451441,
+            "translation_F_emission": 0.1450161902451441,
+            "translation_B": 0.11134859038504864,
+            "translation_B_emission": 0.11134859038504864,
+            "left_F": 0.154390166264107,
+            "left_F_emission": 0.154390166264107,
+            "left_B": -0.007419482855796982,
+            "left_B_emission": 0.0,
+            "right_F": -0.009373976018962343,
+            "right_F_emission": 0.0,
+            "right_B": 0.118768073240844,
+            "right_B_emission": 0.118768073240844,
+            "zero": 0.0,
+            "zero_emission": 0.0,
+            "of_yaw": 0.28995169837971696,
+            "of_translation": 0.033667599860095446,
+            "di": -0.79193082709705,
+            "magnitude_di": -0.79193082709705
+          }
+        ],
+        "washout_final_max_abs_state": 1.9881190647766308e-42,
+        "zero_condition_max_abs_state": 0.0
+      }
+    },
+    "external_comparison": {
+      "HS": {
+        "model_mean_di": -0.03645813007113927,
+        "published_mean_di": -0.1043038661807931,
+        "model_minus_published": 0.06784573610965383,
+        "inside_descriptive_roi_interval": true,
+        "same_mean_preference_sign": true
+      },
+      "H2": {
+        "model_mean_di": -0.08286692633976167,
+        "published_mean_di": -0.41858665338279377,
+        "model_minus_published": 0.3357197270430321,
+        "inside_descriptive_roi_interval": false,
+        "same_mean_preference_sign": true
+      },
+      "bIPS": {
+        "model_mean_di": 0.06667758398156477,
+        "published_mean_di": 0.12644218810612343,
+        "model_minus_published": -0.059764604124558654,
+        "inside_descriptive_roi_interval": true,
+        "same_mean_preference_sign": true
+      },
+      "uLPTCrn": {
+        "model_mean_di": -0.6176820279361239,
+        "published_mean_di": -0.5006791714204679,
+        "model_minus_published": -0.117002856515656,
+        "inside_descriptive_roi_interval": true,
+        "same_mean_preference_sign": true
+      },
+      "H2rn": {
+        "model_mean_di": -0.22283261475933192,
+        "published_mean_di": -0.8946671486892463,
+        "model_minus_published": 0.6718345339299144,
+        "inside_descriptive_roi_interval": false,
+        "same_mean_preference_sign": true
+      },
+      "DNp15": {
+        "model_mean_di": -0.35167835740357234,
+        "published_mean_di": -0.6409234916912422,
+        "model_minus_published": 0.28924513428766985,
+        "inside_descriptive_roi_interval": false,
+        "same_mean_preference_sign": true
+      }
+    },
+    "trace_arrays_sha256": "7bd13c25a7e75e781272f9139cfa6b93db9b798c2c76cc176a54a4aff37f953c",
+    "deterministic_repeat_all_conditions": true,
+    "qualitative_target": {
+      "DNp15_mean_magnitude_di": -0.35167835740357234,
+      "upstream_mean_magnitude_di": {
+        "HS": -0.03645813007113927,
+        "H2": -0.08286692633976167
+      },
+      "DNp15_magnitude_preference_exceeds_both_upstream_populations": true,
+      "per_side": [
+        {
+          "bodyId": 11215,
+          "somaSide": "R",
+          "matched_upstream_body_ids": [
+            10015,
+            10016,
+            10019,
+            10023
+          ],
+          "upstream_yaw_of_rms": 1.9401472909618787,
+          "upstream_translation_of_rms": 1.775969476588774,
+          "DNp15_yaw_of_magnitude": 0.40765010602756674,
+          "DNp15_translation_of_magnitude": 0.19610770381938608,
+          "upstream_translation_yaw_ratio": 0.9153786853514048,
+          "DNp15_translation_yaw_ratio": 0.4810686932732567,
+          "upstream_common_mode_yaw_ratio": 0.8926595114361475,
+          "DNp15_common_mode_yaw_ratio": 0.6155875872125751,
+          "declared_preferred_yaw_state": 0.3087210710628251,
+          "declared_preferred_yaw_of": 0.40765010602756674,
+          "rotational_response_preserved": true,
+          "translation_and_common_mode_reduced_vs_matched_upstream": true,
+          "passed": true,
+          "yaw_magnitude_full_over_feedforward": 1.459727317179568,
+          "translation_magnitude_full_over_feedforward": 5.804088844082626
+        },
+        {
+          "bodyId": 12069,
+          "somaSide": "L",
+          "matched_upstream_body_ids": [
+            10025,
+            10034,
+            10181,
+            10419
+          ],
+          "upstream_yaw_of_rms": 1.9397662634103794,
+          "upstream_translation_of_rms": 1.7700870292078874,
+          "DNp15_yaw_of_magnitude": 0.4173422639869634,
+          "DNp15_translation_of_magnitude": 0.1995805628220927,
+          "upstream_translation_yaw_ratio": 0.9125259380972158,
+          "DNp15_translation_yaw_ratio": 0.4782179521322744,
+          "upstream_common_mode_yaw_ratio": 0.8876715863936165,
+          "DNp15_common_mode_yaw_ratio": 0.6183056301240728,
+          "declared_preferred_yaw_state": 0.31953324464791427,
+          "declared_preferred_yaw_of": 0.4173422639869634,
+          "rotational_response_preserved": true,
+          "translation_and_common_mode_reduced_vs_matched_upstream": true,
+          "passed": true,
+          "yaw_magnitude_full_over_feedforward": 1.4393509895583279,
+          "translation_magnitude_full_over_feedforward": 5.927971214207216
+        }
+      ],
+      "limited_neural_transformation_gate": true,
+      "gate_is_not_full_physiological_validation": true,
+      "DNp15_bilateral_superposition_residual_max": 0.014097533080212415,
+      "recurrent_mechanism_checks": [
+        {
+          "bodyId": 11215,
+          "full_reduces_both_ratios_vs_feedforward": false
+        },
+        {
+          "bodyId": 12069,
+          "full_reduces_both_ratios_vs_feedforward": false
+        }
+      ],
+      "recurrent_enhancement_contract_passed": false
+    },
+    "published_ablation_comparison": {
+      "published_bIPS_control_mean_di": 0.24451347417619795,
+      "published_bIPS_Rdl_mean_di": -0.05387282059127245,
+      "model_bIPS_control_mean_di": 0.06667758398156477,
+      "model_bIPS_GABA_off_mean_di": -0.30252092898809246
+    },
+    "environment": {
+      "python": "3.11.9",
+      "numpy": "2.0.2",
+      "scipy": "1.17.1",
+      "pandas": "3.0.5"
+    }
+  },
+  "conclusion_boundary": "The target gate tests a limited modeled transformation, not biological voltage, behavior, full physiological hierarchy or emergence from chemical connectivity alone. Report every population discrepancy and ablation; do not interpret a failed default model as falsifying binocular biology.",
+  "outputs": {
+    "figure": "figures/EXP-004-binocular-physiology.png",
+    "generated": "results/exp004_physiology/{metrics.json,neuron_responses.csv,traces_<control>.npz,figures/EXP-004-binocular-physiology.png}",
+    "bulk_results_ignored": true
+  },
+  "reproduce": "python scripts/prepare_exp004_physiology.py --download-sources --check-specification; python scripts/run_exp004_physiology.py --check-record"
+}

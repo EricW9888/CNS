@@ -10,7 +10,7 @@ experiments following local optic-column inputs through
 [T4 motion neurons](https://elifesciences.org/articles/24394) and selected
 downstream pathways. It is not a whole-CNS simulation and does not yet establish
 biologically calibrated direction labels,
-[DNp15 optic-flow selectivity](https://doi.org/10.1038/s41593-025-01948-9), or
+reproduced [DNp15 binocular physiology](https://doi.org/10.1038/s41593-025-01948-9), or
 biologically interpretable steering behavior.
 
 The organizing scientific question is:
@@ -29,6 +29,7 @@ The organizing scientific question is:
 | [EXP-003 downstream correction](reports/EXP-003-downstream-correction.md) | A restrictive target filter had excluded T4b/T4c paths. Correcting the materialization restores all four subtypes but still does not recover steering sign. |
 | [EXP-003 bilateral readout](reports/EXP-003-bilateral-readout.md) | A minimal right-minus-left DNp15 readout remains same-signed for both mirrored conditions. Body simulation is therefore skipped. |
 | [EXP-004 preflight failure](reports/EXP-004-preflight-failure.md) | A provisional recurrent HS/H2 implementation used incorrect electrical-coupling semantics and was unstable. Its outputs have no biological interpretation; the source is retained only to preserve the failed attempt. |
+| [EXP-004 controlled binocular physiology](reports/EXP-004-binocular-physiology.md) | A resolved 37-neuron / 360-edge circuit is stable and reduces DNp15 translation sensitivity relative to HS/H2. However, the feed-forward control is more selective and key calcium targets remain unmatched; the proposed recurrent enhancement is not reproduced. |
 
 The concise cross-experiment state is maintained in [research
 progress](reports/RESEARCH_PROGRESS.md). Machine-readable parameters and results
@@ -135,6 +136,16 @@ Historical EXP-003 commands are documented in their reports. Body runs require
 the optional FlyGym environment. Generated CSVs, videos, caches, and graph
 materializations remain ignored.
 
+EXP-004 (direct controlled HS/H2 input, no body or T4/T5):
+
+```powershell
+.venv\Scripts\python.exe scripts\prepare_exp004_physiology.py --download-sources --check-specification
+.venv\Scripts\python.exe scripts\run_exp004_physiology.py --check-record
+```
+
+The [report](reports/EXP-004-binocular-physiology.md) describes the release-aware
+identity crosswalk, observation assumptions, physiological target and controls.
+
 ## Verify the repository
 
 ```powershell
@@ -152,14 +163,13 @@ checksum-verified Gitleaks binary.
 
 ## Next scientific gate
 
-EXP-004 restarts as a neural physiology experiment, without FlyGym. Controlled
-HS/H2 inputs representing [published optic-flow stimulus
-classes](https://doi.org/10.1038/s41593-025-01948-9) must first be
-mapped onto identified cells. Any literature-added electrical coupling must use
-specific supported pairs and a diffusive `other_state - self_state` current.
-Interpretation is gated on effective-transition stability, zero-input decay,
-determinism, explicit interaction provenance, and a quantitative external
-physiology target fixed before evaluation.
+The controlled EXP-004 model passes numerical validation but does not reproduce
+the [published recurrent enhancement](https://doi.org/10.1038/s41593-025-01948-9).
+Its intermediate response mismatches, observation-transfer assumptions and
+electrical/common-mode effects must be resolved with independent physiology
+before claiming the mechanism or reconnecting spatial motion and body work.
+The stable partial/negative result remains frozen evidence, not a target for
+unreported parameter tuning.
 
 ## Sources
 

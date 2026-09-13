@@ -1,4 +1,4 @@
-# CNS research progress — 2026-09-12
+# CNS research progress — 2026-09-13
 
 ## Current conclusion
 
@@ -23,12 +23,17 @@ defensible embodied steering result.
   appropriately narrow technical conclusions.
 - The provisional EXP-004 recurrent implementation failed numerical and
   semantic preflight. Its outputs are excluded from biological interpretation.
+- The [controlled EXP-004 successor](EXP-004-binocular-physiology.md) resolves
+  bIPS/PS321 and release-aware H2rn identities, and passes stability and
+  reproducibility checks. DNp15 shows partial qualitative magnitude agreement,
+  but the feed-forward control is more selective than the recurrent network;
+  the experimentally motivated recurrent enhancement is not reproduced.
 
 ## Reproducibility foundation
 
 The repository contains machine-readable records and human-readable reports for
-each experiment, a compact EXP-002 evidence figure, SHA-256 provenance for 49
-source/materialization artifacts, and graph contracts for 21 local bundles.
+each experiment, compact EXP-002 and EXP-004 figures, SHA-256 provenance for 62
+source/materialization artifacts, and graph contracts for 22 local bundles.
 Fast tests cover model invariants, exact batch/online equivalence, event
 composition, materialization integrity, sparse projection semantics, diffusive
 coupling, stability helpers, result comparisons, and repository policy.
@@ -65,12 +70,13 @@ performance](../docs/implementation.md) for methods and remaining limits.
 
 ## Next scientific gate
 
-Restart EXP-004 as a neural physiology experiment. Controlled HS/H2 inputs and
-published optic-flow response classes should be used before reconnecting the
-unresolved T4 workbook geometry. No recurrent output is interpreted until cell
-identity, interaction provenance, diffusive electrical coupling, effective
-transition stability, zero-input decay, determinism, and an external
-quantitative target pass preflight.
+EXP-004's resolved neural implementation has stable, deterministic dynamics,
+fixed physiological comparisons and complete mechanistic controls. The next
+scientific requirement is an independently constrained explanation for its
+H2/H2rn/DNp15 mismatches and the increased common-mode response introduced by
+the full network. The current result is preserved without retuning. It does
+not justify reconnecting unresolved T4 workbook geometry or proceeding to body
+simulation.
 
 Body simulation remains out of scope until that neural gate succeeds.
 
