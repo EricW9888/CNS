@@ -2,10 +2,14 @@
 
 ## Current state
 
-CNS has one reproducible model-internal visual-motion result and several
-informative negative results. It does not yet have a biologically calibrated
-direction result, a validated yaw-selective DNp15 transformation, or a
-defensible embodied steering result.
+CNS has a reproducible, provisional continuous sensory-to-DNp15 chain and an
+identified neck-motor extension with a causal open-loop physical head effect,
+alongside local visual-motion results and informative negative results. CvNA2
+activation now has an extracted quantitative movement target, but DNp15-to-CvNA
+recruitment and posture-conditioned motor calibration remain unresolved.
+It does not yet have a biologically calibrated direction result, a validated
+recurrent yaw-selective DNp15 transformation, calibrated head control, or
+biologically interpretable embodied steering or closed-loop behavior.
 
 ## Experiment progression
 
@@ -28,12 +32,37 @@ defensible embodied steering result.
   reproducibility checks. DNp15 shows partial qualitative magnitude agreement,
   but the feed-forward control is more selective than the recurrent network;
   the experimentally motivated recurrent enhancement is not reproduced.
+- [EXP-005](EXP-005-sensory-to-DNp15.md) connects explicit binocular luminance
+  stimuli through provisional ON/OFF motion channels, identified MaleCNS T4/T5
+  projections, LPi and HS/H2, and the frozen central circuit to both DNp15 cells.
+  Static images produce zero activity and visual disconnection abolishes
+  descending activity. The limited transformation comparison passes, but the
+  feed-forward central control remains more selective. The first quantitative
+  external discrepancy occurs at H2; successful propagation is not validation
+  of early-vision transduction or the published recurrent mechanism.
+- [EXP-006](EXP-006-DNp15-neck-motor.md) extends that frozen chain through four
+  direct DNp15-to-CvNA1/CvNA2 connections, with verified MaleCNS/MANC identities,
+  cervical-output sides and TH1/TH2 muscle correspondence. A literature-informed,
+  uncalibrated torque approximation produces small, opposite-signed open-loop
+  head-azimuth changes. Disconnection controls establish causality within the
+  implementation, not calibrated muscle physiology, whole-body yaw or walking
+  steering.
+- [EXP-007](EXP-007-CvNA2-motor-boundary.md) extracts a quantitative CvNA2 movement
+  target from primary activation curves: right-axon-standardized population
+  mean yaw is positive and pitch negative, with explicit digitization envelopes
+  rather than biological confidence intervals. The source contains 677
+  validation trials from 11 flies. Identified DNp15-to-CvNA recruitment and
+  CvNA2-specific posture-conditioned calibration remain unidentified; direct
+  motor activation cannot supply the missing DN recruitment transfer.
+  Saved EXP-006 motor controls replay exactly without changing the bridge or
+  adding a body run.
 
 ## Reproducibility foundation
 
 The repository contains machine-readable records and human-readable reports for
-each experiment, compact EXP-002 and EXP-004 figures, SHA-256 provenance for 62
-source/materialization artifacts, and graph contracts for 22 local bundles.
+each experiment, compact figures for EXP-002 and EXP-004 through EXP-007,
+SHA-256 provenance for 75 source/materialization artifacts, and graph contracts
+for 24 local bundles.
 Fast tests cover model invariants, exact batch/online equivalence, event
 composition, materialization integrity, sparse projection semantics, diffusive
 coupling, stability helpers, result comparisons, and repository policy.
@@ -70,26 +99,31 @@ performance](../docs/implementation.md) for methods and remaining limits.
 
 ## Current direction
 
-EXP-004's resolved neural implementation has stable, deterministic dynamics,
-fixed physiological comparisons and complete mechanistic controls. The next
-scientific requirement is an independently constrained explanation for its
-H2/H2rn/DNp15 mismatches and the increased common-mode response introduced by
-the full network. The current result is preserved without retuning. It does
-not justify reconnecting unresolved T4 workbook geometry or proceeding to body
-simulation.
+EXP-005 through EXP-007 are frozen evidence. The next build direction is
+improving the provisional visual-stimulus boundary with a sensory interface
+from a 3D world to bilateral compound eyes, keeping rendering, eye optics and
+early-vision approximations explicit before passing activity into the existing
+neural chain.
+EXP-004's H2/H2rn/DNp15 mismatches and failure to reproduce recurrent enhancement
+remain unresolved; upstream integration does not remove those limitations.
 
-Body simulation remains out of scope until that neural gate succeeds.
+EXP-007 establishes why EXP-006's motor interface cannot yet be calibrated.
+Motor calibration awaits identified DNp15-to-CvNA recruitment measurements,
+CvNA2-specific activation/firing calibration, and the authors' CvNA2 trial/fit
+subset with starting poses and held-out assignments. The movement subset can
+constrain posture dependence but cannot resolve DN recruitment by itself.
+The provisional open-loop physical test has proceeded; calibrated head control,
+sensory-loop closure and biological steering claims remain unsupported.
 
 ## Repository state
 
-The canonical GitHub repository remains private. The tracked tree contains no
-downloaded MaleCNS data, generated bulk results, environments, caches, or
-credentials. CI runs tests, compilation, dependency checks, data-manifest
-validation, repository policy, and a full-history secret scan.
+The tracked tree contains no downloaded MaleCNS data, generated bulk results,
+environments, caches, or credentials. CI runs tests, compilation, dependency
+checks, data-manifest validation, repository policy, and a full-history secret
+scan.
 
 Project code and original documentation now have an explicit
 [Apache-2.0 license](../LICENSE); upstream data retains its separate terms.
-The repository remains private pending an explicit publication decision.
 Scientific uncertainty is documented in the experiment reports rather than
 treated as a reason to hide negative results.
 

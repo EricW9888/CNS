@@ -25,13 +25,16 @@ biologically interpretable steering behavior.
 
 ## Current direction
 
-[EXP-005](reports/EXP-005-sensory-to-DNp15.md) establishes a reproducible,
-provisional sensory-to-descending chain while preserving EXP-004's failure to
-reproduce the [published recurrent enhancement](https://doi.org/10.1038/s41593-025-01948-9).
-[EXP-006](reports/EXP-006-DNp15-neck-motor.md) adds identified neck-motor recruitment
-and a small causal open-loop head effect. Its torque transduction is uncalibrated;
-physiological recruitment and posture-dependent muscle action remain unresolved.
-The motor boundary does not yet justify sensory-loop closure or steering claims.
+[EXP-007](reports/EXP-007-CvNA2-motor-boundary.md) establishes the motor-calibration
+evidence boundary: published CvNA2 movement is quantified, but identified
+DNp15-to-CvNA recruitment and posture-conditioned motor calibration remain
+unresolved. EXP-006's torque interface remains explicitly uncalibrated.
+The next build direction is improving EXP-005's provisional sensory boundary
+with a 3D-world-to-compound-eye interface while motor calibration awaits
+additional physiology. The motor boundary does not yet justify sensory-loop
+closure or steering claims; EXP-004's failure to reproduce the
+[published recurrent enhancement](https://doi.org/10.1038/s41593-025-01948-9) remains
+part of the frozen evidence.
 
 ## Experimental development history
 
@@ -48,6 +51,9 @@ interpretation fails.
 | [EXP-003 bilateral readout](reports/EXP-003-bilateral-readout.md) | A minimal right-minus-left DNp15 readout remains same-signed for both mirrored conditions. Body simulation is therefore skipped. |
 | [EXP-004 preflight failure](reports/EXP-004-preflight-failure.md) | A provisional recurrent HS/H2 implementation used incorrect electrical-coupling semantics and was unstable. Its outputs have no biological interpretation; the source is retained only to preserve the failed attempt. |
 | [EXP-004 controlled binocular physiology](reports/EXP-004-binocular-physiology.md) | A resolved 37-neuron / 360-edge circuit is stable and reduces DNp15 translation sensitivity relative to HS/H2. However, the feed-forward control is more selective and key calcium targets remain unmatched; the proposed recurrent enhancement is not reproduced. |
+| [EXP-005 continuous sensory-to-DNp15 chain](reports/EXP-005-sensory-to-DNp15.md) | Explicit binocular luminance stimuli propagate through provisional ON/OFF motion channels, identified T4/T5 projections, HS/H2 and central intermediates to both DNp15 cells. Visual disconnection abolishes descending activity. The limited transformation comparison passes, but the recurrent-mechanism comparison still fails; early vision remains an approximation. |
+| [EXP-006 neck-motor/open-loop physical boundary](reports/EXP-006-DNp15-neck-motor.md) | Identified DNp15-to-CvNA1/CvNA2 connections drive a provisional torque interface with small, opposite-signed head-azimuth changes and causal disconnection controls. This is not calibrated muscle physiology, whole-body yaw, walking steering or closed-loop behavior. |
+| [EXP-007 CvNA2 motor-calibration boundary](reports/EXP-007-CvNA2-motor-boundary.md) | Primary CvNA2 activation curves provide a quantitative movement target with explicit digitization uncertainty. DNp15-to-CvNA recruitment and a posture-conditioned motor transform remain unidentified, so the data do not calibrate or replace EXP-006's torque bridge. |
 
 The concise cross-experiment state is maintained in [project
 status](reports/RESEARCH_PROGRESS.md). Machine-readable parameters and results
@@ -192,6 +198,5 @@ Project code and original documentation are licensed under
 [Apache-2.0](LICENSE). Upstream MaleCNS data retains its
 [separate data license](https://male-cns.janelia.org/download/) and is not copied
 into the tracked tree; third-party works retain their original terms.
-Release checks cover reproducibility, provenance and secret scanning. The
-canonical repository is private; licensing does not imply a public release or
-strengthen the scientific claims above.
+Release checks cover reproducibility, provenance and secret scanning.
+Licensing does not strengthen the scientific claims above.
