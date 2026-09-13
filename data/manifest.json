@@ -194,6 +194,31 @@
           "sha256": "c80acb7b454fce44bb4fe7b87ecdfb51ca1c75ffcdf919e663aa0ebc5d77534a"
         }
       ]
+    },
+    {
+      "name": "EXP-005 sensory-to-HS/H2",
+      "files": [
+        {
+          "path": "data/malecns_exp005_sensory/manifest.json",
+          "bytes": 875,
+          "sha256": "3b0c2ffc3e34fb702063db7d783ea7d824f4f63ad657ccba2930f78d64175a13"
+        },
+        {
+          "path": "data/malecns_exp005_sensory/nodes.parquet",
+          "bytes": 76972,
+          "sha256": "2d8b15d55908a22748cd277acaedfa9ec519e6e6305ee157a11e38b8b1e9116b"
+        },
+        {
+          "path": "data/malecns_exp005_sensory/edges.parquet",
+          "bytes": 101192,
+          "sha256": "aea3f535ac65f1e1bdf4feacd99c6807bb4c3ff91b7473b41054c2a86265e4e7"
+        },
+        {
+          "path": "data/malecns_exp005_sensory/input_eye_verification.json",
+          "bytes": 1789408,
+          "sha256": "8f1f196317a1b5e45b91e25461dd7a1023aafc5620d2218bc2996c967157d449"
+        }
+      ]
     }
   ]
 }

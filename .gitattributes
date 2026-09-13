@@ -2,3 +2,4 @@
 experiments/**/record.json text eol=lf
 # Preserve the exact specification bytes frozen before neural evaluation.
 experiments/EXP-004-binocular-physiology/specification.json -text whitespace=cr-at-eol
+experiments/EXP-005-sensory-to-DNp15/specification.json text eol=lf

@@ -1,0 +1,325 @@
+{
+  "experiment_id": "EXP-005-sensory-to-DNp15",
+  "parent_commit": "15547c9",
+  "central_specification": {
+    "path": "experiments/EXP-004-binocular-physiology/specification.json",
+    "sha256": "1dc992eb7ed695544365dfe5dcee14de2dbbc34e5b0a2c18bd4e754ac628aafb"
+  },
+  "central_parameters": {
+    "dt_ms": 0.5,
+    "tau_ms": 20.0,
+    "chemical_gain": 0.5,
+    "gap_conductance": 0.1,
+    "input_amplitude": 1.0,
+    "onset_ms": 2000.0,
+    "offset_ms": 4000.0,
+    "duration_ms": 6000.0
+  },
+  "external_target": {
+    "paper": "https://doi.org/10.1038/s41593-025-01948-9",
+    "source_fig1": "1h",
+    "source_fig3": "3e",
+    "di_formula": "(OF_translation - OF_yaw) / (abs(OF_translation) + abs(OF_yaw))",
+    "response_window_ms": [
+      3500,
+      4000
+    ],
+    "zero_denominator": "undefined (JSON null), not zero selectivity",
+    "observed": {
+      "bIPS": {
+        "n_rois": 11,
+        "mean_di": 0.12644218810612343,
+        "descriptive_roi_t95_interval": [
+          -0.00022442171870490357,
+          0.25310879793095176
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 2
+      },
+      "HS": {
+        "n_rois": 17,
+        "mean_di": -0.1043038661807931,
+        "descriptive_roi_t95_interval": [
+          -0.2545542861950705,
+          0.04594655383348431
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 3
+      },
+      "H2": {
+        "n_rois": 11,
+        "mean_di": -0.41858665338279377,
+        "descriptive_roi_t95_interval": [
+          -0.5923053878119213,
+          -0.24486791895366627
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 4
+      },
+      "H2rn": {
+        "n_rois": 9,
+        "mean_di": -0.8946671486892463,
+        "descriptive_roi_t95_interval": [
+          -1.0011460900759004,
+          -0.7881882073025922
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 5
+      },
+      "uLPTCrn": {
+        "n_rois": 8,
+        "mean_di": -0.5006791714204679,
+        "descriptive_roi_t95_interval": [
+          -0.6557598206049017,
+          -0.34559852223603416
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 6
+      },
+      "DNp15": {
+        "n_rois": 7,
+        "mean_di": -0.6409234916912422,
+        "descriptive_roi_t95_interval": [
+          -0.8730863581843051,
+          -0.40876062519817924
+        ],
+        "source_sheet": "3e",
+        "source_excel_row": 7
+      }
+    },
+    "published_hs_dnp15_rank_sum_p": 0.00076248,
+    "bIPS_GABA_receptor_control": {
+      "bIPS control": {
+        "n_rois": 22,
+        "mean_di": 0.24451347417619795,
+        "descriptive_roi_t95_interval": [
+          0.0788920141176381,
+          0.4101349342347578
+        ],
+        "source_sheet": "4f",
+        "source_excel_row": 2
+      },
+      "bIPS RdlFLPStop": {
+        "n_rois": 16,
+        "mean_di": -0.05387282059127245,
+        "descriptive_roi_t95_interval": [
+          -0.16246588244508364,
+          0.054720241262538744
+        ],
+        "source_sheet": "4f",
+        "source_excel_row": 3
+      }
+    },
+    "published_bips_rdl_rank_sum_p": 0.00051284,
+    "comparison": "report per-body signed DI then population mean against the published ROI means. The primary acceptance uses the separate observation_contract magnitude, polarity, matched-upstream and recurrent-mechanism requirements; signed DI alone cannot pass.",
+    "quantitative_check": "report error relative to source ROI means and descriptive ROI t95 intervals; these are not independent-fly confidence intervals or calibrated model acceptance thresholds",
+    "measurement_limit": "female-fly z-scored calcium versus male anatomy/dimensionless state proxy; no voltage/calcium scale or noise model fit"
+  },
+  "observation_contract": {
+    "primary_transform": "C_proxy(t) = x(t) - mean_pre_stimulus(x); baseline is exactly zero here. A shared unit positive linear gain, no fitted class gains, convolution, clipping, z-scoring or condition normalization. This is an explicit uncalibrated late-response calcium proxy, not a prediction of fluorescence or membrane voltage.",
+    "justification_and_limit": "Published OF/DI use baseline-referenced calcium late in a 2-s motion epoch. A common positive gain cancels in DI and translation/yaw ratios. The identity transform is a modeling assumption: no measured GCaMP transfer function is available for these modeled states. Quantitative absolute amplitudes, onset kinetics and noise are therefore not validated.",
+    "primary_window_ms": [
+      3500,
+      4000
+    ],
+    "sample_convention": "pre-update samples; [3500,4000) ms, analogue of author code strict 3.5<t<4 s on 12.2-Hz calcium frames",
+    "signed_DI": "preserve published signed OF and DI conventions, including negative responses; never select a modeled neuron's preferred direction post hoc",
+    "magnitude_check": "also report (abs(OF_translation)-abs(OF_yaw))/(abs(OF_translation)+abs(OF_yaw)); signed DI alone cannot pass",
+    "matched_upstream": "for each DNp15 side, use its ipsilateral three HS cells plus contralateral-dendritic-eye H2. RMS each unit's late OF contrasts before pooling, so opposing translation signs cannot cancel. Use the same observation transform and window for input, intermediate and DN nodes.",
+    "common_mode": "max(abs(C_FF),abs(C_BB))/max(abs(C_yaw_LF),abs(C_yaw_RF)); upstream numerator/denominator use RMS over matched units before maxima, not signed population averages",
+    "acceptance": "both DNp15 bodies must have positive declared preferred yaw response and OF_yaw; abs(OF_translation)/abs(OF_yaw) AND common-mode/yaw ratio must be strictly below their matched upstream ratios. DN mean magnitude DI must also be more rotational than both HS and H2 population magnitude DI. All differences must exceed numerical epsilon 1e-10. A superposition residual records nonlinearity but does not by itself prove a recurrent mechanism; controls determine necessity. Report yaw retention versus feed-forward control without an uncalibrated absolute biological amplitude cutoff.",
+    "numerical_epsilon": 1e-10,
+    "timestep_convergence": "all conditions and every control: rerun dt=0.25 ms, compare raw states at original sample times (max absolute discrepancy <=0.01 unit drive) and late-response/DI discrepancy <=1e-6; no dynamics/parameter fitting",
+    "result_scope": "passing these contracts establishes only a qualitative surrogate neural transformation; descriptive ROI interval agreement is reported, never used as a fitted threshold or proof of calibrated physiology",
+    "recurrent_mechanism_contract": "in addition to the limited magnitude/polarity gate, DNp15 must show a nonzero bilateral-superposition residual above 1e-10 and lower translation/yaw and common-mode/yaw ratios in the full model than in the fixed-weight feedforward_chemical_only control on both sides. Otherwise a feed-forward structure can account for the selectivity and recurrent enhancement is not reproduced."
+  },
+  "stimuli": {
+    "yaw_L_F": [
+      1,
+      -1
+    ],
+    "yaw_R_F": [
+      -1,
+      1
+    ],
+    "translation_F": [
+      1,
+      1
+    ],
+    "translation_B": [
+      -1,
+      -1
+    ],
+    "left_F": [
+      1,
+      0
+    ],
+    "left_B": [
+      -1,
+      0
+    ],
+    "right_F": [
+      0,
+      1
+    ],
+    "right_B": [
+      0,
+      -1
+    ],
+    "zero": [
+      0,
+      0
+    ]
+  },
+  "sensory_parameters": {
+    "dt_ms": 0.5,
+    "pixel_degrees": 2.25,
+    "side_pixels": 16,
+    "wavelength_degrees": 18.0,
+    "speed_degrees_s": 45.0,
+    "mean_luminance": 0.5,
+    "contrast": 0.5,
+    "highpass_tau_ms": 50.0,
+    "delay_tau_ms": 15.0,
+    "emission_tau_ms": 10.0,
+    "LPi_tau_ms": 20.0,
+    "chemical_gain": 0.5,
+    "onset_ms": 2000.0,
+    "offset_ms": 4000.0,
+    "duration_ms": 6000.0
+  },
+  "stimulus_interface": "Explicit two-eye 16x16 luminance patches: sinusoid in x, stationary for 2 s, translated for 2 s, stationary at final phase for 2 s. x positive is published stimulus-space front-to-back on each eye, not workbook/body geometry. Grating wavelength/speed/contrast are fixed engineering defaults, NOT the experimental spherical starfield or a fitted visual calibration. Periodic spatial boundary and uniform laminar flow; no parallax, gaze, photoreceptor reconstruction or behavioral controller.",
+  "motion_interface": "Two-quadrant Reichardt approximation applied to luminance: high-pass (I minus adapting low-pass), ON/OFF half-wave split, 15-ms delayed adjacent spatial products, subtract reversed arm, spatial mean then positive/negative split, 10-ms nonnegative emission filter. All cells sharing eye and T4/T5 subtype share a channel for this spatially uniform stimulus. This physiological input assignment is provisional, not emergent direction selectivity from MaleCNS microcircuit or an individual receptive-field reconstruction. No workbook indices used.",
+  "channel_assignment": {
+    "T4": "ON",
+    "T5": "OFF",
+    "a": "+x / stimulus-space front-to-back",
+    "b": "-x / back-to-front",
+    "c": "+y / upward",
+    "d": "-y / downward"
+  },
+  "physiology_sources": {
+    "ON_OFF_and_subtype_directions": "https://doi.org/10.1038/nature12320",
+    "Reichardt_filter_times": "https://doi.org/10.1038/s41593-025-01948-9; Methods, Agent simulations, high-pass 50 ms and delay 15 ms. Do not import the paper's manually fitted downstream weights.",
+    "T4_T5_LPi_LPTC_path": "https://doi.org/10.1016/j.cub.2022.06.061",
+    "multilevel_opponency": "https://doi.org/10.1038/s41593-023-01443-z; measured vertical LPi glutamate/GluCl conductance is NOT assigned to horizontal LPi12/21. MaleCNS selected horizontal cells are consensus GABA.",
+    "central_interactions": "Frozen EXP-004 specification; its four pair-specific electrical interactions, identity crosswalk and source measurements unchanged."
+  },
+  "numerical_assumptions": "Motion filters are explicit causal low-pass updates; shared T4/T5 channels are exact storage compression of the declared uniform-input assignment. New visual chemical counts normalized once per target by ALL retained visual input counts, gain 0.5, ACh positive/GABA negative. LPi rectified emission, signed state, tau 20 ms. External drive enters only the eight original HS/H2 nodes. Existing central chemical normalization, gap operator, leak and parameters are untouched; no central-to-visual feedback is reconstructed.",
+  "free_parameter_basis": "No fit or search: new pattern parameters, 10-ms T4/T5 emission time and 20-ms LPi time are explicit defaults; 0.5 visual gain independently provides a contraction bound. 50/15-ms motion filters follow the paper's algorithm, not measured universal cell constants. Raw luminance-product amplitudes are not normalized or rescaled to recover DNp15.",
+  "validation_contract": {
+    "static_and_uniform_flicker": "no directed motion output",
+    "sensory_symmetries": "reversal swaps a/b; eye exchange swaps banks; contrast inversion swaps ON/OFF; vertical movement tests c/d; causal prefixes and deterministic execution",
+    "anatomical_invariants": "exact count preservation; all identified central cells/operators unchanged; compressed projection equals explicit per-body sparse projection; no post-ablation renormalization",
+    "preflight": "global LPi and central effective Euler contraction below one, perturbed zero-input decay below 1e-8 at 2 s, diffusive central coupling semantics; each control at both timesteps",
+    "timestep_convergence": "dt 0.5 versus 0.25 ms; stage trace maximum absolute discrepancy / global maximum stage amplitude <= 0.05 (zero stages use 1e-12 floor); central late signed/magnitude DI discrepancy <= 0.02, undefined indices must remain undefined. These sensory transient tolerances replace only EXP-005 numerical convergence, never EXP-004 biology/analysis contracts.",
+    "biology": "Report motion-channel polarity/direction, HS/H2 front/back preferences, intermediate and DNp15 responses. Reuse frozen EXP-004 observation/window/sign/magnitude/matched-upstream requirements and source ROI comparisons, including causal recurrent controls. New gratings and uncalibrated states permit only qualitative/descriptive comparison, not a calibrated calcium prediction. A failed biological comparison does not block preserving a stable observable chain."
+  },
+  "controls": {
+    "full": "entire new sensory path plus frozen central network",
+    "visual_disconnected": "zero only visual external HS/H2 drive; central network unchanged",
+    "no_LPi_output": "remove all LPi chemical output including LPi recurrence; preserve direct T4/T5 and survivor weights",
+    "no_T4": "zero ON/T4 emissions, leave all chemical weights and OFF branch unchanged",
+    "no_T5": "zero OFF/T5 emissions, leave all chemical weights and ON branch unchanged",
+    "no_electrical": "reuse frozen central model intervention, not a ShakB replica",
+    "no_bIPS_GABA_input": "reuse frozen central GABA-to-bIPS intervention",
+    "feedforward_chemical_only": "reuse frozen central stage-DAG/electrical-off control"
+  },
+  "anatomy": {
+    "dataset": "male-cns:v1.0",
+    "release": "MaleCNS v1.0",
+    "node_count": 7570,
+    "edge_count": 23873,
+    "stage_counts": {
+      "H2": 2,
+      "HS": 6,
+      "LPi": 6,
+      "T4": 3863,
+      "T5": 3693
+    },
+    "query": "MATCH (a:Neuron)-[c:ConnectsTo]->(b:Neuron) WHERE b.bodyId IN [10015, 10016, 10019, 10023, 10025, 10034, 10066, 10181, 10308, 10419, 10436, 11041, 11709, 13310] AND (a.type IN ['T4a', 'T4b', 'T4c', 'T4d', 'T5a', 'T5b', 'T5c', 'T5d'] OR a.bodyId IN [10066, 10308, 10436, 11041, 11709, 13310]) RETURN a.bodyId AS pre_body, b.bodyId AS post_body, c.weight AS synapse_count ORDER BY pre_body, post_body",
+    "selection": "All positive T4/T5 or six identified horizontal LPi inputs to eight frozen HS/H2 and those LPi; no count threshold. Upstream boundary, not an induced whole-visual graph. Central induced graph reused unchanged.",
+    "chemical_graph_only": true
+  },
+  "anatomy_files": [
+    {
+      "path": "data/malecns_exp005_sensory/manifest.json",
+      "bytes": 875,
+      "sha256": "3b0c2ffc3e34fb702063db7d783ea7d824f4f63ad657ccba2930f78d64175a13"
+    },
+    {
+      "path": "data/malecns_exp005_sensory/nodes.parquet",
+      "bytes": 76972,
+      "sha256": "2d8b15d55908a22748cd277acaedfa9ec519e6e6305ee157a11e38b8b1e9116b"
+    },
+    {
+      "path": "data/malecns_exp005_sensory/edges.parquet",
+      "bytes": 101192,
+      "sha256": "aea3f535ac65f1e1bdf4feacd99c6807bb4c3ff91b7473b41054c2a86265e4e7"
+    }
+  ],
+  "motion_coverage": {
+    "T4a_L": 835,
+    "T4a_R": 849,
+    "T4b_L": 844,
+    "T4b_R": 846,
+    "T4c_L": 139,
+    "T4c_R": 151,
+    "T4d_L": 91,
+    "T4d_R": 108,
+    "T5a_L": 826,
+    "T5a_R": 838,
+    "T5b_L": 863,
+    "T5b_R": 852,
+    "T5c_L": 99,
+    "T5c_R": 99,
+    "T5d_L": 61,
+    "T5d_R": 55
+  },
+  "LPi_identity": [
+    {
+      "bodyId": 10066,
+      "type": "LPi21",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10308,
+      "type": "LPi12",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 10436,
+      "type": "LPi12",
+      "somaSide": "R",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 11041,
+      "type": "LPi21",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 11709,
+      "type": "LPi12",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    },
+    {
+      "bodyId": 13310,
+      "type": "LPi12",
+      "somaSide": "L",
+      "consensus_nt": "gaba"
+    }
+  ],
+  "unknowns": [
+    "Individual T4/T5 receptive fields and workbook-to-visual geometry",
+    "Photoreceptor/lamina/medulla dynamics omitted by provisional motion interface",
+    "Horizontal LPi receptor-specific strengths and electrical interactions beyond frozen supported pairs",
+    "Female calcium to male dimensionless-state observation transform",
+    "Common input scale and ignored visual feedback"
+  ],
+  "freeze": "Anatomy and assumptions created before any EXP-005 central evaluation; no parameters chosen from tested DNp15 responses."
+}
