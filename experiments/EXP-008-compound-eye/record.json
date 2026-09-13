@@ -4,7 +4,7 @@
   "specification_sha256": "e8e1f9ed5e5870d2f2cbe5f56ad8110d48f65db9d7390a8d632d2aecceb1a329",
   "implementation_sha256": {
     "src/compound_eye.py": "693df5222cae3508e49891274e8854bf0c6b2e26b20c260af624e504a2fd4abf",
-    "scripts/prepare_exp008_eye.py": "339e0687cfe81414348b38bb7cf138ac3507172e9c6ccaf31e9d44bfc1e6721f",
+    "scripts/prepare_exp008_eye.py": "7da37fab7b0f13538715c0404afd3633019f797d50a11f842a2c29bf7da7ab07",
     "scripts/run_exp008_eye.py": "b2e0684edc5ee3944ff25e578e485e77d44cbda96ec7ab9817be75ae65d678db"
   },
   "environment": {

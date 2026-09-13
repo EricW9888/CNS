@@ -10,9 +10,9 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+from urllib.request import urlopen
 
 import numpy as np
-import requests
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -160,9 +160,8 @@ def main():
     for source in SOURCE_PATHS:
         path = FOLDER / Path(source).name
         if args.download and not path.exists():
-            response = requests.get(BASE+source, timeout=60)
-            response.raise_for_status()
-            path.write_bytes(response.content)
+            with urlopen(BASE+source, timeout=60) as response:
+                path.write_bytes(response.read())
         entries.append({"path": path.relative_to(ROOT).as_posix(), "url": BASE+source,
                         "bytes": path.stat().st_size, "sha256": sha256_file(path), "redistributed": False})
     # Source CSV explicitly specifies micrometres; do not guess scale from head size.

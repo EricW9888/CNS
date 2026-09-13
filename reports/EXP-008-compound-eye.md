@@ -184,10 +184,12 @@ validity from the uncalibrated biological interfaces.
 Two independent world-sampling runs have identical production-stage and refined
 sensor digests. A verification-only replay recomputes every neural stage from
 the saved scalar inputs and exactly matches the machine record. The full local
-suite passes **169 tests**; source compilation, dependency consistency and local
+suite passes **170 tests**; source compilation, dependency consistency and local
 data verification also pass (82 registered files, 24 graph contracts). RData
 extraction emits two class-constructor warnings; its underlying arrays pass the
 independent permutation, direction and neighborhood checks.
+Runtime imports do not require the optional RData extractor or an HTTP client
+package; pinned source downloads use Python's standard library.
 
 ## Reproduction and evidence boundary
 

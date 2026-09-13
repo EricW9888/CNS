@@ -382,3 +382,22 @@ def test_replay_cannot_create_a_new_world_experiment_record(monkeypatch, tmp_pat
 def test_motion_boundary_rejects_rgb_frames():
     with pytest.raises(ValueError, match="time x facet"):
         synthetic_readout().channels(np.zeros((20, 16, 16, 3)), SensoryParameters())
+
+
+def test_eye_runtime_imports_without_optional_download_or_extraction_packages():
+    import subprocess
+    import sys
+    code = """
+import builtins
+original_import = builtins.__import__
+def core_only(name, *args, **kwargs):
+    if name.split('.')[0] in {'requests', 'rdata'}:
+        raise ImportError('optional package unavailable: ' + name)
+    return original_import(name, *args, **kwargs)
+builtins.__import__ = core_only
+import scripts.prepare_exp008_eye
+import scripts.run_exp008_eye
+"""
+    result = subprocess.run([sys.executable, "-c", code], cwd=ROOT,
+                            capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
