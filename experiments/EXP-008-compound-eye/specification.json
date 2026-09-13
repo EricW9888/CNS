@@ -1,0 +1,210 @@
+{
+  "experiment_id": "EXP-008-compound-eye",
+  "baseline_commit": "97e4c47",
+  "question": "Can a measured bilateral compound-eye sensor sample a 3D world and drive the frozen sensory-to-DNp15 projection?",
+  "eye_source": {
+    "primary_doi": "10.1038/s41586-025-09276-5",
+    "source_commit": "99d2a43123db636cedb55af9ff31a59657e7d17e",
+    "specimen": "20240701; female microCT; not the MaleCNS individual",
+    "source_repository_license": "GPL-3.0; source/arrays remain local; no R implementation copied",
+    "coordinate_frame": "author aligned +X anterior, +Y left, +Z dorsal; micrometres converted to mm",
+    "viewing_axes": "author's smoothed normalized lens-minus-photoreceptor-tip vectors; cone order permuted to lens order",
+    "left_count": 857,
+    "right_count": 852,
+    "files": [
+      {
+        "path": "data/exp008_eye/20240701.RData",
+        "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/microCT/20240701.RData",
+        "bytes": 310361,
+        "sha256": "8408447f8c5798fbc6d751de79ef4983d08c342a500c9a55b2a3b4b38d92deec",
+        "redistributed": false
+      },
+      {
+        "path": "data/exp008_eye/20240701_nb.RData",
+        "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/microCT/20240701_nb.RData",
+        "bytes": 69102,
+        "sha256": "3d4e34ff61ae7066fce7e18a0e229d7dfbab75ab8b6ab8c64a4017470428c049",
+        "redistributed": false
+      },
+      {
+        "path": "data/exp008_eye/lens.csv",
+        "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/microCT/20240701_position/lens.csv",
+        "bytes": 82071,
+        "sha256": "477fbef0bd60c0a340aded55770c73ddae9fb4a5baf73738bf7ea9c128599c0f",
+        "redistributed": false
+      },
+      {
+        "path": "data/exp008_eye/proc_uCT.R",
+        "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/proc_uCT.R",
+        "bytes": 11235,
+        "sha256": "ba96990c55887a5e046323f5ea6e58e676f92de5909c0ef08ba10a4bc9acf65f",
+        "redistributed": false
+      },
+      {
+        "path": "data/exp008_eye/Fig_3_uCT.R",
+        "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/Fig_3_uCT.R",
+        "bytes": 18120,
+        "sha256": "34a0c26d8bf629c244ca22238616fcac3ba1ead0486a1c568b9642c01baadf0b",
+        "redistributed": false
+      },
+      {
+        "path": "data/exp008_eye/LICENSE",
+        "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/LICENSE",
+        "bytes": 35149,
+        "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+        "redistributed": false
+      },
+      {
+        "path": "data/exp008_eye/geometry.npz",
+        "bytes": 99819,
+        "sha256": "7ade3e59a7def55da8d40ffa31256dd805a75c76c04dc1aafd46bd777adb3208",
+        "redistributed": false
+      }
+    ]
+  },
+  "source_fingerprint": "SHA256 of UTF8 Python source with canonical LF; all data/specification/record hashes are exact bytes",
+  "frozen_files": [
+    {
+      "path": "experiments/EXP-005-sensory-to-DNp15/specification.json",
+      "sha256": "864140bb4ac9439cc61992de866cc6d2dc4a60fac3792c6796eb16c935a6eec5"
+    },
+    {
+      "path": "experiments/EXP-005-sensory-to-DNp15/record.json",
+      "sha256": "807a10fa82509e269231ef7f07149389239aa20fb395e503624077c3be5c8fd7"
+    },
+    {
+      "path": "experiments/EXP-006-DNp15-neck-motor/specification.json",
+      "sha256": "05528df69e92f31be12c0e4e3381ae46aef44a7d749acd74a29197e72dfef3d0"
+    },
+    {
+      "path": "experiments/EXP-006-DNp15-neck-motor/record.json",
+      "sha256": "b4844f731baa877afe7b7b991abe8120084306e209364ff7c1dd718ab3e639c7"
+    },
+    {
+      "path": "experiments/EXP-007-CvNA2-motor-boundary/specification.json",
+      "sha256": "d8bee4f35747f5fe6108adbf7bfb5b42b738eeb2575d1211a84ecd0c2cfe2398"
+    },
+    {
+      "path": "experiments/EXP-007-CvNA2-motor-boundary/record.json",
+      "sha256": "d7b5b6bbb2de1c289079fbe895ba06e0f127bc6307ed1dfb5e3f4baece78e28e"
+    },
+    {
+      "path": "src/sensory_chain.py",
+      "sha256": "d3491c1d56bb649e68b128ac1c7960c6d8b471cc0aab6468f43a93c3ebed8d9e"
+    },
+    {
+      "path": "src/binocular_physiology.py",
+      "sha256": "7ad97467344f4048edf2b1183f6c2908b9198ad9f94da0116037dc91a6cfd977"
+    },
+    {
+      "path": "src/neck_motor.py",
+      "sha256": "c20659518778a3c3a40408b52f0c1f260cd8012e31199c6555fca5bec86cf39b"
+    },
+    {
+      "path": "src/motor_boundary.py",
+      "sha256": "27fe0820a8e0eaa4d7da801f3c693c8a6d315d10190d8f5926851992a45fe289"
+    }
+  ],
+  "scene": {
+    "radius_mm": 10.0,
+    "stripe_cycles": 20,
+    "mean": 0.5,
+    "amplitude": 0.4,
+    "occluder_center": [
+      4.0,
+      0.0,
+      0.0
+    ],
+    "occluder_radius_mm": 0.8,
+    "occluder_light": 0.1
+  },
+  "optics": {
+    "fwhm_degrees": 5.0,
+    "radial": 5,
+    "azimuthal": 24,
+    "kernel": "normalized exp(-theta^2/(2 sigma^2)) on sphere, FWHM=2 sqrt(2 ln2) sigma, truncated at 3 sigma",
+    "provenance": "10.1242/jeb.074732, Simulation of fly motion vision: Gaussian acceptance model and 5-degree default; not a measured per-facet MaleCNS optical transfer"
+  },
+  "photoreceptor": "instantaneous bounded achromatic light proxy, linear radiance integral; no spectral channels, photon noise, saturation, retinal movement or neural superposition",
+  "sensor_dt_ms": 2.0,
+  "sensor_refinement_dt_ms": 1.0,
+  "pose_conditions": {
+    "static": [
+      0.0,
+      0.0
+    ],
+    "yaw_positive_Z": [
+      45.0,
+      0.0
+    ],
+    "yaw_negative_Z": [
+      -45.0,
+      0.0
+    ],
+    "translation_positive_X": [
+      0.0,
+      1.0
+    ],
+    "translation_negative_X": [
+      0.0,
+      -1.0
+    ]
+  },
+  "pose_units": "[prescribed physical Z rotation deg/s, world X translation mm/s]; 2 s still, 2 s pose change, 2 s final-pose hold; open loop",
+  "early_vision": {
+    "azimuth_range": [
+      60.0,
+      100.0
+    ],
+    "elevation_limit": 15.0,
+    "interface": "central-lateral adjacent neighbor-to-center pairs -> facet-specific adaptation and ON/OFF rectification -> pairwise two-quadrant products -> pooled shared eye/type channels; all peripheral facets recorded but unassigned",
+    "direction_constraint": "central a/b rearward/frontward and c/d dorsal/ventral approximation from 10.1038/nature12320; not a peripheral preferred-direction reconstruction",
+    "geometry_constraint": "10.1038/s41586-025-09276-5 shows non-cardinal peripheral T4 fields; no individual female eye/MaleCNS sensory-body correspondence inferred",
+    "filter_provenance": "reuse EXP-005 50/15/10 ms filters; independent neighbor sampler replaces its cyclic image grid",
+    "sampling": "causal zero-order hold of sensor samples; no interpolation from future frames",
+    "parameters": {
+      "dt_ms": 0.5,
+      "pixel_degrees": 2.25,
+      "side_pixels": 16,
+      "wavelength_degrees": 18.0,
+      "speed_degrees_s": 45.0,
+      "mean_luminance": 0.5,
+      "contrast": 0.5,
+      "highpass_tau_ms": 50.0,
+      "delay_tau_ms": 15.0,
+      "emission_tau_ms": 10.0,
+      "LPi_tau_ms": 20.0,
+      "chemical_gain": 0.5,
+      "onset_ms": 2000.0,
+      "offset_ms": 4000.0,
+      "duration_ms": 6000.0
+    }
+  },
+  "readout_geometry_correction": {
+    "initial_specification_sha256": "f3b9e4972cabbf97b2dcee26ba8881c28c0b83d9ba998b94a0dda2d95022f860",
+    "finding": "diametric flank prototype skipped center, spanning 8.08-10.23 degrees across a stripe half-period of 9 degrees; rejected for spatial-alias risk",
+    "replacement": "adjacent neighbor-center correlators, following 10.1242/jeb.074732; no stimulus/downstream tuning; chosen from geometry before examining DNp15 responses"
+  },
+  "controls": [
+    "full",
+    "eye_frozen_at_initial_pose",
+    "eye_to_motion_disconnected",
+    "visual_to_central_disconnected"
+  ],
+  "acceptance": {
+    "scope": "engineering sensory-chain validation, not calcium/behavioral validation; no output fitting or parameter search",
+    "eye_geometry": "unit viewing axes, reciprocal same-eye neighbors, exact source arc-distance agreement and preserved measured asymmetry",
+    "analytic_checks": "rigid rotations/translations, inverse-pose scene equivalence, foreground occlusion, off-axis visibility, constant-radiance conservation, causal prefixes",
+    "quadrature_reference": {
+      "radial": 9,
+      "azimuthal": 64
+    },
+    "quadrature_max_abs_light_error": 0.05,
+    "timestep_stage_relative_error": 0.05,
+    "static_and_disconnected_max_abs_activity": 0.0,
+    "propagation": "both eyes, ON/OFF motion channels, projected HS/H2 and both DNp15 cells show nonzero pose-driven activity; inspect signed raw intermediate traces",
+    "stability": "frozen LPi/central contraction, effective transition and zero-input decay preflights at production and halved numerical timestep; bounded convex sensory filters",
+    "reproducibility": "repeat samples and all stage traces exactly; independent run must match trace digests and machine record",
+    "biological_limits": "No new quantitative optical calibration, full-eye T4 retinotopy, reproduced DNp15 recurrent enhancement or motor claim"
+  }
+}

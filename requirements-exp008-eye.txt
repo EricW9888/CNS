@@ -1,0 +1,2 @@
+# Optional only for extracting the authors' RData geometry; runtime uses NumPy.
+rdata==1.1.0

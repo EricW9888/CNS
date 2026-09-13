@@ -277,6 +277,59 @@
           "redistributed": false
         }
       ]
+    },
+    {
+      "name": "EXP-008 pinned measured bilateral eye geometry",
+      "files": [
+        {
+          "path": "data/exp008_eye/20240701.RData",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/microCT/20240701.RData",
+          "bytes": 310361,
+          "sha256": "8408447f8c5798fbc6d751de79ef4983d08c342a500c9a55b2a3b4b38d92deec",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp008_eye/20240701_nb.RData",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/microCT/20240701_nb.RData",
+          "bytes": 69102,
+          "sha256": "3d4e34ff61ae7066fce7e18a0e229d7dfbab75ab8b6ab8c64a4017470428c049",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp008_eye/lens.csv",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/microCT/20240701_position/lens.csv",
+          "bytes": 82071,
+          "sha256": "477fbef0bd60c0a340aded55770c73ddae9fb4a5baf73738bf7ea9c128599c0f",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp008_eye/proc_uCT.R",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/proc_uCT.R",
+          "bytes": 11235,
+          "sha256": "ba96990c55887a5e046323f5ea6e58e676f92de5909c0ef08ba10a4bc9acf65f",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp008_eye/Fig_3_uCT.R",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/Fig_3_uCT.R",
+          "bytes": 18120,
+          "sha256": "34a0c26d8bf629c244ca22238616fcac3ba1ead0486a1c568b9642c01baadf0b",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp008_eye/LICENSE",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/LICENSE",
+          "bytes": 35149,
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp008_eye/geometry.npz",
+          "bytes": 99819,
+          "sha256": "7ade3e59a7def55da8d40ffa31256dd805a75c76c04dc1aafd46bd777adb3208",
+          "redistributed": false
+        }
+      ]
     }
   ]
 }
