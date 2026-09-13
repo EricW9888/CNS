@@ -219,6 +219,51 @@
           "sha256": "8f1f196317a1b5e45b91e25461dd7a1023aafc5620d2218bc2996c967157d449"
         }
       ]
+    },
+    {
+      "name": "EXP-006 identified DNp15 neck motor path",
+      "files": [
+        {
+          "path": "data/malecns_exp006_neck/manifest.json",
+          "bytes": 1430,
+          "sha256": "fbbe8eeb9ab9f96a2f4ee3a98ab67b09f8c5912d70733a92014b440dd8d030d0"
+        },
+        {
+          "path": "data/malecns_exp006_neck/nodes.parquet",
+          "bytes": 6280,
+          "sha256": "d054b23ede6cf990498426a6b9e9f5eac2b09927dfafbd4a32d38e88f525d85e"
+        },
+        {
+          "path": "data/malecns_exp006_neck/edges.parquet",
+          "bytes": 2438,
+          "sha256": "fe3ca220d03183fc93d92c6a87f89d36cf29ed164a6e0b36bcbc97f5c374d294"
+        },
+        {
+          "path": "data/malecns_exp006_neck/discovery.json",
+          "bytes": 82815,
+          "sha256": "55b9863c63161bd19434030832ebbf46ea68e7ae3bf48b2e1856243457434083"
+        },
+        {
+          "path": "data/malecns_exp006_neck/incoming_totals.json",
+          "bytes": 335,
+          "sha256": "b8f3aa08e9476e696f7a9f0a1b6f2b53f93e01dffaed223d917b492b71cdb30a"
+        },
+        {
+          "path": "data/malecns_exp006_neck/manc_identity.json",
+          "bytes": 423,
+          "sha256": "cab3d7982df028a5eab353df505f1fca7e2e7fb6400f130c7a2c681ea79f2b16"
+        },
+        {
+          "path": "data/exp006_motor/gorko2024.pdf",
+          "bytes": 16925497,
+          "sha256": "20bd67cf19d82e56e2c7eca1a465ac553d7f6c94ecfb4fa4f11d22dc69b2ad7a"
+        },
+        {
+          "path": "data/exp006_motor/gorko2024_supplement.pdf",
+          "bytes": 23610853,
+          "sha256": "0d79fcef0205b2eb27cd0f1e205862ecebea7610fb5bbb43fa6421c370bdc7d2"
+        }
+      ]
     }
   ]
 }

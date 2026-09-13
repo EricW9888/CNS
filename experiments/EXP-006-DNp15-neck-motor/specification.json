@@ -1,0 +1,250 @@
+{
+  "experiment_id": "EXP-006-DNp15-neck-motor",
+  "parent_commit": "4e36468",
+  "anatomy": {
+    "dataset": "male-cns:v1.0",
+    "release": "MaleCNS v1.0",
+    "node_count": 6,
+    "edge_count": 6,
+    "stage_counts": {
+      "neck_motor": 4,
+      "DNp15": 2
+    },
+    "query": "MATCH (a:Neuron)-[c:ConnectsTo]->(b:Neuron) WHERE a.bodyId IN [11215, 12069, 801678, 804343, 813696, 903152] AND b.bodyId IN [11215, 12069, 801678, 804343, 813696, 903152] RETURN a.bodyId AS pre_body,b.bodyId AS post_body,c.weight AS synapse_count ORDER BY pre_body,post_body",
+    "discovery_query": "MATCH (a:Neuron)-[c:ConnectsTo]->(b:Neuron) WHERE a.bodyId IN [11215, 12069] RETURN a.bodyId AS pre_body,b.bodyId AS post_body,b.type AS type,b.instance AS instance,b.superclass AS superclass,b.somaSide AS somaSide,c.weight AS synapse_count ORDER BY pre_body,post_body",
+    "incoming_query": "MATCH (a:Neuron)-[c:ConnectsTo]->(b:Neuron) WHERE b.bodyId IN [801678, 804343, 813696, 903152] RETURN b.bodyId AS bodyId,sum(c.weight) AS incoming_count,count(a) AS source_count ORDER BY bodyId",
+    "manc_query": "MATCH (n:Neuron) WHERE n.bodyId IN [10407, 14549, 17653, 20860] RETURN n.bodyId AS bodyId,n.type AS type,n.instance AS instance,n.somaSide AS somaSide ORDER BY bodyId",
+    "selection": "Full induced chemical graph of two DNp15 and four primary-ID-crosswalked CvNA1/CvNA2 neck MNs. Unrestricted DN targets and unrestricted motor input totals retained separately. No intermediate is required for these direct connections.",
+    "chemical_graph_only": true
+  },
+  "anatomy_files": [
+    {
+      "path": "data/malecns_exp006_neck/manifest.json",
+      "bytes": 1430,
+      "sha256": "fbbe8eeb9ab9f96a2f4ee3a98ab67b09f8c5912d70733a92014b440dd8d030d0"
+    },
+    {
+      "path": "data/malecns_exp006_neck/nodes.parquet",
+      "bytes": 6280,
+      "sha256": "d054b23ede6cf990498426a6b9e9f5eac2b09927dfafbd4a32d38e88f525d85e"
+    },
+    {
+      "path": "data/malecns_exp006_neck/edges.parquet",
+      "bytes": 2438,
+      "sha256": "fe3ca220d03183fc93d92c6a87f89d36cf29ed164a6e0b36bcbc97f5c374d294"
+    },
+    {
+      "path": "data/malecns_exp006_neck/discovery.json",
+      "bytes": 82815,
+      "sha256": "55b9863c63161bd19434030832ebbf46ea68e7ae3bf48b2e1856243457434083"
+    },
+    {
+      "path": "data/malecns_exp006_neck/incoming_totals.json",
+      "bytes": 335,
+      "sha256": "b8f3aa08e9476e696f7a9f0a1b6f2b53f93e01dffaed223d917b492b71cdb30a"
+    },
+    {
+      "path": "data/malecns_exp006_neck/manc_identity.json",
+      "bytes": 423,
+      "sha256": "cab3d7982df028a5eab353df505f1fca7e2e7fb6400f130c7a2c681ea79f2b16"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "data/exp006_motor/gorko2024.pdf",
+      "bytes": 16925497,
+      "sha256": "20bd67cf19d82e56e2c7eca1a465ac553d7f6c94ecfb4fa4f11d22dc69b2ad7a"
+    },
+    {
+      "path": "data/exp006_motor/gorko2024_supplement.pdf",
+      "bytes": 23610853,
+      "sha256": "0d79fcef0205b2eb27cd0f1e205862ecebea7610fb5bbb43fa6421c370bdc7d2"
+    }
+  ],
+  "baseline_files": [
+    {
+      "path": "experiments/EXP-005-sensory-to-DNp15/specification.json",
+      "bytes": 16064,
+      "sha256": "864140bb4ac9439cc61992de866cc6d2dc4a60fac3792c6796eb16c935a6eec5"
+    },
+    {
+      "path": "experiments/EXP-005-sensory-to-DNp15/record.json",
+      "bytes": 217861,
+      "sha256": "807a10fa82509e269231ef7f07149389239aa20fb395e503624077c3be5c8fd7"
+    },
+    {
+      "path": "src/sensory_chain.py",
+      "bytes": 10570,
+      "sha256": "d3491c1d56bb649e68b128ac1c7960c6d8b471cc0aab6468f43a93c3ebed8d9e"
+    },
+    {
+      "path": "scripts/run_exp005_sensory.py",
+      "bytes": 24111,
+      "sha256": "006e54a1d2b62e4189d0e9187b1752b4117a8d15825c5bf3ad39ada5e085b481"
+    },
+    {
+      "path": "src/binocular_physiology.py",
+      "bytes": 17623,
+      "sha256": "7ad97467344f4048edf2b1183f6c2908b9198ad9f94da0116037dc91a6cfd977"
+    }
+  ],
+  "identity": [
+    {
+      "bodyId": 801678,
+      "type": "ADNM1 MN",
+      "somaSide": "R",
+      "manc_body_id": 20860,
+      "manc_type": "ADNM1",
+      "manc_instance": "MNnm04_CvN_L",
+      "axon_side": "L",
+      "paper_cell": "CvNA1",
+      "muscle": "TH1",
+      "identity_source": "https://doi.org/10.1038/s41586-024-07222-5; Supplementary Table 2; official MaleCNS mancBodyid",
+      "muscle_source": "https://doi.org/10.1038/s41586-024-07222-5; Figure 4h; CvNA2 also Supplementary Figure 10d",
+      "laterality_source": "manc:v1.2.1 explicit CvN_L/R instance; NOT soma side"
+    },
+    {
+      "bodyId": 804343,
+      "type": "ADNM2 MN",
+      "somaSide": "L",
+      "manc_body_id": 14549,
+      "manc_type": "ADNM2",
+      "manc_instance": "MNnm05_CvN_R",
+      "axon_side": "R",
+      "paper_cell": "CvNA2",
+      "muscle": "TH2",
+      "identity_source": "https://doi.org/10.1038/s41586-024-07222-5; Supplementary Table 2; official MaleCNS mancBodyid",
+      "muscle_source": "https://doi.org/10.1038/s41586-024-07222-5; Figure 4h; CvNA2 also Supplementary Figure 10d",
+      "laterality_source": "manc:v1.2.1 explicit CvN_L/R instance; NOT soma side"
+    },
+    {
+      "bodyId": 813696,
+      "type": "ADNM2 MN",
+      "somaSide": "R",
+      "manc_body_id": 17653,
+      "manc_type": "ADNM2",
+      "manc_instance": "MNnm05_CvN_L",
+      "axon_side": "L",
+      "paper_cell": "CvNA2",
+      "muscle": "TH2",
+      "identity_source": "https://doi.org/10.1038/s41586-024-07222-5; Supplementary Table 2; official MaleCNS mancBodyid",
+      "muscle_source": "https://doi.org/10.1038/s41586-024-07222-5; Figure 4h; CvNA2 also Supplementary Figure 10d",
+      "laterality_source": "manc:v1.2.1 explicit CvN_L/R instance; NOT soma side"
+    },
+    {
+      "bodyId": 903152,
+      "type": "ADNM1 MN",
+      "somaSide": "L",
+      "manc_body_id": 10407,
+      "manc_type": "ADNM1",
+      "manc_instance": "MNnm04_CvN_R",
+      "axon_side": "R",
+      "paper_cell": "CvNA1",
+      "muscle": "TH1",
+      "identity_source": "https://doi.org/10.1038/s41586-024-07222-5; Supplementary Table 2; official MaleCNS mancBodyid",
+      "muscle_source": "https://doi.org/10.1038/s41586-024-07222-5; Figure 4h; CvNA2 also Supplementary Figure 10d",
+      "laterality_source": "manc:v1.2.1 explicit CvN_L/R instance; NOT soma side"
+    }
+  ],
+  "incoming_totals": [
+    {
+      "bodyId": 801678,
+      "incoming_count": 7598,
+      "source_count": 462
+    },
+    {
+      "bodyId": 804343,
+      "incoming_count": 1921,
+      "source_count": 161
+    },
+    {
+      "bodyId": 813696,
+      "incoming_count": 2204,
+      "source_count": 173
+    },
+    {
+      "bodyId": 903152,
+      "incoming_count": 6446,
+      "source_count": 440
+    }
+  ],
+  "parameters": {
+    "dt_ms": 0.5,
+    "tau_ms": 20.0,
+    "chemical_gain": 0.5,
+    "torque_native_per_activity": 1.0,
+    "paper_body_pitch_degrees": 40.0
+  },
+  "parameter_provenance": "Motor tau 20 ms and chemical gain 0.5 are inherited point-neuron engineering defaults, not motor recordings. Torque coefficient 1 native unit per dimensionless activity (=1 nN m/activity with FlyGym g-mm-s units) is an uncalibrated fixed unit-scale assumption, not fitted, peak-normalized or selected from DN output.",
+  "dynamics": "tau dm/dt=-m + gain * counts/all-source incoming counts @ max(DNp15,0). Exact exponential update under held DN sample. Pre-update samples, zero initial state. No motor recurrence, tonic drive, recruitment threshold or inhibition inferred from MN transmitter uncertainty. Unmodeled inputs are zero.",
+  "structural_edges_not_dynamically_modeled": [
+    {
+      "pre_body": 801678,
+      "post_body": 813696,
+      "synapse_count": 1.0
+    },
+    {
+      "pre_body": 804343,
+      "post_body": 903152,
+      "synapse_count": 1.0
+    }
+  ],
+  "exclusion_reason": "The two 1-synapse motor-source edges remain in the induced anatomy but have no assigned effective action: official consensus transmitter is unclear. This is a direct DN-recruitment approximation, not a complete neck recurrent model.",
+  "motor_bridge": "Only CvNA2/TH2 activity emits torque: k*(max(m_axon_R,0)-max(m_axon_L,0))*cos(40deg). Positive sign is the positive yaw component of right-axon-standardized CvNA2 mean activation in Gorko Supplementary Figure 10i,j, not DN side or stimulus order. Mirrored left effect is a symmetry assumption supported by bilateral opposing yaw MNs in Methods. Magnitude, linear recruitment, moment arm and posture independence within this test are provisional. CvNA1 is observed but not actuated. No trial-specific output scaling, gain tuning or controller.",
+  "coordinate_contract": "Gorko right-handed lab X/Y/Z=roll/pitch/yaw, positive azimuth front-to-left; body pitched 40deg upward relative to lab X. Native FlyGym body X forward/Y left/Z up at spawn0. Paper lab yaw axis in native body coordinates is [sin40,0,cos40]. Retain only its native Z component; exclude source pitch/roll and native X contribution. Model XML joint_Head_roll is the physical native Z hinge; joint_Head_yaw is native X, verified by xaxis and finite qpos perturbation. This reduced physical azimuth is not the full experimental quaternion trajectory.",
+  "body_parameters": {
+    "flygym": "1.2.1",
+    "mujoco": "3.2.7",
+    "timestep_s": 0.0001,
+    "control": "motor",
+    "actuated_joint": "joint_Head_roll",
+    "arena": "Tethered",
+    "joint_stiffness": 0.05,
+    "joint_damping": 0.06,
+    "neck_stiffness": 10.0,
+    "non_actuated_joint_stiffness": 1.0,
+    "non_actuated_joint_damping": 1.0,
+    "actuator_forcerange": 65.0,
+    "spawn_orientation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "gravity_mm_s2": [
+      0.0,
+      0.0,
+      -9810.0
+    ],
+    "seed": 0,
+    "duration_s": 6.0
+  },
+  "stimuli": [
+    "yaw_L_F",
+    "yaw_R_F"
+  ],
+  "controls": [
+    "full",
+    "DN_disconnected",
+    "DN_L_disconnected",
+    "DN_R_disconnected",
+    "motor_disconnected"
+  ],
+  "external_target": {
+    "source": "https://doi.org/10.1038/s41586-024-07222-5",
+    "location": "Supplementary Figure 10, Methods, Extended Data Figure 2c",
+    "samples": "677 trials, 11 flies; 300-ms unilateral optogenetic activation",
+    "qualitative": "Right-axon-standardized CvNA2 activation has a positive population-mean yaw component and negative pitch component; individual trajectories depend on starting pose. Source magnitude is NOT a calibrated prediction for dimensionless visual DN drive.",
+    "quantitative_status": "No source numerical axes/speeds extracted. Published plot inspected, not digitized or fitted. The pinned source figure_4/4kl MAT is 1,638,799,259 bytes; bounded header requests timed out. No CvN7-specific calibration substituted for CvNA2.",
+    "source_code_commit": "8700dc2a74d4796025938f773498ac91b48240a1"
+  },
+  "predeclared_checks": {
+    "motor_dt_relative_error_max": 0.02,
+    "body_dt_relative_error_max": 0.02,
+    "zero_input_decay_ratio_max": 1e-08,
+    "disconnected_motor_and_torque_exact_zero": true,
+    "unit_axon_R_positive_axon_L_negative_torque": true,
+    "physical_Z_positive_torque_increases_head_azimuth_vs_zero_command": true,
+    "no_expected_sign_assigned_to_visual_conditions": true,
+    "claim_boundary": "Anatomically identified muscle drive plus uncalibrated open-loop head-torque tendency. No calibrated physiology, pose-targeted reflex, whole-body steering, gait or closed-loop behavior."
+  }
+}

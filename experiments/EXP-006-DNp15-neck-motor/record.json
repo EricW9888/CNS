@@ -1,0 +1,441 @@
+{
+  "experiment_id": "EXP-006-DNp15-neck-motor",
+  "status": "completed_provisional_open_loop_head_motor_chain",
+  "question": "Can frozen sensory-derived DNp15 activity recruit identified neck motor cells and produce an interpretable open-loop physical motor tendency?",
+  "metrics": {
+    "specification_sha256": "05528df69e92f31be12c0e4e3381ae46aef44a7d749acd74a29197e72dfef3d0",
+    "preflight": {
+      "full": {
+        "passed": true,
+        "motor_transition_spectral_radius_and_contraction_bound": 0.9753099120283326,
+        "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208506e-44,
+        "chemical_edges": 4,
+        "incoming_weight_mass": [
+          0.009871018689128718,
+          0.010411244143675169,
+          0.017241379310344827,
+          0.00636053366428793
+        ],
+        "surviving_weights_unchanged": true,
+        "half_dt": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9875778004938814,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208356e-44,
+          "chemical_edges": 4,
+          "incoming_weight_mass": [
+            0.009871018689128718,
+            0.010411244143675169,
+            0.017241379310344827,
+            0.00636053366428793
+          ]
+        }
+      },
+      "DN_disconnected": {
+        "passed": true,
+        "motor_transition_spectral_radius_and_contraction_bound": 0.9753099120283326,
+        "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208506e-44,
+        "chemical_edges": 0,
+        "incoming_weight_mass": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "surviving_weights_unchanged": true,
+        "half_dt": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9875778004938814,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208356e-44,
+          "chemical_edges": 0,
+          "incoming_weight_mass": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "DN_L_disconnected": {
+        "passed": true,
+        "motor_transition_spectral_radius_and_contraction_bound": 0.9753099120283326,
+        "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208506e-44,
+        "chemical_edges": 2,
+        "incoming_weight_mass": [
+          0.0,
+          0.010411244143675169,
+          0.0,
+          0.00636053366428793
+        ],
+        "surviving_weights_unchanged": true,
+        "half_dt": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9875778004938814,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208356e-44,
+          "chemical_edges": 2,
+          "incoming_weight_mass": [
+            0.0,
+            0.010411244143675169,
+            0.0,
+            0.00636053366428793
+          ]
+        }
+      },
+      "DN_R_disconnected": {
+        "passed": true,
+        "motor_transition_spectral_radius_and_contraction_bound": 0.9753099120283326,
+        "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208506e-44,
+        "chemical_edges": 2,
+        "incoming_weight_mass": [
+          0.009871018689128718,
+          0.0,
+          0.017241379310344827,
+          0.0
+        ],
+        "surviving_weights_unchanged": true,
+        "half_dt": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9875778004938814,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208356e-44,
+          "chemical_edges": 2,
+          "incoming_weight_mass": [
+            0.009871018689128718,
+            0.0,
+            0.017241379310344827,
+            0.0
+          ]
+        }
+      },
+      "motor_disconnected": {
+        "passed": true,
+        "motor_transition_spectral_radius_and_contraction_bound": 0.9753099120283326,
+        "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208506e-44,
+        "chemical_edges": 4,
+        "incoming_weight_mass": [
+          0.009871018689128718,
+          0.010411244143675169,
+          0.017241379310344827,
+          0.00636053366428793
+        ],
+        "surviving_weights_unchanged": true,
+        "half_dt": {
+          "passed": true,
+          "motor_transition_spectral_radius_and_contraction_bound": 0.9875778004938814,
+          "zero_input_2000ms_final_initial_inf_ratio": 3.7200759760208356e-44,
+          "chemical_edges": 4,
+          "incoming_weight_mass": [
+            0.009871018689128718,
+            0.010411244143675169,
+            0.017241379310344827,
+            0.00636053366428793
+          ]
+        }
+      }
+    },
+    "frozen_upstream_preflight": {
+      "recorded_dt": {
+        "central": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.9874999999999999,
+          "baseline_one_sided_effective_transition_rho_max": 0.9830404925485406,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            2.1599061238061133e-43,
+            1.0434287387331227e-44,
+            2.5372575081547733e-43,
+            8.472111890994013e-44
+          ],
+          "equal_state_gap_current_norm": 0.0,
+          "electrical_min_eigenvalue": -0.2,
+          "electrical_pair_count": 4,
+          "removed_chemical_edges": 0,
+          "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights"
+        },
+        "visual": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.9752829965032892,
+          "effective_transition_rho_max": 0.9752001581209356,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            8.124653264336995e-45,
+            1.0434287387331227e-44,
+            1.0434287387331227e-44
+          ]
+        }
+      },
+      "half_dt": {
+        "central": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.99375,
+          "baseline_one_sided_effective_transition_rho_max": 0.9915202462742723,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            4.04307446005305e-43,
+            1.9807715427419676e-44,
+            4.768130487424911e-43,
+            1.5886330185978967e-43
+          ],
+          "equal_state_gap_current_norm": 0.0,
+          "electrical_min_eigenvalue": -0.2,
+          "electrical_pair_count": 4,
+          "removed_chemical_edges": 0,
+          "stability_scope": "contraction bound covers every rectifier mask globally; reported rho is effective Euler, not raw weights"
+        },
+        "visual": {
+          "passed": true,
+          "global_euler_lipschitz_inf_bound": 0.9876414982516447,
+          "effective_transition_rho_max": 0.9876000790604681,
+          "zero_input_2000ms_final_initial_inf_ratios": [
+            1.5427698936581306e-44,
+            1.9807715427419676e-44,
+            1.9807715427419676e-44
+          ]
+        }
+      }
+    },
+    "fresh_EXP005_DN_late_responses_match": true,
+    "motor_timestep_relative_errors": {
+      "full": {
+        "yaw_L_F": 0.005304296908113514,
+        "yaw_R_F": 0.005308099183693138
+      },
+      "DN_disconnected": {
+        "yaw_L_F": 0.0,
+        "yaw_R_F": 0.0
+      },
+      "DN_L_disconnected": {
+        "yaw_L_F": 2.841775210765609e-10,
+        "yaw_R_F": 0.005308099183693138
+      },
+      "DN_R_disconnected": {
+        "yaw_L_F": 0.005304296908113514,
+        "yaw_R_F": 4.580126758448527e-10
+      },
+      "motor_disconnected": {
+        "yaw_L_F": 0.005304296908113514,
+        "yaw_R_F": 0.005308099183693138
+      }
+    },
+    "body_checks": {
+      "yaw_L_F": {
+        "axis_at_initial_pose": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "finite_angle_head_azimuth_rad": 0.0009999999999999998,
+        "actuator_gear": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "timestep_s": 0.0001,
+        "neural_sample_hold_repeat": 5,
+        "no_controller_or_sensory_feedback": true,
+        "deterministic_repeat": true,
+        "half_dt_baseline_subtracted_yaw_relative_error": 9.510929503417273e-06,
+        "max_abs_thorax_yaw_rad": 1.449035462205029e-07
+      },
+      "yaw_R_F": {
+        "axis_at_initial_pose": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "finite_angle_head_azimuth_rad": 0.0009999999999999998,
+        "actuator_gear": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "timestep_s": 0.0001,
+        "neural_sample_hold_repeat": 5,
+        "no_controller_or_sensory_feedback": true,
+        "deterministic_repeat": true,
+        "half_dt_baseline_subtracted_yaw_relative_error": 9.513395534467021e-06,
+        "max_abs_thorax_yaw_rad": 1.449035462205029e-07
+      }
+    },
+    "axis_check": {
+      "axis_at_initial_pose": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "finite_angle_head_azimuth_rad": 0.0009999999999999998,
+      "actuator_gear": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "timestep_s": 0.0001,
+      "neural_sample_hold_repeat": 5,
+      "no_controller_or_sensory_feedback": true
+    },
+    "deterministic_repeats": true,
+    "disconnected_physical_matches_zero_command": true,
+    "physical_sign_pulse_300ms_mean_yaw_delta_rad": [
+      0.0002274130908786055,
+      -0.0002274130818264014
+    ],
+    "physical_sign_check_passed": true,
+    "responses": {
+      "full": {
+        "yaw_L_F": {
+          "motor_late": [
+            7.935408681829238e-06,
+            3.6433372391124244e-56,
+            1.3860513830928396e-05,
+            2.225821317791902e-56
+          ],
+          "mean_torque_native": -1.0617769598956418e-05,
+          "max_abs_torque_native": 1.0754301344830788e-05
+        },
+        "yaw_R_F": {
+          "motor_late": [
+            3.3580147039462102e-56,
+            8.092189226936845e-06,
+            5.865332349559374e-56,
+            4.9437551636888894e-06
+          ],
+          "mean_torque_native": 6.198976589962221e-06,
+          "max_abs_torque_native": 6.279225514668175e-06
+        }
+      },
+      "DN_disconnected": {
+        "yaw_L_F": {
+          "motor_late": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mean_torque_native": 0.0,
+          "max_abs_torque_native": 0.0
+        },
+        "yaw_R_F": {
+          "motor_late": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mean_torque_native": 0.0,
+          "max_abs_torque_native": 0.0
+        }
+      },
+      "DN_L_disconnected": {
+        "yaw_L_F": {
+          "motor_late": [
+            0.0,
+            3.6433372391124244e-56,
+            0.0,
+            2.225821317791902e-56
+          ],
+          "mean_torque_native": 2.790958246430511e-56,
+          "max_abs_torque_native": 2.2142056119845884e-22
+        },
+        "yaw_R_F": {
+          "motor_late": [
+            0.0,
+            8.092189226936845e-06,
+            0.0,
+            4.9437551636888894e-06
+          ],
+          "mean_torque_native": 6.198976589962221e-06,
+          "max_abs_torque_native": 6.279225514668175e-06
+        }
+      },
+      "DN_R_disconnected": {
+        "yaw_L_F": {
+          "motor_late": [
+            7.935408681829238e-06,
+            0.0,
+            1.3860513830928396e-05,
+            0.0
+          ],
+          "mean_torque_native": -1.0617769598956418e-05,
+          "max_abs_torque_native": 1.0754301344830788e-05
+        },
+        "yaw_R_F": {
+          "motor_late": [
+            3.3580147039462102e-56,
+            0.0,
+            5.865332349559374e-56,
+            0.0
+          ],
+          "mean_torque_native": -4.493105253425932e-56,
+          "max_abs_torque_native": 3.564603261298162e-22
+        }
+      },
+      "motor_disconnected": {
+        "yaw_L_F": {
+          "motor_late": [
+            7.935408681829238e-06,
+            3.6433372391124244e-56,
+            1.3860513830928396e-05,
+            2.225821317791902e-56
+          ],
+          "mean_torque_native": 0.0,
+          "max_abs_torque_native": 0.0
+        },
+        "yaw_R_F": {
+          "motor_late": [
+            3.3580147039462102e-56,
+            8.092189226936845e-06,
+            5.865332349559374e-56,
+            4.9437551636888894e-06
+          ],
+          "mean_torque_native": 0.0,
+          "max_abs_torque_native": 0.0
+        }
+      }
+    },
+    "body_response": {
+      "yaw_L_F": {
+        "late_mean_head_yaw_delta_degrees": -0.008869024607979729,
+        "max_abs_head_yaw_delta_degrees": 0.009573918222937001,
+        "final_head_yaw_delta_degrees": -0.0020058004893800494,
+        "mean_torque_and_late_head_yaw_same_sign": true
+      },
+      "yaw_R_F": {
+        "late_mean_head_yaw_delta_degrees": 0.005178285072558711,
+        "max_abs_head_yaw_delta_degrees": 0.0055896898220196565,
+        "final_head_yaw_delta_degrees": 0.0011708560170791184,
+        "mean_torque_and_late_head_yaw_same_sign": true
+      }
+    },
+    "trace_arrays_sha256": "169b753d284ba74c9d6102b09c800c8febbf8ab445b88114927cedfa85f6ca74",
+    "implementation_LF_sha256": {
+      "src/neck_motor.py": "c20659518778a3c3a40408b52f0c1f260cd8012e31199c6555fca5bec86cf39b",
+      "scripts/prepare_exp006_neck.py": "6dbce3882eb4aaa46d86072b79f863c3fcdf2f7e95183b88648daa3ad2e4e88d",
+      "scripts/run_exp006_neck.py": "6073c6d1aeb9faa867c7e0bdd55e5b6788e312836dfe1366c783f0b96b5bde8d"
+    }
+  },
+  "scope": {
+    "walking_steering": false,
+    "whole_body_yaw": false,
+    "sensory_closed_loop": false,
+    "calibrated_motor_physiology": false,
+    "pose_targeted_reflex": false,
+    "EXP005_changed": false
+  },
+  "conclusion": "Anatomical DN-to-CvNA2/TH2 recruitment and a fixed uncalibrated yaw-component transduction produce causal open-loop head azimuth. This is a provisional physical motor boundary, not a validation of physiological recruitment, magnitude or posture-dependent kinematics. No closed-loop gate is passed.",
+  "outputs": {
+    "figure": "figures/EXP-006-DNp15-neck-motor.png",
+    "bulk": "results/exp006_neck/stage_traces.npz",
+    "metrics": "results/exp006_neck/metrics.json",
+    "report": "reports/EXP-006-DNp15-neck-motor.md"
+  }
+}
