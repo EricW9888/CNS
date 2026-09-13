@@ -14,9 +14,10 @@ failures can be localized before integration.
 Today CNS contains visual-motion and optic-flow circuits extending into
 selected descending pathways, with reproducible model results and provisional
 interfaces. Local optic-column inputs are modeled through
-[T4 motion neurons](https://elifesciences.org/articles/24394); a separate central
-optic-flow model follows controlled HS/H2 inputs through intermediates to
-DNp15. These stages are not yet a continuous sensory-to-descending system.
+[T4 motion neurons](https://elifesciences.org/articles/24394); EXP-005 also connects
+explicit binocular stimuli through T4/T5, HS/H2 and central intermediates to DNp15.
+EXP-006 extends that frozen chain to identified neck motor neurons and a
+provisional open-loop head-torque interface.
 It is not yet a whole-fly or whole-CNS simulation and does not establish
 biologically calibrated direction labels,
 reproduced [DNp15 binocular physiology](https://doi.org/10.1038/s41593-025-01948-9), or
@@ -24,13 +25,13 @@ biologically interpretable steering behavior.
 
 ## Current direction
 
-The controlled EXP-004 model passes numerical validation but does not reproduce
-the [published recurrent enhancement](https://doi.org/10.1038/s41593-025-01948-9).
-Its intermediate response mismatches, observation-transfer assumptions and
-electrical/common-mode effects must be resolved with independent physiology
-before claiming the mechanism or reconnecting spatial motion and body work.
-The stable partial/negative result remains frozen evidence, not a target for
-unreported parameter tuning.
+[EXP-005](reports/EXP-005-sensory-to-DNp15.md) establishes a reproducible,
+provisional sensory-to-descending chain while preserving EXP-004's failure to
+reproduce the [published recurrent enhancement](https://doi.org/10.1038/s41593-025-01948-9).
+[EXP-006](reports/EXP-006-DNp15-neck-motor.md) adds identified neck-motor recruitment
+and a small causal open-loop head effect. Its torque transduction is uncalibrated;
+physiological recruitment and posture-dependent muscle action remain unresolved.
+The motor boundary does not yet justify sensory-loop closure or steering claims.
 
 ## Experimental development history
 
@@ -106,8 +107,8 @@ py -3.11 -m venv .venv
 
 The exact Windows environment used for the 2026-09-12 verification is recorded
 in `requirements-verified-windows.txt`. Brian2 is diagnostic-only; EXP-001 runs
-with the NumPy/SciPy backend. FlyGym is optional and used only by the historical
-EXP-003 body runner.
+with the NumPy/SciPy backend. FlyGym is optional and used by the historical
+EXP-003 body runner and EXP-006 open-loop neck test.
 
 ## Data
 
@@ -191,6 +192,6 @@ Project code and original documentation are licensed under
 [Apache-2.0](LICENSE). Upstream MaleCNS data retains its
 [separate data license](https://male-cns.janelia.org/download/) and is not copied
 into the tracked tree; third-party works retain their original terms.
-The canonical GitHub repository remains private. The code license enables
-future publication; it does not change the scientific limitations above or
-authorize making the repository public.
+Release checks cover reproducibility, provenance and secret scanning. The
+canonical repository is private; licensing does not imply a public release or
+strengthen the scientific claims above.
