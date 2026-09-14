@@ -1,0 +1,39 @@
+{
+  "execution_resolution_commit": "841f0fe66321cfdbedadf0b1e3463db57a00d5bb",
+  "public_base": "314083340a48c21e7f7c21f13149416d580b3b66",
+  "output_directory": "results/exp011_sensors_direct",
+  "scope": "canonical optical generation completed; local output verification stopped before convergence/neural/downstream metrics",
+  "conditions_and_levels_generated": 15,
+  "first_failure": {
+    "condition": "yaw_positive_Z",
+    "level": "coarse",
+    "verifier": "verify_sensor_output",
+    "field": "blocked_mass",
+    "failure": "value exceeds declared [0,1] bounded output range",
+    "maximum": 1.0003015862874869,
+    "count_above_one_with_tolerance": 2961
+  },
+  "bounded_diagnostic_summary": [
+    {"condition": "yaw_positive_Z", "level": "coarse", "maximum_blocked_mass": 1.0003015862874869, "count_above_one": 2961},
+    {"condition": "yaw_negative_Z", "level": "coarse", "maximum_blocked_mass": 1.0003014956033462, "count_above_one": 2932},
+    {"condition": "translation_positive_X", "level": "coarse", "maximum_blocked_mass": 1.0003018011732048, "count_above_one": 4022},
+    {"condition": "translation_negative_X", "level": "coarse", "maximum_blocked_mass": 1.0003017813840904, "count_above_one": 993},
+    {"condition": "translation_positive_X", "level": "production", "maximum_blocked_mass": 1.0000000003631784, "count_above_one": 1},
+    {"condition": "translation_negative_X", "level": "production", "maximum_blocked_mass": 1.000000000276806, "count_above_one": 1}
+  ],
+  "other_output_checks": {
+    "light_arrays_finite": true,
+    "light_arrays_within_0_1": true,
+    "blocked_mass_minimum": 0.0,
+    "blocked_mass_negative_values": false,
+    "all_reference_level_blocked_mass_arrays_bounded": true
+  },
+  "not_run": [
+    "optical/temporal/combined local convergence metrics",
+    "neural-half-step, correlator, signed-stencil, local-emission, and pooled-channel metrics",
+    "local controls beyond output verification",
+    "all downstream LPi/HS/H2/DNp15 integration"
+  ],
+  "status": "negative_partial_output_verification_failure",
+  "interpretation": "The completed canonical optical archives fail the existing finite/bounded output-verification gate because the recorded blocked visibility mass overshoots one at coarse and isolated production poses. No clipping, threshold change, rerender, numerical-level change, or biological interpretation was applied. This is not evidence for a biological claim."
+}

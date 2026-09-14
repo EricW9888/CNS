@@ -1,0 +1,29 @@
+{
+  "source_checkpoint": "5e9ec94d9c982615441ab67f1ffca9f9d783c636",
+  "scope": "read-only diagnosis of immutable canonical archives; no archives or implementation changed",
+  "metadata_shape_source_digest_checks_except_blocked_mass_bounds": true,
+  "all_offenders_mixed": true,
+  "offenders": [
+    {"condition": "yaw_positive_Z", "level": "coarse", "count": 2961, "maximum": 1.0003015862874869, "facet": 872, "time_index": 2936},
+    {"condition": "yaw_negative_Z", "level": "coarse", "count": 2932, "maximum": 1.0003014956033462, "facet": 413, "time_index": 2481},
+    {"condition": "translation_positive_X", "level": "coarse", "count": 4022, "maximum": 1.0003018011732048, "facet": 305, "time_index": 3984},
+    {"condition": "translation_positive_X", "level": "production", "count": 1, "maximum": 1.0000000003631784, "facet": 305, "time_index": 7968},
+    {"condition": "translation_negative_X", "level": "coarse", "count": 993, "maximum": 1.0003017813840904, "facet": 683, "time_index": 3478},
+    {"condition": "translation_negative_X", "level": "production", "count": 1, "maximum": 1.000000000276806, "facet": 453, "time_index": 4427}
+  ],
+  "coincident_level_diagnosis": [
+    {"condition": "yaw_positive_Z", "coarse_max_overshoot": 0.000301586287486888, "production_max_overshoot": 0.0, "reference_max_overshoot": 0.0, "coarse_production_light_max_abs": 3.0161160222669237e-05, "production_reference_light_max_abs": 3.6919481360975226e-11},
+    {"condition": "yaw_negative_Z", "coarse_max_overshoot": 0.0003014956033462468, "production_max_overshoot": 0.0, "reference_max_overshoot": 0.0, "coarse_production_light_max_abs": 3.0153769509724815e-05, "production_reference_light_max_abs": 3.6914221679396064e-11},
+    {"condition": "translation_positive_X", "coarse_max_overshoot": 0.0003018011732047743, "production_max_overshoot": 3.6317837626143046e-10, "reference_max_overshoot": 0.0, "coarse_production_light_max_abs": 3.018008100265368e-05, "production_reference_light_max_abs": 3.6932928937361e-11},
+    {"condition": "translation_negative_X", "coarse_max_overshoot": 0.0003017813840904271, "production_max_overshoot": 0.0, "reference_max_overshoot": 0.0, "coarse_production_light_max_abs": 3.0178216751997056e-05, "production_reference_light_max_abs": 3.6931624425307064e-11}
+  ],
+  "worst_case_split_and_independent_mass": [
+    {"condition": "yaw_positive_Z", "level": "coarse", "split_total_normalized": 1.0003016119714214, "blocked_normalized": 1.0003015862874869, "full_cone_denominator": 0.0013574972715918094, "independent_dense_mass_256x4096": 0.9999999749799355},
+    {"condition": "yaw_negative_Z", "level": "coarse", "split_total_normalized": 1.0003015380642395, "blocked_normalized": 1.0003014956033462, "full_cone_denominator": 0.0013574972715918094, "independent_dense_mass_256x4096": 0.999999968029918},
+    {"condition": "translation_positive_X", "level": "coarse", "split_total_normalized": 1.0003018011793556, "blocked_normalized": 1.0003018011732048, "full_cone_denominator": 0.0013574972715918094, "independent_dense_mass_256x4096": 0.9999999999999993},
+    {"condition": "translation_positive_X", "level": "production", "split_total_normalized": 1.0000000003693292, "blocked_normalized": 1.0000000003631784, "full_cone_denominator": 0.0013574972696638868, "independent_dense_mass_256x4096": 0.9999999999999993},
+    {"condition": "translation_negative_X", "level": "coarse", "split_total_normalized": 1.000301782536836, "blocked_normalized": 1.0003017813840904, "full_cone_denominator": 0.0013574972715918094, "independent_dense_mass_256x4096": 0.9999999999999993},
+    {"condition": "translation_negative_X", "level": "production", "split_total_normalized": 1.000000000369327, "blocked_normalized": 1.0000000002768061, "full_cone_denominator": 0.0013574972696638868, "independent_dense_mass_256x4096": 0.9999999999999993}
+  ],
+  "conclusion": "The overshoot is a finite low-order split-quadrature mass diagnostic effect localized to mixed cones; independent direct classification remains physical and bounded. This does not pass or relax the verifier gate, does not alter canonical data, and does not invalidate the scalar light arrays for diagnostic continuation."
+}

@@ -1,0 +1,32 @@
+{
+  "source_before_resolution_commit": "663006c3ceab3ee3067699b9f6f71b03f3e085a0",
+  "scope": "post-renderer-change direct-path preflight; no canonical translation outputs generated",
+  "renderer_path": "scripts/render_exp011_sensors.py sample_physical_pose; translation calls omit smooth_light",
+  "analytical_preflight": {
+    "passed": true,
+    "constant_radiance_coarse_error": 0.00011028352306019507,
+    "constant_radiance_production_error": 1.3083434335925404e-10,
+    "constant_radiance_reference_error": 1.1102230246251565e-16,
+    "mixed_static_final_error": 7.965759695371943e-05,
+    "mixed_translation_positive_X_final_error": 5.9203033755061973e-05,
+    "order_convergence_passed": true,
+    "visibility_limits_passed": true
+  },
+  "direct_benchmark_replay": {
+    "production_translation_mm": 0.5,
+    "first_sha256": "6d363de92fddb1edb7abd6b0e9f3730fb8fe74732947d56bd096a9cb7b1692f2",
+    "second_sha256": "6d363de92fddb1edb7abd6b0e9f3730fb8fe74732947d56bd096a9cb7b1692f2",
+    "exact_digest_match": true,
+    "max_light_abs_difference": 0.0,
+    "max_blocked_mass_abs_difference": 0.0
+  },
+  "post_change_runtime_estimate": {
+    "coarse_mean_seconds_per_pose": 0.04514735713850574,
+    "production_mean_seconds_per_pose": 0.1828498142837946,
+    "reference_mean_seconds_per_pose": 0.7281667285736019,
+    "physical_pose_counts": {"coarse": 2001, "production": 4001, "reference": 8001},
+    "complete_translation_stream_mean_seconds": 6648.013934601009,
+    "complete_translation_stream_conservative_seconds": 6916.164608772975
+  },
+  "resolution": "Direct translation execution is selected because it calls the identical frozen AcceptanceIntegral while removing the failed Chebyshev approximation. The original degree-16/tolerance-1e-10/depth-12 contract and negative diagnosis remain preserved."
+}

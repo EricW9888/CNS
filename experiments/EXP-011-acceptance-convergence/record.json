@@ -1,0 +1,215 @@
+{
+  "experiment_id": "EXP-011-acceptance-convergence",
+  "status": "negative_partial_numerical_result",
+  "question": "Can the existing full-eye measured-grid sensory interface be made numerically convergent under the exact same biological and scene assumptions?",
+  "public_scope": "Canonical scientific record. All material assumptions, methods, failures, corrections, diagnostics, provenance, and exact raw archive access needed to evaluate this result are included here or in the public CNS release asset.",
+  "predecessor": {
+    "experiment": "EXP-010-retinotopic-refinement",
+    "public_base_commit": "314083340a48c21e7f7c21f13149416d580b3b66",
+    "frozen_predecessors_unchanged": true
+  },
+  "frozen_method": {
+    "optical": "Integrate the identical normalized exp(-theta^2/(2 sigma^2)) sin(theta) integral on 0..3sigma. Analytically split radial intervals at spherical-blocker tangencies and integrate only the visible azimuthal arc; add blocked constant radiance by its angular measure. Sine-squared radial mapping resolves endpoint square-root behavior. No scene smoothing or acceptance change.",
+    "quadrature_normalization": "Use one finite full-cone normalization per numerical order, exactly once for the complete truncated spherical-Gaussian cone. Clear, mixed, and fully blocked visibility pieces are subdivisions of that same integral; never renormalize a visibility piece. Report finite full-cone mass error against a high-order direct reference separately from numerator and final normalized-light errors.",
+    "levels": [
+      {
+        "name": "coarse",
+        "radial": 8,
+        "azimuthal": 16,
+        "sensor_dt_ms": 1.0,
+        "role": "combined refinement baseline; reference optics are subsampled exactly onto this temporal grid"
+      },
+      {
+        "name": "production",
+        "radial": 16,
+        "azimuthal": 32,
+        "sensor_dt_ms": 0.5,
+        "role": "frozen candidate optical level and shared optical-comparison time grid"
+      },
+      {
+        "name": "reference",
+        "radial": 32,
+        "azimuthal": 64,
+        "sensor_dt_ms": 0.25,
+        "role": "finest predeclared finite optical/temporal reference; nested subsamples provide 1.0/0.5 ms temporal comparisons"
+      }
+    ],
+    "candidate": {
+      "name": "production",
+      "sensor_dt_ms": 0.5,
+      "neural_dt_ms": 0.25,
+      "neural_reference_dt_ms": 0.125
+    },
+    "temporal_contract": "There is one sensor stream per optical level: coarse 1.0 ms, production 0.5 ms, reference 0.25 ms. The 1.0/0.5/0.25 ms hierarchy is obtained by exact nested subsampling of the reference physical samples; no diagonal or second temporal stream exists.",
+    "translation_execution_path": {
+      "status": "resolved_before_canonical_translation_evaluation",
+      "original_predeclared_contract": "The degree-16 adaptive Chebyshev translation accelerator with absolute tolerance 1e-10 and maximum subdivision depth 12 remains the original frozen contract and is retained as a negative preflight record.",
+      "preflight_resolution": "The accelerator failed before any canonical +X/-X translation output was evaluated. Bounded diagnosis found a genuine accelerator limitation, not an implementation or verification error; the pole-adjacent explanation remains an inference about the finite frozen low-order evaluator.",
+      "direct_benchmark": "The full-eye direct AcceptanceIntegral path was benchmarked before canonical translation outputs were examined and was deterministic on replay.",
+      "canonical_translation_path": "For translation conditions only, call AcceptanceIntegral.sample with the frozen optical order and smooth_light omitted. This evaluates the identical frozen normalized optical integral while removing the failed approximation. Preserve the exact Z-rotation harmonic path for nontranslation conditions.",
+      "unchanged_contracts": "No optical order, temporal level, scene, acceptance function, biology, threshold, downstream parameter, or frozen predecessor changes."
+    },
+    "visibility_not_neural_input": true,
+    "no_biology_scene_threshold_or_downstream_changes": true
+  },
+  "predeclared_criteria": {
+    "maximum_local_stage_relative_error": 0.05,
+    "maximum_physical_light_absolute_error": 0.0001,
+    "trend": "Final light, raw-correlator, signed-stencil and local-emission max absolute discrepancies must not exceed the preceding discrepancy by more than 1e-12, separately for optical, temporal and combined refinements in every condition",
+    "candidate_gate": "Production/reference combined, separated final optical/temporal, and neural-half-step local stages and pooled channels must all meet 5%; final coincident optical light difference must meet 1e-4; trends, finite/bounded states and controls must pass. Freeze only this candidate before any downstream evaluation.",
+    "static_and_disconnection_max_abs": 0.0,
+    "determinism": "Exact arrays and recorded trace digests"
+  },
+  "initial_verifier_failure": {
+    "execution_resolution_commit": "841f0fe66321cfdbedadf0b1e3463db57a00d5bb",
+    "public_base": "314083340a48c21e7f7c21f13149416d580b3b66",
+    "output_directory": "results/exp011_sensors_direct",
+    "scope": "canonical optical generation completed; local output verification stopped before convergence/neural/downstream metrics",
+    "conditions_and_levels_generated": 15,
+    "first_failure": {
+      "condition": "yaw_positive_Z",
+      "level": "coarse",
+      "verifier": "verify_sensor_output",
+      "field": "blocked_mass",
+      "failure": "value exceeds declared [0,1] bounded output range",
+      "maximum": 1.0003015862874869,
+      "count_above_one_with_tolerance": 2961
+    },
+    "bounded_diagnostic_summary": [
+      {
+        "condition": "yaw_positive_Z",
+        "level": "coarse",
+        "maximum_blocked_mass": 1.0003015862874869,
+        "count_above_one": 2961
+      },
+      {
+        "condition": "yaw_negative_Z",
+        "level": "coarse",
+        "maximum_blocked_mass": 1.0003014956033462,
+        "count_above_one": 2932
+      },
+      {
+        "condition": "translation_positive_X",
+        "level": "coarse",
+        "maximum_blocked_mass": 1.0003018011732048,
+        "count_above_one": 4022
+      },
+      {
+        "condition": "translation_negative_X",
+        "level": "coarse",
+        "maximum_blocked_mass": 1.0003017813840904,
+        "count_above_one": 993
+      },
+      {
+        "condition": "translation_positive_X",
+        "level": "production",
+        "maximum_blocked_mass": 1.0000000003631784,
+        "count_above_one": 1
+      },
+      {
+        "condition": "translation_negative_X",
+        "level": "production",
+        "maximum_blocked_mass": 1.000000000276806,
+        "count_above_one": 1
+      }
+    ],
+    "other_output_checks": {
+      "light_arrays_finite": true,
+      "light_arrays_within_0_1": true,
+      "blocked_mass_minimum": 0.0,
+      "blocked_mass_negative_values": false,
+      "all_reference_level_blocked_mass_arrays_bounded": true
+    },
+    "not_run": [
+      "optical/temporal/combined local convergence metrics",
+      "neural-half-step, correlator, signed-stencil, local-emission, and pooled-channel metrics",
+      "local controls beyond output verification",
+      "all downstream LPi/HS/H2/DNp15 integration"
+    ],
+    "status": "negative_partial_output_verification_failure",
+    "interpretation": "The completed canonical optical archives fail the existing finite/bounded output-verification gate because the recorded blocked visibility mass overshoots one at coarse and isolated production poses. No clipping, threshold change, rerender, numerical-level change, or biological interpretation was applied. This is not evidence for a biological claim."
+  },
+  "visibility_diagnosis": {
+    "record": "visibility-diagnosis.json",
+    "verifier_failure_preserved": true,
+    "all_offenders_mixed": true,
+    "archive_integrity_except_blocked_mass_bounds": true,
+    "independent_high_order_mass_physical": true,
+    "interpretation": "Finite split-quadrature blocked-mass diagnostic overshoot; the pole-adjacent finite-evaluator explanation remains an inference, not a biological or physical discontinuity claim."
+  },
+  "local_analysis": {
+    "record": "local-metrics.json",
+    "candidate_gate_pairs_corrected": {
+      "combined": "production_to_reference",
+      "optical": "production_to_reference",
+      "temporal": "0.5_to_0.25ms",
+      "neural": "production sensory samples at 0.25 vs 0.125 ms"
+    },
+    "final_local_stages_and_pools_passed": true,
+    "trends_passed": true,
+    "controls_passed": true,
+    "archive_manifest_sha256_verified": true,
+    "streaming_equivalence_prefixes_passed": true,
+    "physical_light_max_abs_by_condition": {
+      "static": 0.0004895196955698733,
+      "yaw_positive_Z": 0.0005382163946999752,
+      "yaw_negative_Z": 0.0005382163946999752,
+      "translation_positive_X": 0.000717940787188287,
+      "translation_negative_X": 0.0007400416077691374
+    },
+    "physical_light_gate_passed_by_condition": {
+      "static": false,
+      "yaw_positive_Z": false,
+      "yaw_negative_Z": false,
+      "translation_positive_X": false,
+      "translation_negative_X": false
+    },
+    "final_local_gate_passed": false,
+    "interpretation": "The final local numerical chain meets the declared relative convergence criteria, but the accepted production/reference optical light remains outside the frozen 1e-4 requirement in every condition."
+  },
+  "result": {
+    "classification": "negative_partial_numerical_result",
+    "physical_light_gate_failed_all_conditions": true,
+    "no_stronger_biological_claim": true,
+    "downstream_evaluation": false,
+    "LPi_HS_H2_DNp15": "unevaluated"
+  },
+  "interpretation_and_limits": [
+    "This result concerns numerical convergence of the provisional full-eye optical/local sensory interface, not biological validation.",
+    "The failed blocked_mass bound is retained as a visible verifier failure and does not support a clean archive-integrity claim.",
+    "No anatomy registration, motor calibration, behavior, learning, or downstream causal claim follows.",
+    "The finest reference is a predeclared finite numerical reference, not ground truth."
+  ],
+  "provenance": {
+    "specification_sha256": "7b940e7ee7fa3f33cb9a738921aa877330c34b61b7d82aed0a0340c7227a12b7",
+    "archive_manifest_sha256": "ac7c46880ff368b50df35d34571489fde45587d0bd3e4ef24cd16ceda1cc6fff",
+    "archive_count": 15,
+    "archive_total_bytes": 779139958,
+    "archive_bundle_sha256": "a7cb4ca6b38443f4023468fc910cd97f849ea6aae9de5cf95e1bef321f8593e9",
+    "public_archive_release": {
+      "repository": "EricW9888/CNS",
+      "release_tag": "exp011-canonical-archives-2026-09-14",
+      "asset_name": "exp011-canonical-archives-direct.tar",
+      "asset_url": "https://github.com/EricW9888/CNS/releases/download/exp011-canonical-archives-2026-09-14/exp011-canonical-archives-direct.tar"
+    },
+    "implementation_sha256": {
+      "src/acceptance_integral.py": "7d3acf2b4be1d899631cddba7316e8bee4c79f71f41a0ee5f7d1a6247adeb130",
+      "src/compound_eye.py": "693df5222cae3508e49891274e8854bf0c6b2e26b20c260af624e504a2fd4abf",
+      "src/retinotopic_eye.py": "0e4e94ca4c3d9b11fba4b2322948012c7dd815bf42f324ef7369261f3590679b",
+      "src/retinotopy_diagnostics.py": "f4d15216b04a48def15116daefe9b1506e0cdc913077dcb8fee809f89b90b971",
+      "src/sensory_chain.py": "d3491c1d56bb649e68b128ac1c7960c6d8b471cc0aab6468f43a93c3ebed8d9e",
+      "scripts/render_exp011_sensors.py": "33edafc408409fbcec97c150180e1b5776502ff8ed7c6996f3ef8fdc60d75740",
+      "scripts/preflight_exp011.py": "a74cd2cfe32096cae94b1744115cda4aae8f0dbdb8b87455194925a3432726f8",
+      "scripts/analyze_exp011_canonical_metrics.py": "34f57f22310d9a27d783ff70157eb74f5bfd7fcd12710d3574e5dd5ad67d7f2a",
+      "tests/test_acceptance_integral.py": "cad7f1fa612671f311a062b2a951524dbb12e76c1e3d86b927605ce9dc093e12"
+    }
+  },
+  "artifacts": {
+    "specification": "specification.json",
+    "canonical_initial_result": "canonical-local-result.json",
+    "visibility_diagnosis": "visibility-diagnosis.json",
+    "local_metrics": "local-metrics.json",
+    "archive_manifest": "archive-manifest.json",
+    "summary_figure": "figures/EXP-011-acceptance-convergence.png"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "experiment_id": "EXP-011-acceptance-convergence",
+  "predecessor": "EXP-010-retinotopic-refinement",
+  "predecessor_commit": "314083340a48c21e7f7c21f13149416d580b3b66",
+  "question": "Can the existing full-eye measured-grid sensory interface be made numerically convergent under the exact same biological and scene assumptions?",
+  "measured_facts": ["857 L / 852 R measured facet directions and lens origins", "1500 frozen EXP-009 complete neighborhoods", "EXP-010 local translation errors 4.952% / 6.063% under the unchanged 5% criterion"],
+  "literature_constraints": ["Retain the frozen EXP-008 truncated spherical Gaussian acceptance function and measured local grid; no new physiology"],
+  "assumptions": ["Exact frozen EXP-008 finite painted wall, spherical opaque blocker, radiance and prescribed poses", "Frozen EXP-009 local readout and type adapter; frozen EXP-005/004 downstream operators", "Instantaneous achromatic acceptance integral remains a provisional photoreceptor proxy"],
+  "free_biological_parameters_changed": [],
+  "unknowns": ["Individual measured-eye to MaleCNS registration (not investigated here)", "Absolute optical or photoreceptor biological calibration", "Accuracy beyond the finest finite reference"],
+  "frozen_files": [
+    {"path": "experiments/EXP-010-retinotopic-refinement/specification.json", "sha256": "d8c4a1dcd9e982dca724edfc195387d5c6e758c49ada5d0a3104b932b29d5fb5"},
+    {"path": "experiments/EXP-010-retinotopic-refinement/record.json", "sha256": "7406237713eb0e90d5b20937a45c44e8c11d86fbb5d8ce9ea97df6c35e5d7621"},
+    {"path": "experiments/EXP-009-retinotopic-eye/specification.json", "sha256": "efc6777a1eda1d808d8eb3a555308aa08030495429c06bb27213e7ce0512adb4"},
+    {"path": "experiments/EXP-009-retinotopic-eye/record.json", "sha256": "16e67f7fbcc3e5f15003abf9be0500c2c39939ea02d3d18c0c3da1b9afc81cfd"},
+    {"path": "src/compound_eye.py", "sha256": "693df5222cae3508e49891274e8854bf0c6b2e26b20c260af624e504a2fd4abf"},
+    {"path": "src/retinotopic_eye.py", "sha256": "0e4e94ca4c3d9b11fba4b2322948012c7dd815bf42f324ef7369261f3590679b"},
+    {"path": "src/retinotopy_diagnostics.py", "sha256": "f4d15216b04a48def15116daefe9b1506e0cdc913077dcb8fee809f89b90b971"},
+    {"path": "src/sensory_chain.py", "sha256": "d3491c1d56bb649e68b128ac1c7960c6d8b471cc0aab6468f43a93c3ebed8d9e"},
+    {"path": "src/binocular_physiology.py", "sha256": "7ad97467344f4048edf2b1183f6c2908b9198ad9f94da0116037dc91a6cfd977"}
+  ],
+  "conditions": ["static", "yaw_positive_Z", "yaw_negative_Z", "translation_positive_X", "translation_negative_X"],
+  "optical_method": "Integrate the identical normalized exp(-theta^2/(2 sigma^2)) sin(theta) integral on 0..3sigma. Analytically split radial intervals at spherical-blocker tangencies and integrate only the visible azimuthal arc; add blocked constant radiance by its angular measure. Sine-squared radial mapping resolves endpoint square-root behavior. No scene smoothing or acceptance change.",
+  "ordered_levels": [
+    {"name": "coarse", "radial": 8, "azimuthal": 16, "sensor_dt_ms": 1.0, "role": "combined refinement baseline; reference optics are subsampled exactly onto this temporal grid"},
+    {"name": "production", "radial": 16, "azimuthal": 32, "sensor_dt_ms": 0.5, "role": "frozen candidate optical level and shared optical-comparison time grid"},
+    {"name": "reference", "radial": 32, "azimuthal": 64, "sensor_dt_ms": 0.25, "role": "finest predeclared finite optical/temporal reference; nested subsamples provide 1.0/0.5 ms temporal comparisons"}
+  ],
+  "candidate": {"name": "production", "sensor_dt_ms": 0.5, "neural_dt_ms": 0.25, "neural_reference_dt_ms": 0.125},
+  "reference": "Finest predeclared finite calculation, not ground truth: 32 radial / 64 azimuthal nodes per split interval/arc, 0.25ms light. No further candidate is added after output inspection.",
+  "smooth_wall_acceleration": {"method": "Unoccluded-wall integral only: exact Z-rotation harmonic; degree-16 adaptive Chebyshev translation table on 0..2mm or -2..0mm. Evaluate blocker arcs directly at every pose; never interpolate visibility.", "table_absolute_tolerance": 1e-10, "direct_verification_absolute_tolerance": 1e-9, "maximum_subdivision_depth": 12, "validation": "Independent off-node checks during construction, plus direct all-facet unoccluded rays at 41 uniformly spaced physical poses per condition. This is a numerical approximation, not a changed scene or sensory acceptance. No downstream output selects it."},
+  "execution_path_resolution": {"status": "resolved_before_canonical_translation_evaluation", "original_predeclared_contract": "The degree-16 adaptive Chebyshev translation accelerator with absolute tolerance 1e-10 and maximum subdivision depth 12 remains the original frozen contract and is retained as a negative preflight record.", "preflight_resolution": "The accelerator failed before any canonical +X/-X translation output was evaluated. Bounded diagnosis found a genuine accelerator limitation, not an implementation or verification error; the pole-adjacent explanation remains an inference about the finite frozen low-order evaluator.", "direct_benchmark": "The full-eye direct AcceptanceIntegral path was benchmarked before canonical translation outputs were examined and was deterministic on replay.", "canonical_translation_path": "For translation conditions only, call AcceptanceIntegral.sample with the frozen optical order and smooth_light omitted. This evaluates the identical frozen normalized optical integral while removing the failed approximation. Preserve the exact Z-rotation harmonic path for nontranslation conditions.", "unchanged_contracts": "No optical order, temporal level, scene, acceptance function, biology, threshold, downstream parameter, or frozen predecessor changes."},
+  "quadrature_normalization": "Use one finite full-cone normalization per numerical order, exactly once for the complete truncated spherical-Gaussian cone. Clear, mixed, and fully blocked visibility pieces are subdivisions of that same integral; never renormalize a visibility piece. Report finite full-cone mass error against a high-order direct reference separately from numerator and final normalized-light errors.",
+  "temporal_contract": "There is one sensor stream per optical level: coarse 1.0 ms, production 0.5 ms, reference 0.25 ms. The 1.0/0.5/0.25 ms hierarchy is obtained by exact nested subsampling of the reference physical samples; no diagonal or second temporal stream exists.",
+  "comparison": {
+    "common_local_output_ms": 2.0,
+    "relative_error": "max absolute difference / max(max absolute state in either array, 1e-12), with separate stage normalizers",
+    "optical": "coarse vs production and production vs reference at shared 0.5ms physical times and identical 0.25ms neural hold",
+    "temporal": "reference optics at 1, 0.5 and 0.25ms, obtained by exact nested subsampling; identical 0.25ms neural grid",
+    "combined": "coarse optics at 1ms vs production at 0.5ms vs reference at 0.25ms",
+    "neural": "identical production sensory samples at 0.25ms and 0.125ms neural update; compare coincident outputs",
+    "visibility": "Analytic possible/mixed support-cone regions for localization only; never supplied to the local neural transform",
+    "absolute_metrics": "All stage maxima, global relative errors, per-entity peak percentiles, squared error energy and concentration; inspect facets 400 and 711 separately"
+  },
+  "acceptance": {
+    "maximum_local_stage_relative_error": 0.05,
+    "maximum_physical_light_absolute_error": 0.0001,
+    "trend": "Final light, raw-correlator, signed-stencil and local-emission max absolute discrepancies must not exceed the preceding discrepancy by more than 1e-12, separately for optical, temporal and combined refinements in every condition",
+    "candidate_gate": "Production/reference combined, separated final optical/temporal, and neural-half-step local stages and pooled channels must all meet 5%; final coincident optical light difference must meet 1e-4; trends, finite/bounded states and controls must pass. Freeze only this candidate before any downstream evaluation.",
+    "static_and_disconnection_max_abs": 0.0,
+    "determinism": "Exact arrays and recorded trace digests",
+    "analytic_preflight": "Constant-radiance conservation, centered-shadow Gaussian mass, mixed visibility vs independent dense rays, away-boundary convergence, visibility transitions, shared temporal samples, observer isolation",
+    "controls": ["Frozen local static/flicker/contrast/reversal/causal invariants", "Eye-to-local disconnection", "Only after local gate: local-to-downstream and central disconnection with unchanged surviving operators", "Downstream contraction/decay and timestep checks if integration is evaluated"],
+    "negative_result": "Failure of the bounded candidate or convergence trend is an explicit negative/partial numerical result; no downstream validation claim and no further refinement search"
+  },
+  "record_generation_gate": "Frozen source integrity, analytical implementation preflight, finite deterministic diagnostics and local controls pass. Acceptance resolves explicitly to positive or negative; never overwrite an existing canonical record."
+}

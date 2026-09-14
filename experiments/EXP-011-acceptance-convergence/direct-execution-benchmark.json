@@ -1,0 +1,86 @@
+{
+  "benchmark_source_commit": "9b8e58357397b99c9774e39229c37794983d2897",
+  "public_base": "314083340a48c21e7f7c21f13149416d580b3b66",
+  "scope": "full-eye direct optical feasibility only; no canonical archives, neural stages, convergence errors, or downstream outputs",
+  "path": "AcceptanceIntegral.sample with smooth_light omitted; diagnostics enabled; 1709 measured facets",
+  "poses_mm": [-2.0, -1.0, -0.5, 0.0, 0.5, 1.0, 2.0],
+  "levels": [
+    {
+      "name": "coarse",
+      "radial": 8,
+      "azimuthal": 16,
+      "sensor_dt_ms": 1.0,
+      "mean_seconds_per_pose": 0.04414375713843453,
+      "median_seconds_per_pose": 0.04407150000042748,
+      "min_seconds_per_pose": 0.04360959999030456,
+      "max_seconds_per_pose": 0.044865300005767494,
+      "compile_seconds": 0.009475500002736226,
+      "peak_process_memory_delta_bytes": 33738752,
+      "unique_physical_poses_per_translation_stream": 2001,
+      "estimated_stream_seconds_mean": 88.34113353401024,
+      "estimated_stream_seconds_conservative_max": 89.78494081154349
+    },
+    {
+      "name": "production",
+      "radial": 16,
+      "azimuthal": 32,
+      "sensor_dt_ms": 0.5,
+      "mean_seconds_per_pose": 0.18009192857217776,
+      "median_seconds_per_pose": 0.18024050000531133,
+      "min_seconds_per_pose": 0.1756846000062069,
+      "max_seconds_per_pose": 0.18377129999862518,
+      "compile_seconds": 0.008664900000439957,
+      "peak_process_memory_delta_bytes": 125939712,
+      "unique_physical_poses_per_translation_stream": 4001,
+      "estimated_stream_seconds_mean": 720.5564711172836,
+      "estimated_stream_seconds_conservative_max": 735.2776361944998
+    },
+    {
+      "name": "reference",
+      "radial": 32,
+      "azimuthal": 64,
+      "sensor_dt_ms": 0.25,
+      "mean_seconds_per_pose": 0.6609314571438257,
+      "median_seconds_per_pose": 0.6651750000019092,
+      "min_seconds_per_pose": 0.6441774999984773,
+      "max_seconds_per_pose": 0.675046399992425,
+      "compile_seconds": 0.009296500007621944,
+      "peak_process_memory_delta_bytes": 491954176,
+      "unique_physical_poses_per_translation_stream": 8001,
+      "estimated_stream_seconds_mean": 5288.121885107757,
+      "estimated_stream_seconds_conservative_max": 5401.0555428394
+    }
+  ],
+  "scaling": {
+    "production_over_coarse_mean_pose_time": 4.079669249887604,
+    "reference_over_production_mean_pose_time": 3.669967123923245,
+    "reference_over_coarse_mean_pose_time": 14.972252023568112,
+    "single_process_peak_memory_baseline_bytes": 136552448,
+    "single_process_peak_memory_after_reference_bytes": 628506624
+  },
+  "complete_translation_stream_estimates": {
+    "positive_X_mean_seconds": 6097.019489759052,
+    "negative_X_mean_seconds": 6097.019489759052,
+    "positive_X_conservative_max_seconds": 6226.118119845443,
+    "negative_X_conservative_max_seconds": 6226.118119845443,
+    "positive_X_mean_minutes": 101.6169914959842,
+    "negative_X_mean_minutes": 101.6169914959842,
+    "conservative_max_minutes": 103.76863533075739
+  },
+  "four_worker_translation_pair_estimate": {
+    "mean_seconds": 6097.019489759052,
+    "conservative_max_seconds": 6226.118119845443,
+    "mean_minutes": 101.6169914959842,
+    "conservative_max_minutes": 103.76863533075739,
+    "boundary": "+X and -X can occupy separate workers; estimate excludes pool startup and unbenchmarked static/yaw worker time"
+  },
+  "deterministic_replay": {
+    "level": "production",
+    "translation_mm": 0.5,
+    "sha256": "6d363de92fddb1edb7abd6b0e9f3730fb8fe74732947d56bd096a9cb7b1692f2",
+    "replayed_sha256": "6d363de92fddb1edb7abd6b0e9f3730fb8fe74732947d56bd096a9cb7b1692f2",
+    "max_light_abs_difference": 0.0,
+    "max_blocked_mass_abs_difference": 0.0
+  },
+  "conclusion": "Direct execution is computationally possible but not reasonably practical for the full frozen reference translation stream on this host: approximately 88-90 minutes per +/-X condition and approximately 1.6-1.7 hours for the +/-X pair under four-worker concurrency, before unbenchmarked overhead. The failed degree-16/tolerance-1e-10/depth-12 Chebyshev accelerator remains permanently abandoned."
+}

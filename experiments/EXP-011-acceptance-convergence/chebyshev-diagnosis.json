@@ -1,0 +1,96 @@
+{
+  "diagnosis_source_checkpoint": "f7355a7a5acf7188cd9d754cdde494d22dcd150b",
+  "public_base": "314083340a48c21e7f7c21f13149416d580b3b66",
+  "scope": "bounded frozen Chebyshev preflight diagnosis only; no canonical +X/-X translation output evaluated",
+  "contract": {
+    "degree": 16,
+    "absolute_tolerance": 1e-10,
+    "maximum_subdivision_depth": 12,
+    "interval_mm": [0.0, 2.0]
+  },
+  "full_eye_scalar_replay": {
+    "first_failing_leaf": {
+      "a_mm": 0.53515625,
+      "b_mm": 0.53564453125,
+      "depth": 12,
+      "facet": 1572,
+      "check_index": 5,
+      "check_x_mm": 0.5355154777189517,
+      "absolute_error": 2.364201057147852e-10
+    },
+    "maximum_failing_leaf": {
+      "a_mm": 0.53564453125,
+      "b_mm": 0.5361328125,
+      "depth": 12,
+      "facet": 1572,
+      "check_index": 8,
+      "check_x_mm": 0.5358647419090993,
+      "absolute_error": 2.5398058145498226e-07,
+      "relative_to_light": 5.07886887742589e-07
+    },
+    "other_failing_leaves": [
+      {
+        "a_mm": 1.01513671875,
+        "b_mm": 1.015625,
+        "facet": 1572,
+        "check_index": 5,
+        "check_x_mm": 1.0154959464689517,
+        "absolute_error": 5.441446171428055e-08
+      },
+      {
+        "a_mm": 1.015625,
+        "b_mm": 1.01611328125,
+        "facet": 1572,
+        "check_index": 10,
+        "check_x_mm": 1.0157540535310483,
+        "absolute_error": 1.7976789312701413e-07
+      }
+    ],
+    "failing_component_count": 1,
+    "negative_side_failures": 0
+  },
+  "worst_leaf_direct_vs_cache": {
+    "direct_frozen_evaluator": 0.5000731217611322,
+    "chebyshev_cache": 0.5000728677805508,
+    "absolute_error": 2.5398058145498226e-07,
+    "relative_error": 5.07886887742589e-07,
+    "endpoint_direct_values": [0.5000748708588509, 0.5000709216067813]
+  },
+  "underlying_function": {
+    "measured_facet": 1572,
+    "local_x_range_mm": [0.53364453125, 0.5381328125],
+    "value_range": 3.558920091939477e-05,
+    "max_abs_first_derivative": 0.020787077659832325,
+    "max_abs_second_derivative": 1238.5991707462608,
+    "max_adjacent_jump": 4.6961888156005216e-08,
+    "max_second_derivative_x_mm": 0.535801150390625,
+    "minimum_wall_xy_radius_mm": 0.00020835501825470143,
+    "near_pole_ray_index": 37
+  },
+  "coefficient_decay": [
+    {"interval_mm": [0.53125, 0.5390625], "max_check_error": 4.17859911450158e-07, "max_abs_coeff_c12_to_c16": 1.7342562823467342e-07},
+    {"interval_mm": [0.53515625, 0.5390625], "max_check_error": 4.528858430496996e-07, "max_abs_coeff_c12_to_c16": 6.529618477542773e-08},
+    {"interval_mm": [0.53515625, 0.537109375], "max_check_error": 3.734211077022209e-07, "max_abs_coeff_c12_to_c16": 2.73571087618095e-08},
+    {"interval_mm": [0.53515625, 0.5361328125], "max_check_error": 3.485410972059455e-07, "max_abs_coeff_c12_to_c16": 3.9361564658371915e-08},
+    {"interval_mm": [0.53564453125, 0.5361328125], "max_check_error": 2.5398058145498226e-07, "max_abs_coeff_c12_to_c16": 2.8731840237356897e-08}
+  ],
+  "independent_direct_normalized_light": {
+    "64x1024": [0.49999986435705196, 0.49999992125256454, 0.49999999277692264],
+    "128x2048": [0.5000000161335638, 0.5000000081952842, 0.5000000021649779],
+    "256x4096": [0.4999999977294292, 0.49999999862389327, 0.4999999997194166],
+    "points_mm": [0.53564453125, 0.5358647419090993, 0.5361328125]
+  },
+  "mapping_and_axes": {
+    "mapping_roundtrip_max_abs": 1.1102230246251565e-16,
+    "endpoint_map_for_0_to_2_mm": [2.0, 0.0],
+    "off_node_check_range_mm": [0.004815273327803182, 1.995184726672197],
+    "values_shape": [17, 1709],
+    "checks_shape": [16, 1709],
+    "raw_chebval_shape": [1709, 16],
+    "prediction_after_transpose_shape": [16, 1709],
+    "indexing_conclusion": "No repository transpose/indexing defect identified; the earlier diagnostic index error was in the diagnosis script itself."
+  },
+  "outcome": "B",
+  "conclusion": "The frozen degree-16, tolerance-1e-10, depth-12 Chebyshev accelerator cannot satisfy its contract for one unoccluded smooth-wall component. The failure is retained as a negative preflight result. No canonical translation was evaluated and no replacement accelerator or direct canonical path was selected.",
+  "uncertainty": "The independent high-order ray evaluator uses a different angular quadrature from the frozen 8x16 direct evaluator, so its stable approximately-0.5 values validate the failing point independently but are not a replacement EXP-011 reference definition."
+}

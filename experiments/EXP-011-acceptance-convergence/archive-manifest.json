@@ -1,0 +1,1050 @@
+{
+  "experiment_id": "EXP-011-acceptance-convergence",
+  "purpose": "Immutable review manifest for the exact canonical direct-execution sensor archives; binaries are not committed to ordinary Git history.",
+  "archive_count": 15,
+  "total_bytes": 779139958,
+  "total_gib": 0.7256306316703558,
+  "git_retention_decision": "archive binaries omitted from Git because the set is 779139958 bytes and three individual files exceed GitHub's ordinary 100 MiB file limit",
+  "source_commit": "5e9ec94d9c982615441ab67f1ffca9f9d783c636",
+  "archive_root": "results/exp011_sensors_direct",
+  "release_storage": {
+    "repository": "EricW9888/CNS",
+    "release_tag": "exp011-canonical-archives-2026-09-14",
+    "asset_name": "exp011-canonical-archives-direct.tar",
+    "asset_url": "https://github.com/EricW9888/CNS/releases/download/exp011-canonical-archives-2026-09-14/exp011-canonical-archives-direct.tar",
+    "bundle": {
+      "path": null,
+      "name": "exp011-canonical-archives-direct.tar",
+      "bytes": 779152384,
+      "sha256": "a7cb4ca6b38443f4023468fc910cd97f849ea6aae9de5cf95e1bef321f8593e9"
+    }
+  },
+  "archives": [
+    {
+      "path": "results/exp011_sensors_direct/static_coarse.npz",
+      "name": "static_coarse.npz",
+      "bytes": 1010484,
+      "sha256": "30adcb97f92769beb290de035b1584391bfc4611da35221c7dda186ecf9ce8ba",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          6000
+        ],
+        "light": [
+          6000,
+          1709
+        ],
+        "mixed": [
+          6000,
+          1709
+        ],
+        "blocked_mass": [
+          6000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1074"
+      },
+      "light_min": 0.1,
+      "light_max": 0.811755745822004,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0,
+      "blocked_mass_count_above_one": 0,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "static",
+        "execution_path": "exact_z_rotation_harmonic",
+        "fresh_full_integral_max_abs_error": 3.3306690738754696e-16,
+        "full_cone_mass": 0.0013574972715918094,
+        "full_cone_mass_error": 1.927923532624165e-12,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 16,
+          "name": "coarse",
+          "radial": 8,
+          "role": "combined refinement baseline; reference optics are subsampled exactly onto this temporal grid",
+          "sensor_dt_ms": 1.0
+        },
+        "light_digest": "46518e6b91191db9947035f96ee0ead3db335d67de2bac613e10065421f0c2aa",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": 2.7755575615628914e-17,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/static_production.npz",
+      "name": "static_production.npz",
+      "bytes": 2002809,
+      "sha256": "c046c85d522168be520471026b3dd2be44d71292cd638865bf2d6bd8b730f3db",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          12000
+        ],
+        "light": [
+          12000,
+          1709
+        ],
+        "mixed": [
+          12000,
+          1709
+        ],
+        "blocked_mass": [
+          12000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1055"
+      },
+      "light_min": 0.1,
+      "light_max": 0.811755747881458,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0,
+      "blocked_mass_count_above_one": 0,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "static",
+        "execution_path": "exact_z_rotation_harmonic",
+        "fresh_full_integral_max_abs_error": 5.551115123125783e-16,
+        "full_cone_mass": 0.0013574972696638868,
+        "full_cone_mass_error": 8.673617379884035e-19,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 32,
+          "name": "production",
+          "radial": 16,
+          "role": "frozen candidate optical level and shared optical-comparison time grid",
+          "sensor_dt_ms": 0.5
+        },
+        "light_digest": "1be470f7f5fded0dbe474a524161b646efb5cc81eeb3c37d2f84c15998569df3",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": 2.7755575615628914e-17,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/static_reference.npz",
+      "name": "static_reference.npz",
+      "bytes": 3985072,
+      "sha256": "b90478de206fba1c6c7e723e5457ca6222940d4c86c0d1b81e3f486b8f3f787b",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          24000
+        ],
+        "light": [
+          24000,
+          1709
+        ],
+        "mixed": [
+          24000,
+          1709
+        ],
+        "blocked_mass": [
+          24000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1096"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8117557478814582,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0,
+      "blocked_mass_count_above_one": 0,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "static",
+        "execution_path": "exact_z_rotation_harmonic",
+        "fresh_full_integral_max_abs_error": 9.992007221626409e-16,
+        "full_cone_mass": 0.0013574972696638865,
+        "full_cone_mass_error": 6.505213034913027e-19,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 64,
+          "name": "reference",
+          "radial": 32,
+          "role": "finest predeclared finite optical/temporal reference; nested subsamples provide 1.0/0.5 ms temporal comparisons",
+          "sensor_dt_ms": 0.25
+        },
+        "light_digest": "fa2fb5e791ad71b27eef5925878386c94dcd3957f12f1bb7b6e123dccfc8b45c",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": 2.7755575615628914e-17,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/translation_negative_X_coarse.npz",
+      "name": "translation_negative_X_coarse.npz",
+      "bytes": 27690111,
+      "sha256": "5f5763e5166c1db8f6de5d8fda45c5106f5ed824fe1eaca4015901f5497c045a",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          6000
+        ],
+        "light": [
+          6000,
+          1709
+        ],
+        "mixed": [
+          6000,
+          1709
+        ],
+        "blocked_mass": [
+          6000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1047"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8316838781708719,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0003017813840904,
+      "blocked_mass_count_above_one": 993,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "translation_negative_X",
+        "execution_path": "direct_translation",
+        "fresh_full_integral_max_abs_error": null,
+        "full_cone_mass": 0.0013574972715918094,
+        "full_cone_mass_error": 1.927923532624165e-12,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 16,
+          "name": "coarse",
+          "radial": 8,
+          "role": "combined refinement baseline; reference optics are subsampled exactly onto this temporal grid",
+          "sensor_dt_ms": 1.0
+        },
+        "light_digest": "598cb629e05a692d9163bacfa92e13e4199c6d34f6a092a91c4eee664e74303e",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": null,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/translation_negative_X_production.npz",
+      "name": "translation_negative_X_production.npz",
+      "bytes": 55323529,
+      "sha256": "fd7ba69abed423feb866df0b79c2b63e4ba49bf746bfe95e1f277b985a36dcfb",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          12000
+        ],
+        "light": [
+          12000,
+          1709
+        ],
+        "mixed": [
+          12000,
+          1709
+        ],
+        "blocked_mass": [
+          12000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1029"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8316838794689133,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.000000000276806,
+      "blocked_mass_count_above_one": 1,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "translation_negative_X",
+        "execution_path": "direct_translation",
+        "fresh_full_integral_max_abs_error": null,
+        "full_cone_mass": 0.0013574972696638868,
+        "full_cone_mass_error": 8.673617379884035e-19,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 32,
+          "name": "production",
+          "radial": 16,
+          "role": "frozen candidate optical level and shared optical-comparison time grid",
+          "sensor_dt_ms": 0.5
+        },
+        "light_digest": "a206c3af2140bebff92235cbfa503fe40205006990c3c0e56f117c7be1d9744b",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": null,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/translation_negative_X_reference.npz",
+      "name": "translation_negative_X_reference.npz",
+      "bytes": 110505593,
+      "sha256": "85ebafa2042d1dd02d8b1e1d848af526d7fb209bf081bc46b6d85f7f45170893",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          24000
+        ],
+        "light": [
+          24000,
+          1709
+        ],
+        "mixed": [
+          24000,
+          1709
+        ],
+        "blocked_mass": [
+          24000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1070"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8316838794689134,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0,
+      "blocked_mass_count_above_one": 0,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "translation_negative_X",
+        "execution_path": "direct_translation",
+        "fresh_full_integral_max_abs_error": null,
+        "full_cone_mass": 0.0013574972696638865,
+        "full_cone_mass_error": 6.505213034913027e-19,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 64,
+          "name": "reference",
+          "radial": 32,
+          "role": "finest predeclared finite optical/temporal reference; nested subsamples provide 1.0/0.5 ms temporal comparisons",
+          "sensor_dt_ms": 0.25
+        },
+        "light_digest": "0acb51bf41ef890cbc70cf2766fc3b58983c61e66faaf29a715d06c5a0451d05",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": null,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/translation_positive_X_coarse.npz",
+      "name": "translation_positive_X_coarse.npz",
+      "bytes": 27811036,
+      "sha256": "eae94e41aba6d9c835ef5eea9b3c1867f098cac4642dbca3d4b57f312a94a35e",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          6000
+        ],
+        "light": [
+          6000,
+          1709
+        ],
+        "mixed": [
+          6000,
+          1709
+        ],
+        "blocked_mass": [
+          6000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1047"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8362320620495733,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0003018011732048,
+      "blocked_mass_count_above_one": 4022,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "translation_positive_X",
+        "execution_path": "direct_translation",
+        "fresh_full_integral_max_abs_error": null,
+        "full_cone_mass": 0.0013574972715918094,
+        "full_cone_mass_error": 1.927923532624165e-12,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 16,
+          "name": "coarse",
+          "radial": 8,
+          "role": "combined refinement baseline; reference optics are subsampled exactly onto this temporal grid",
+          "sensor_dt_ms": 1.0
+        },
+        "light_digest": "00546d8c1194bf5472ec441e5efb568f1f2a8bab4625ac6dac871e1ef0408cb1",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": null,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/translation_positive_X_production.npz",
+      "name": "translation_positive_X_production.npz",
+      "bytes": 55542400,
+      "sha256": "f72af923cdd98577af1da45a482d42156b5e980c02c3cbc0b3becb9fa82baa58",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          12000
+        ],
+        "light": [
+          12000,
+          1709
+        ],
+        "mixed": [
+          12000,
+          1709
+        ],
+        "blocked_mass": [
+          12000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1029"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8359128943268281,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0000000003631784,
+      "blocked_mass_count_above_one": 1,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "translation_positive_X",
+        "execution_path": "direct_translation",
+        "fresh_full_integral_max_abs_error": null,
+        "full_cone_mass": 0.0013574972696638868,
+        "full_cone_mass_error": 8.673617379884035e-19,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 32,
+          "name": "production",
+          "radial": 16,
+          "role": "frozen candidate optical level and shared optical-comparison time grid",
+          "sensor_dt_ms": 0.5
+        },
+        "light_digest": "5e7f4e5b1dc42fce7265fad818a2b4e21d3f766d6b474c644d3db4c2352a4c3e",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": null,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/translation_positive_X_reference.npz",
+      "name": "translation_positive_X_reference.npz",
+      "bytes": 110923608,
+      "sha256": "4786b0a3f84e9e25456a847a86d0a571317e4d16c59d8f88e4373b3c89989bbd",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          24000
+        ],
+        "light": [
+          24000,
+          1709
+        ],
+        "mixed": [
+          24000,
+          1709
+        ],
+        "blocked_mass": [
+          24000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1070"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8359128939926561,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0,
+      "blocked_mass_count_above_one": 0,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "translation_positive_X",
+        "execution_path": "direct_translation",
+        "fresh_full_integral_max_abs_error": null,
+        "full_cone_mass": 0.0013574972696638865,
+        "full_cone_mass_error": 6.505213034913027e-19,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 64,
+          "name": "reference",
+          "radial": 32,
+          "role": "finest predeclared finite optical/temporal reference; nested subsamples provide 1.0/0.5 ms temporal comparisons",
+          "sensor_dt_ms": 0.25
+        },
+        "light_digest": "6be61a2f4b21b666fb714fe503f065c31f0b6e94d008102982273d24f30be83e",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": null,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/yaw_negative_Z_coarse.npz",
+      "name": "yaw_negative_Z_coarse.npz",
+      "bytes": 27485331,
+      "sha256": "134e0a34cd2d5998393ff67d1409a9e446d961222704df227f3d23c0c84d92e7",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          6000
+        ],
+        "light": [
+          6000,
+          1709
+        ],
+        "mixed": [
+          6000,
+          1709
+        ],
+        "blocked_mass": [
+          6000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1081"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8144947032605792,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0003014956033462,
+      "blocked_mass_count_above_one": 2932,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "yaw_negative_Z",
+        "execution_path": "exact_z_rotation_harmonic",
+        "fresh_full_integral_max_abs_error": 5.329070518200751e-15,
+        "full_cone_mass": 0.0013574972715918094,
+        "full_cone_mass_error": 1.927923532624165e-12,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 16,
+          "name": "coarse",
+          "radial": 8,
+          "role": "combined refinement baseline; reference optics are subsampled exactly onto this temporal grid",
+          "sensor_dt_ms": 1.0
+        },
+        "light_digest": "98310f366282235ca0ecccfde497b05b05cb3dc3149b2a4c5ef3e778013e8573",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": 1.7763568394002505e-15,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/yaw_negative_Z_production.npz",
+      "name": "yaw_negative_Z_production.npz",
+      "bytes": 54897636,
+      "sha256": "be505bd8c4ae9bff029bb468e30f2f1a71bd06050117d411f273a07fb7c3dfb2",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          12000
+        ],
+        "light": [
+          12000,
+          1709
+        ],
+        "mixed": [
+          12000,
+          1709
+        ],
+        "blocked_mass": [
+          12000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1063"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8144947052898797,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0,
+      "blocked_mass_count_above_one": 0,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "yaw_negative_Z",
+        "execution_path": "exact_z_rotation_harmonic",
+        "fresh_full_integral_max_abs_error": 4.163336342344337e-15,
+        "full_cone_mass": 0.0013574972696638868,
+        "full_cone_mass_error": 8.673617379884035e-19,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 32,
+          "name": "production",
+          "radial": 16,
+          "role": "frozen candidate optical level and shared optical-comparison time grid",
+          "sensor_dt_ms": 0.5
+        },
+        "light_digest": "c480b2260acf0987a94d479ee2132b4ea1b072ccab087747abbe820747bcd32a",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": 1.6653345369377348e-15,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/yaw_negative_Z_reference.npz",
+      "name": "yaw_negative_Z_reference.npz",
+      "bytes": 109676065,
+      "sha256": "464279e32132811d1dca6570adb68166d37d9e22f9c68c4e381492b4003f3f6f",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          24000
+        ],
+        "light": [
+          24000,
+          1709
+        ],
+        "mixed": [
+          24000,
+          1709
+        ],
+        "blocked_mass": [
+          24000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1105"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8144957111145602,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0,
+      "blocked_mass_count_above_one": 0,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "yaw_negative_Z",
+        "execution_path": "exact_z_rotation_harmonic",
+        "fresh_full_integral_max_abs_error": 3.6637359812630166e-15,
+        "full_cone_mass": 0.0013574972696638865,
+        "full_cone_mass_error": 6.505213034913027e-19,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 64,
+          "name": "reference",
+          "radial": 32,
+          "role": "finest predeclared finite optical/temporal reference; nested subsamples provide 1.0/0.5 ms temporal comparisons",
+          "sensor_dt_ms": 0.25
+        },
+        "light_digest": "9ed24fb93ccf1e10187b6050ad97302ce9fb96668171095a3e8d7d5d79675c06",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": 1.9984014443252818e-15,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/yaw_positive_Z_coarse.npz",
+      "name": "yaw_positive_Z_coarse.npz",
+      "bytes": 27519963,
+      "sha256": "2c40cd566b098df26e03630ef1390009db358717a5a471da7688c908f66f7c80",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          6000
+        ],
+        "light": [
+          6000,
+          1709
+        ],
+        "mixed": [
+          6000,
+          1709
+        ],
+        "blocked_mass": [
+          6000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1082"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8144947032605792,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0003015862874869,
+      "blocked_mass_count_above_one": 2961,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "yaw_positive_Z",
+        "execution_path": "exact_z_rotation_harmonic",
+        "fresh_full_integral_max_abs_error": 3.3306690738754696e-15,
+        "full_cone_mass": 0.0013574972715918094,
+        "full_cone_mass_error": 1.927923532624165e-12,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 16,
+          "name": "coarse",
+          "radial": 8,
+          "role": "combined refinement baseline; reference optics are subsampled exactly onto this temporal grid",
+          "sensor_dt_ms": 1.0
+        },
+        "light_digest": "ce6bc944bade3257c57d46f0b91d69e7dcbb78c24ed2734bc1e80859801469f7",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": 1.7763568394002505e-15,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/yaw_positive_Z_production.npz",
+      "name": "yaw_positive_Z_production.npz",
+      "bytes": 54963886,
+      "sha256": "89b97ee1a3e80523ae51fba1a1b4886480ed684b68ff90904623d7b645f9060e",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          12000
+        ],
+        "light": [
+          12000,
+          1709
+        ],
+        "mixed": [
+          12000,
+          1709
+        ],
+        "blocked_mass": [
+          12000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1063"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8144947052898798,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0,
+      "blocked_mass_count_above_one": 0,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "yaw_positive_Z",
+        "execution_path": "exact_z_rotation_harmonic",
+        "fresh_full_integral_max_abs_error": 4.052314039881821e-15,
+        "full_cone_mass": 0.0013574972696638868,
+        "full_cone_mass_error": 8.673617379884035e-19,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 32,
+          "name": "production",
+          "radial": 16,
+          "role": "frozen candidate optical level and shared optical-comparison time grid",
+          "sensor_dt_ms": 0.5
+        },
+        "light_digest": "028dc8f9ea6f40a2921a25058afea6c3939f194adda96913c3cbe8448d598e55",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": 1.7763568394002505e-15,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    },
+    {
+      "path": "results/exp011_sensors_direct/yaw_positive_Z_reference.npz",
+      "name": "yaw_positive_Z_reference.npz",
+      "bytes": 109802435,
+      "sha256": "05abfe9389ec0b3e4412c764cac069695bd729e8eff47adfba1088eb6e578d2e",
+      "fields": [
+        "blocked_mass",
+        "light",
+        "metadata",
+        "mixed",
+        "sensor_time_ms"
+      ],
+      "shapes": {
+        "sensor_time_ms": [
+          24000
+        ],
+        "light": [
+          24000,
+          1709
+        ],
+        "mixed": [
+          24000,
+          1709
+        ],
+        "blocked_mass": [
+          24000,
+          1709
+        ],
+        "metadata": []
+      },
+      "dtypes": {
+        "sensor_time_ms": "float64",
+        "light": "float64",
+        "mixed": "bool",
+        "blocked_mass": "float64",
+        "metadata": "<U1103"
+      },
+      "light_min": 0.1,
+      "light_max": 0.8144957111145602,
+      "blocked_mass_min": 0.0,
+      "blocked_mass_max": 1.0,
+      "blocked_mass_count_above_one": 0,
+      "metadata": {
+        "cache_off_node_max_abs_error": null,
+        "cache_segments": 0,
+        "condition": "yaw_positive_Z",
+        "execution_path": "exact_z_rotation_harmonic",
+        "fresh_full_integral_max_abs_error": 4.107825191113079e-15,
+        "full_cone_mass": 0.0013574972696638865,
+        "full_cone_mass_error": 6.505213034913027e-19,
+        "geometry_digest": "ab99d8494572c22fe5dd24fc085fbfbf66863f0aad2b604262d42e99c5cde46a",
+        "implementation_sha256": {
+          "scripts/render_exp011_sensors.py": "36c811229afa3ce4ee8ccf07a6eefcb319963d4767a76766c321e59c72b84fdb",
+          "src/acceptance_integral.py": "4118eb5887ce9b74eb654ebcb5acfadd641905709a912896db464edde5d15eb9"
+        },
+        "level": {
+          "azimuthal": 64,
+          "name": "reference",
+          "radial": 32,
+          "role": "finest predeclared finite optical/temporal reference; nested subsamples provide 1.0/0.5 ms temporal comparisons",
+          "sensor_dt_ms": 0.25
+        },
+        "light_digest": "6687d4e221da9e6d48f3e5653976145fd8dd1106bfd4990bfa1d2f75f67cc347",
+        "reference_full_cone_mass": 0.0013574972696638859,
+        "smooth_wall_direct_41_pose_max_abs_error": 2.220446049250313e-15,
+        "specification_sha256": "fca7f7327ced0c0353e024293bb6f2c690d065eb40ddca475aedf5e1befa5789"
+      }
+    }
+  ],
+  "compact_diagnostics": [
+    "visibility-diagnosis.json",
+    "canonical-local-result.json",
+    "direct-path-preflight.json",
+    "direct-execution-benchmark.json"
+  ]
+}
