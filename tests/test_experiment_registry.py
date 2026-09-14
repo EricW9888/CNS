@@ -6,7 +6,7 @@ import pytest
 
 from scripts.ci_tests import partition
 from scripts.verify_experiment import (ROOT, evidence_assertion, integrity,
-                                       pointer, repository_path, valid_test_reference, validate_registry)
+                                       ignored_local_artifact, pointer, repository_path, valid_test_reference, validate_registry)
 
 
 def test_registry_and_headline_evidence_cover_frozen_results():
@@ -70,6 +70,46 @@ def test_integrity_detects_changed_record_before_replay(tmp_path, monkeypatch):
     monkeypatch.setattr(verifier, "repository_path", lambda name: path if name == entry["record"] else original(name))
     with pytest.raises(ValueError, match="frozen artifact changed"):
         integrity(entry)
+
+
+def test_partial_install_reports_absent_ignored_results_without_claiming_replay(tmp_path, monkeypatch):
+    import scripts.verify_experiment as verifier
+    entry = validate_registry()["EXP-007-CvNA2-motor-boundary"]
+    source = "results/exp006_neck/stage_traces.npz"
+    original = verifier.repository_path
+    monkeypatch.setattr(verifier, "repository_path", lambda name: tmp_path/"absent.npz" if name == source else original(name))
+    result = integrity(entry, allow_missing=True)
+    assert source in result["missing_local_artifacts"]
+    assert result["replay"] == "not_executed"
+    with pytest.raises(FileNotFoundError, match="required source absent"):
+        integrity(entry)
+    assert ignored_local_artifact(source)
+    assert ignored_local_artifact("data/absent-source.feather")
+    assert not ignored_local_artifact("data/manifest.json")
+    assert not ignored_local_artifact("src/absent.py")
+
+
+def test_partial_install_never_skips_present_but_corrupt_ignored_results(tmp_path, monkeypatch):
+    import scripts.verify_experiment as verifier
+    entry = validate_registry()["EXP-007-CvNA2-motor-boundary"]
+    source = "results/exp006_neck/stage_traces.npz"
+    corrupt = tmp_path/source
+    corrupt.parent.mkdir(parents=True)
+    corrupt.write_bytes(b"not the frozen trace")
+    original = verifier.repository_path
+    digest = verifier.frozen_entry_digest
+    monkeypatch.setattr(verifier, "repository_path", lambda name: corrupt if name == source else original(name))
+    monkeypatch.setattr(verifier, "frozen_entry_digest", lambda item: digest(item, root=tmp_path) if item["path"] == source else digest(item))
+    with pytest.raises(ValueError, match="source fingerprint differs"):
+        integrity(entry, allow_missing=True)
+
+
+def test_partial_install_handles_clean_checkout_without_local_bundles(tmp_path, monkeypatch):
+    import scripts.verify_experiment as verifier
+    original = verifier.repository_path
+    monkeypatch.setattr(verifier, "repository_path", lambda name: tmp_path/name if ignored_local_artifact(name) else original(name))
+    for entry in validate_registry().values():
+        assert integrity(entry, allow_missing=True)["replay"] == "not_executed"
 
 
 def test_ci_partitions_every_test_file_exactly_once():

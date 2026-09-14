@@ -59,7 +59,9 @@ and tests. Update both with the new result, without rewriting predecessors.
 
 Default verification checks source hashes and frozen artifacts, runs declared
 targeted tests, delegates exact record replay where supported, then rechecks
-artifacts. EXP-008/009/010 consume saved light; small original-neighborhood
+artifacts. Integrity-only mode lists absent ignored downloads and generated
+traces, but still rejects missing tracked sources or changed present artifacts;
+it never claims replay. EXP-008/009/010 consume saved light; small original-neighborhood
 diagnostic rays in EXP-010 are still regenerated. Earlier experiments without
 an exact-record runner use explicitly labeled historical artifact/invariant
 verification: this does not claim a fresh body replay.

@@ -130,6 +130,13 @@ def hash_entries(document):
             yield from hash_entries(value)
 
 
+def ignored_local_artifact(relative):
+    """Only absent ignored downloads/results may be omitted in CI checks."""
+    return relative.startswith(("data/", "results/")) and subprocess.run(
+        ["git", "check-ignore", "--quiet", "--", relative], cwd=ROOT,
+        check=False).returncode == 0
+
+
 def integrity(entry, *, allow_missing=False):
     # Verify exact Git bytes, allowing only checkout newline conversion for
     # record.json (all historical record attributes already declare text/LF).
@@ -164,7 +171,7 @@ def integrity(entry, *, allow_missing=False):
         for source in hash_entries(document):
             path = repository_path(source["path"])
             if not path.exists():
-                if not allow_missing or not source["path"].startswith("data/"):
+                if not allow_missing or not ignored_local_artifact(source["path"]):
                     raise FileNotFoundError(f"required source absent: {source['path']}")
                 missing.add(source["path"])
                 continue
@@ -179,7 +186,7 @@ def integrity(entry, *, allow_missing=False):
                         raise ValueError(f"implementation fingerprint differs: {path}")
                     checked.add(path)
     return {"experiment_id": entry["experiment_id"], "frozen_artifacts": "passed",
-            "source_files_checked": len(checked), "missing_local_data": sorted(missing), "replay": "not_executed"}
+            "source_files_checked": len(checked), "missing_local_artifacts": sorted(missing), "replay": "not_executed"}
 
 
 def main():
