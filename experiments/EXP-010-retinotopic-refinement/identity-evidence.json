@@ -1,0 +1,109 @@
+{
+  "experiment_id": "EXP-010-retinotopic-refinement",
+  "source_files": [
+    {
+      "path": "data/exp010_identity/ME_assigned_columns.csv",
+      "url": "https://raw.githubusercontent.com/reiserlab/male-drosophila-visual-system-connectome-code/dbafc73124b5c96e96429cdf2a89d067cae841bc/results/exchange/ME_assigned_columns.csv",
+      "bytes": 205739,
+      "sha256": "649140bab99503d13136e7cbe60372d981e728505d5c8db0b82f0ef33cfd8c8a",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp010_identity/supplementary_tables.zip",
+      "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-025-08746-0/MediaObjects/41586_2025_8746_MOESM4_ESM.zip",
+      "bytes": 687758,
+      "sha256": "ef34f64c74e157fdec06312e3a1d6e567ae48a383944dd99a3f854e7ba593c93",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp010_identity/coordinate-systems.md",
+      "url": "https://raw.githubusercontent.com/reiserlab/male-drosophila-visual-system-connectome-code/dbafc73124b5c96e96429cdf2a89d067cae841bc/docs/coordinate-systems.md",
+      "bytes": 1045,
+      "sha256": "d88398773d1ae7b883e0ce1cbf074408ad342c78fa65a4b00915a25f66889c0e",
+      "redistributed": false
+    },
+    {
+      "path": "data/body-annotations.feather",
+      "bytes": 14483314,
+      "sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2"
+    },
+    {
+      "path": "data/optic-column-type-assignments-v1.0.xlsx",
+      "bytes": 111565,
+      "sha256": "d4af1cacb751036f7e84bfecc9bec79ca010066ac066559c29b566003ec080d3"
+    }
+  ],
+  "column_assignments": {
+    "rows": 13267,
+    "exact_current_body_ids": 13267,
+    "exact_type_agreement": 13267,
+    "types": {
+      "C2": 874,
+      "C3": 892,
+      "L1": 892,
+      "L2": 893,
+      "L3": 892,
+      "L5": 898,
+      "Mi1": 887,
+      "Mi4": 889,
+      "Mi9": 889,
+      "T1": 892,
+      "Tm1": 890,
+      "Tm2": 883,
+      "Tm20": 876,
+      "Tm4": 833,
+      "Tm9": 887
+    }
+  },
+  "published_Mi1_T4_alignment": {
+    "T4a": {
+      "published_assignments": 832,
+      "unique_T4_ids": 832,
+      "exact_current_body_ids": 832,
+      "exact_current_subtype": 832,
+      "Mi1_ids_with_released_hex_addresses": 832,
+      "rows_used_in_published_analysis": 770,
+      "current_instances_R": 832
+    },
+    "T4b": {
+      "published_assignments": 839,
+      "unique_T4_ids": 839,
+      "exact_current_body_ids": 839,
+      "exact_current_subtype": 839,
+      "Mi1_ids_with_released_hex_addresses": 839,
+      "rows_used_in_published_analysis": 780,
+      "current_instances_R": 839
+    },
+    "T4c": {
+      "published_assignments": 856,
+      "unique_T4_ids": 856,
+      "exact_current_body_ids": 856,
+      "exact_current_subtype": 856,
+      "Mi1_ids_with_released_hex_addresses": 856,
+      "rows_used_in_published_analysis": 760,
+      "current_instances_R": 856
+    },
+    "T4d": {
+      "published_assignments": 835,
+      "unique_T4_ids": 835,
+      "exact_current_body_ids": 835,
+      "exact_current_subtype": 835,
+      "Mi1_ids_with_released_hex_addresses": 835,
+      "rows_used_in_published_analysis": 763,
+      "current_instances_R": 835
+    }
+  },
+  "annotation_table_T4_T5": {
+    "rows": 13580,
+    "nonmissing_assignedOlHex1": 0,
+    "nonmissing_assignedOlHex2": 0
+  },
+  "individual_measured_facet_to_MaleCNS_mapping": false,
+  "registration_boundary": "Exact current right-eye body IDs and source-assigned Mi1-to-T4/hex correspondences are available. They are anatomical assignment estimates, not measured receptive fields. Zhao's released lens/FAFB indices use another specimen/coordinate system. A template-space registration is not an individual facet identity crosswalk. No left/T5 individual eye registration is established here.",
+  "coordinate_evidence": "Male optic-lobe author docs define hex1/hex2 with an arbitrary exterior origin and P/Q origin at hex1=18,hex2=19. MaleCNS downloads expose native 8nm skeletons and JRC2018 template transforms; no validated eye-grid registration follows from an origin shift alone.",
+  "fresh_release_inspection": {
+    "repository_commit": "67767d2233657983993ff6c2be48e836a935863c",
+    "column_workbook_url": "https://raw.githubusercontent.com/flyconnectome/2025malecns/67767d2233657983993ff6c2be48e836a935863c/supplemental_data/optic-column-type-assignments-v1.0.xlsx",
+    "column_workbook_sha256": "d4af1cacb751036f7e84bfecc9bec79ca010066ac066559c29b566003ec080d3"
+  }
+}

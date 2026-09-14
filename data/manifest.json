@@ -397,6 +397,33 @@
           "redistributed": false
         }
       ]
+    },
+    {
+      "experiment_id": "EXP-010-retinotopic-refinement",
+      "purpose": "Primary male optic-lobe column/body correspondence and coordinate provenance; no inferred facet matching",
+      "files": [
+        {
+          "path": "data/exp010_identity/ME_assigned_columns.csv",
+          "url": "https://raw.githubusercontent.com/reiserlab/male-drosophila-visual-system-connectome-code/dbafc73124b5c96e96429cdf2a89d067cae841bc/results/exchange/ME_assigned_columns.csv",
+          "bytes": 205739,
+          "sha256": "649140bab99503d13136e7cbe60372d981e728505d5c8db0b82f0ef33cfd8c8a",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp010_identity/supplementary_tables.zip",
+          "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-025-08746-0/MediaObjects/41586_2025_8746_MOESM4_ESM.zip",
+          "bytes": 687758,
+          "sha256": "ef34f64c74e157fdec06312e3a1d6e567ae48a383944dd99a3f854e7ba593c93",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp010_identity/coordinate-systems.md",
+          "url": "https://raw.githubusercontent.com/reiserlab/male-drosophila-visual-system-connectome-code/dbafc73124b5c96e96429cdf2a89d067cae841bc/docs/coordinate-systems.md",
+          "bytes": 1045,
+          "sha256": "d88398773d1ae7b883e0ce1cbf074408ad342c78fa65a4b00915a25f66889c0e",
+          "redistributed": false
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,37 @@
+{
+  "experiment_id": "EXP-010-retinotopic-refinement",
+  "predecessor": "EXP-009-retinotopic-eye",
+  "predecessor_commit": "8d71fc1733d3c46fca486f41827f8db6f20f4d3e",
+  "question": "Does temporal sensor refinement make the broader measured-grid representation numerically trustworthy under EXP-009's unchanged assumptions?",
+  "measured_facts": ["EXP-008's 857 left and 852 right lens/viewing axes and six-slot neighborhood addresses", "EXP-009's 1500 complete measured neighborhoods"],
+  "literature_constraints": ["Zhao et al. 2025: locally varying direction geometry; the released eye-to-FAFB map is not an individual MaleCNS body crosswalk"],
+  "assumptions": ["Use the exact frozen EXP-008 scene, 5-degree acceptance and 5 by 24 optical quadrature", "Use the exact frozen EXP-009 local correlator and lossy type adapter", "Keep EXP-005 and EXP-004 downstream operators and all physiological parameters unchanged"],
+  "free_biological_parameters_changed": [],
+  "unknowns": ["Individual measured facet to MaleCNS T4/T5 correspondence", "Measured left-eye/T5 peripheral functional direction fields", "Optical quadrature accuracy at a hard opaque boundary"],
+  "conditions": ["static", "yaw_positive_Z", "yaw_negative_Z", "translation_positive_X", "translation_negative_X"],
+  "candidate_declared_before_downstream_evaluation": {
+    "production_sensor_dt_ms": 1.0,
+    "reference_sensor_dt_ms": 0.5,
+    "production_neural_dt_ms": 0.5,
+    "reference_neural_dt_ms": 0.25,
+    "selection_rule": "One fixed candidate, no search. Evaluate local convergence first. A failure is recorded, not retuned; only a passing local candidate is propagated for an integrated validation claim.",
+    "rotation_reference": "Saved 2-to-1ms rotations are historical context only; the candidate is tested at 1-to-0.5ms for all moving conditions."
+  },
+  "diagnostic_only_interventions": ["At original maximum-error neighborhoods: remove occluder", "At the same neighborhoods: set lens origins to zero to remove inter-facet-origin parallax while keeping finite-wall translation", "At the same neighborhoods: compare 5x24, 9x64 and 17x128 quadratures"],
+  "comparison": {
+    "relative_error": "max absolute difference divided by max absolute state across both arrays, floor 1e-12",
+    "common_output_time_ms": 2.0,
+    "sensor_comparison": "Hold each light series causally on the same 0.5ms neural grid; compare at coincident output times, without interpolation",
+    "neural_comparison": "Same production 1ms light, causal hold at 0.5 and 0.25ms; compare coincident output times",
+    "light_comparison": "Report both coincident physical samples and causal-hold differences; input light has its own normalization and is not equated to a neural state"
+  },
+  "acceptance": {
+    "maximum_stage_relative_error": 0.05,
+    "static_and_disconnection_max_abs": 0.0,
+    "determinism": "Exact array equality/digests",
+    "frozen_sources": "Verify EXP-009 source/specification and implementation entries plus its committed record before execution",
+    "controls": ["Static scene", "Motion-reversal pair and ON/OFF activity", "Local invariant preflight including contrast polarity exchange and causal prefix", "Eye-to-motion disconnection", "Motion-to-visual disconnection", "Visual-to-central disconnection", "Stable surviving downstream operators without renormalization"],
+    "negative_result": "A localized, quantified local-stage failure under the fixed candidate is a valid recorded negative result. Numerical convergence does not establish biological identity or physiology."
+  },
+  "record_generation_gate": "Source integrity, deterministic execution, finite diagnostics and local controls pass; acceptance may resolve to either pass or an explicit negative result. No existing record is overwritten."
+}

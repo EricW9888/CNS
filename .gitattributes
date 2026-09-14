@@ -7,3 +7,5 @@ experiments/EXP-006-DNp15-neck-motor/specification.json text eol=lf
 experiments/EXP-007-CvNA2-motor-boundary/specification.json text eol=lf
 experiments/EXP-008-compound-eye/specification.json text eol=lf
 experiments/EXP-009-retinotopic-eye/specification.json text eol=lf
+experiments/EXP-010-retinotopic-refinement/specification.json text eol=lf
+experiments/EXP-010-retinotopic-refinement/identity-evidence.json text eol=lf
