@@ -9,6 +9,15 @@ with embodiment and closed-loop behavior as the longer-term goal. It is built
 bottom-up: each stage is tested against available anatomy and physiology so
 failures can be localized before integration.
 
+![EXP-008 observer: 3D world, measured compound-eye light and frozen neural activity](figures/EXP-008-observer.png)
+
+Post-hoc EXP-008 observer: a prescribed 3D scene becomes measured compound-eye
+facet signals, provisional central-local motion channels and identified
+downstream activity through DNp15. The human camera is observer-only; this is
+not a whole-eye retinotopy or behavior reconstruction.
+[Panel guide and reproduction](docs/EXP-008-observer.md) ·
+[Static overview](figures/EXP-008-observer-overview.png).
+
 ## Current capabilities
 
 Today CNS contains visual-motion and optic-flow circuits extending into
