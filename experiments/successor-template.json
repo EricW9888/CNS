@@ -1,0 +1,17 @@
+{
+  "template_only": true,
+  "experiment_id": null,
+  "question": null,
+  "predecessor": {"experiment_id": null, "frozen_commit": null, "source_hashes": []},
+  "evidence": {"measured_facts": [], "literature_constraints": [], "assumptions": [], "free_parameters": {}, "unknowns": []},
+  "acceptance": {"primary_criterion": null, "valid_negative_result": null, "numerical_tolerances": {}, "controls": []},
+  "local_boundary_checks": [],
+  "execution": {"cheap_preflight_command": null, "minimum_falsification_conditions": [], "production_command": null, "saved_input_replay_command": null, "deterministic_state_or_seed": null},
+  "record_contract": {"status": null, "acceptance_results": null, "controls": null, "convergence": null, "provenance": null, "stage_outputs": null},
+  "artifacts": {"record": null, "report": null, "figure": null},
+  "registry_entry": null,
+  "claim_evidence": [],
+  "targeted_tests": [],
+  "canonical_verify_command": null,
+  "freeze_gate": ["Declared acceptance and controls resolved (pass or explicit negative)", "Convergence/stability resolved", "Exact replay when applicable", "Frozen-source hashes verified", "Report agrees with record", "Recorded-data figure inspected", "Repository/security checks pass", "Committed clean tree"]
+}

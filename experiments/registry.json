@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "frozen_commit_semantics": "Commit containing this version of the immutable record and figure; original execution commits remain in the records. Predecessor links express history, not permission to consume invalid implementation outputs.",
+  "experiments": [
+    {
+      "experiment_id": "EXP-001",
+      "status": "inconclusive",
+      "predecessor": null,
+      "frozen_commit": "4ba43c850f62ae911f8d41b29966c6aca4bf2463",
+      "question": "Can opposite temporal orders of two adjacent MaleCNS optic-column L1 inputs produce a direction-dependent T4 response?",
+      "result": "L1 and subthreshold Mi1/Tm3 respond; no signal reaches T4, so direction selectivity cannot be evaluated.",
+      "report": "reports/EXP-001-strict-lif-baseline.md",
+      "record": "experiments/EXP-001-adjacent-column-motion/record.json",
+      "primary_figure": null,
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-001",
+      "verification": {
+        "kind": "historical_invariants",
+        "tests": [
+          "tests/test_lif_invariants.py",
+          "tests/test_motion.py"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-002",
+      "status": "supported_in_model",
+      "predecessor": "EXP-001",
+      "frozen_commit": "e393a7ae826455705571d053a5c45f26bdcc71fb",
+      "question": "Can a MaleCNS-derived T4 motion circuit distinguish the direction of a moving visual stimulus in the biologically expected way?",
+      "result": "Opposite column orders differ in the frozen reduced T4 model; the main contrast depends on an imposed delayed inhibitory channel, not connectivity alone.",
+      "report": "reports/EXP-002-local-motion.md",
+      "record": "experiments/EXP-002-graded-t4-motion/record.json",
+      "primary_figure": "figures/EXP-002-direction-selectivity.png",
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-002",
+      "verification": {
+        "kind": "historical_invariants",
+        "tests": [
+          "tests/test_exp002.py",
+          "tests/test_exp002_validation.py"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-003-bilateral",
+      "status": "completed_prebody_sign_test_failed",
+      "predecessor": "EXP-003-downstream-correction",
+      "frozen_commit": "e393a7ae826455705571d053a5c45f26bdcc71fb",
+      "question": "Does a bilateral right-minus-left visual-motion pathway difference produce opposite-signed steering commands for mirrored yaw-like optic-flow orders?",
+      "result": "The independent bilateral DN difference is same-signed for both conditions; body simulation is withheld.",
+      "report": "reports/EXP-003-bilateral-readout.md",
+      "record": "experiments/EXP-003-bilateral/record.json",
+      "primary_figure": null,
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-003-bilateral",
+      "verification": {
+        "kind": "historical_invariants",
+        "tests": [
+          "tests/test_exp003_bilateral.py"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-003-downstream-correction",
+      "status": "completed_corrected_graph_preserves_all_t4_paths_but_does_not_reverse_motor_sign",
+      "predecessor": "EXP-003",
+      "frozen_commit": "e393a7ae826455705571d053a5c45f26bdcc71fb",
+      "question": "Are T4b and T4c absent from the EXP-003 downstream materialization because MaleCNS lacks their outputs, or because the target selection is incomplete?",
+      "result": "Corrected filtering restores all four T4 subtype paths without reversing command or body sign.",
+      "report": "reports/EXP-003-downstream-correction.md",
+      "record": "experiments/EXP-003-downstream-correction/record.json",
+      "primary_figure": null,
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-003-downstream-correction",
+      "verification": {
+        "kind": "historical_invariants",
+        "tests": [
+          "tests/test_exp003_corrected.py"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-003",
+      "status": "initial_validation_direction_dependent_but_not_opposite",
+      "predecessor": "EXP-002",
+      "frozen_commit": "4ba43c850f62ae911f8d41b29966c6aca4bf2463",
+      "question": "Does the validated MaleCNS-derived visual-motion signal drive a different steering response when the same two-column motion order is reversed?",
+      "result": "Order changes yaw magnitude, but both orders and zero command turn the same way; no biological steering validation.",
+      "report": "reports/EXP-003-embodied-steering.md",
+      "record": "experiments/EXP-003-embodied-steering/record.json",
+      "primary_figure": null,
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-003",
+      "verification": {
+        "kind": "historical_invariants",
+        "tests": [
+          "tests/test_exp003.py"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-004-binocular-physiology",
+      "status": "completed_stable_negative",
+      "predecessor": "EXP-004-provisional-preflight-failure",
+      "frozen_commit": "10885d54d69fd8c4f5467c0fafc88a1c9645f981",
+      "question": "Does the MaleCNS-constrained recurrent network enhance rotational/asymmetric selectivity at DNp15 relative to HS/H2 while suppressing symmetric translation-like responses?",
+      "result": "The resolved circuit is stable and partially suppresses translation; recurrent enhancement is not reproduced, and calcium hierarchy targets remain unmatched.",
+      "report": "reports/EXP-004-binocular-physiology.md",
+      "record": "experiments/EXP-004-binocular-physiology/record.json",
+      "primary_figure": "figures/EXP-004-binocular-physiology.png",
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-004-binocular-physiology",
+      "verification": {
+        "kind": "exact_replay",
+        "tests": [
+          "tests/test_exp004_record.py",
+          "tests/test_binocular_physiology.py"
+        ],
+        "replay_command": [
+          "scripts/run_exp004_physiology.py",
+          "--check-record"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-004-provisional-preflight-failure",
+      "status": "INVALID_IMPLEMENTATION",
+      "predecessor": "EXP-003-bilateral",
+      "frozen_commit": "e393a7ae826455705571d053a5c45f26bdcc71fb",
+      "question": "Can a bilateral T4-derived H2/HS network enhance DNp15 yaw-like versus translation-like selectivity?",
+      "result": "Incorrect electrical semantics and unstable recurrence make the provisional outputs uninterpretable.",
+      "report": "reports/EXP-004-preflight-failure.md",
+      "record": "experiments/EXP-004-preflight-failure/record.json",
+      "primary_figure": null,
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-004-provisional-preflight-failure",
+      "verification": {
+        "kind": "historical_invariants",
+        "tests": [
+          "tests/test_repository_records.py::test_historical_failure_and_invalid_attempt_remain_explicit"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-005-sensory-to-DNp15",
+      "status": "completed_observable_provisional_chain",
+      "predecessor": "EXP-004-binocular-physiology",
+      "frozen_commit": "4e3646871f1858d9aa7679be1c83863ad8a77ef1",
+      "question": "Can explicit binocular visual motion propagate through a physiological T4/T5 approximation and identified MaleCNS visual projections into the frozen central optic-flow network and DNp15, with errors localized by stage?",
+      "result": "An explicit provisional sensory chain propagates to both DNp15 cells; disconnection abolishes it, but published recurrent enhancement remains unmatched.",
+      "report": "reports/EXP-005-sensory-to-DNp15.md",
+      "record": "experiments/EXP-005-sensory-to-DNp15/record.json",
+      "primary_figure": "figures/EXP-005-sensory-to-DNp15.png",
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-005-sensory-to-DNp15",
+      "verification": {
+        "kind": "exact_replay",
+        "tests": [
+          "tests/test_exp005_record.py",
+          "tests/test_sensory_chain.py"
+        ],
+        "replay_command": [
+          "scripts/run_exp005_sensory.py",
+          "--check-record"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-006-DNp15-neck-motor",
+      "status": "completed_provisional_open_loop_head_motor_chain",
+      "predecessor": "EXP-005-sensory-to-DNp15",
+      "frozen_commit": "9db9e90cfc5b1cbd4dee4174af431674e3d25b28",
+      "question": "Can frozen sensory-derived DNp15 activity recruit identified neck motor cells and produce an interpretable open-loop physical motor tendency?",
+      "result": "Identified neck motor contacts drive a causal, uncalibrated open-loop head-torque approximation, not walking steering.",
+      "report": "reports/EXP-006-DNp15-neck-motor.md",
+      "record": "experiments/EXP-006-DNp15-neck-motor/record.json",
+      "primary_figure": "figures/EXP-006-DNp15-neck-motor.png",
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-006-DNp15-neck-motor",
+      "verification": {
+        "kind": "exact_replay",
+        "tests": [
+          "tests/test_exp006_record.py",
+          "tests/test_neck_motor.py"
+        ],
+        "replay_command": [
+          "scripts/run_exp006_neck.py",
+          "--check-record"
+        ],
+        "optional_environment": "Historical FlyGym/MuJoCo; this command includes a body replay."
+      }
+    },
+    {
+      "experiment_id": "EXP-007-CvNA2-motor-boundary",
+      "status": "completed_movement_target_recruitment_unidentified",
+      "predecessor": "EXP-006-DNp15-neck-motor",
+      "frozen_commit": "b2856f4e3e8a6ed7bf7277f02a43f4d163e1d39e",
+      "question": "Can CvNA2-specific primary physiology identify a quantitative or posture-conditioned DNp15-to-head motor interface?",
+      "result": "CvNA2 movement can be digitized; DN recruitment and posture-conditioned calibration remain unidentified.",
+      "report": "reports/EXP-007-CvNA2-motor-boundary.md",
+      "record": "experiments/EXP-007-CvNA2-motor-boundary/record.json",
+      "primary_figure": "figures/EXP-007-CvNA2-motor-boundary.png",
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-007-CvNA2-motor-boundary",
+      "verification": {
+        "kind": "exact_replay",
+        "tests": [
+          "tests/test_motor_boundary.py"
+        ],
+        "replay_command": [
+          "scripts/run_exp007_boundary.py",
+          "--check-record"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-008-compound-eye",
+      "status": "continuous_sensory_chain_with_provisional_local_readout",
+      "predecessor": "EXP-005-sensory-to-DNp15",
+      "frozen_commit": "2652f00ee7d67d03e1c2772d2e270b91ae9706fc",
+      "question": "Can measured bilateral compound-eye light from a controlled 3D world propagate through the frozen provisional visual-motion pathway to DNp15?",
+      "result": "Measured bilateral facet light propagates through a provisional 65L/66R central-local readout to both DNp15 cells; no full-eye body registration.",
+      "report": "reports/EXP-008-compound-eye.md",
+      "record": "experiments/EXP-008-compound-eye/record.json",
+      "primary_figure": "figures/EXP-008-compound-eye.png",
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-008-compound-eye",
+      "verification": {
+        "kind": "exact_replay",
+        "tests": [
+          "tests/test_compound_eye.py",
+          "tests/test_exp008_observer.py"
+        ],
+        "replay_command": [
+          "scripts/run_exp008_eye.py",
+          "--check-record",
+          "--replay-sensors",
+          "{sensors}"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-009-retinotopic-eye",
+      "status": "retinotopic_chain_validation_incomplete",
+      "predecessor": "EXP-008-compound-eye",
+      "frozen_commit": "8d71fc1733d3c46fca486f41827f8db6f20f4d3e",
+      "question": "Can the broader measured-grid local-direction representation satisfy numerical validation under its provisional type-level interface?",
+      "result": "A 1500-neighborhood local-direction representation propagates, but translation refinement fails the 5% criterion (6.98%/9.27%).",
+      "report": "reports/EXP-009-retinotopic-eye.md",
+      "record": "experiments/EXP-009-retinotopic-eye/record.json",
+      "primary_figure": "figures/EXP-009-retinotopic-eye.png",
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-009-retinotopic-eye",
+      "verification": {
+        "kind": "exact_replay",
+        "tests": [
+          "tests/test_retinotopic_eye.py"
+        ],
+        "replay_command": [
+          "scripts/run_exp009_retinotopy.py",
+          "--check-record",
+          "--sensors",
+          "{sensors}"
+        ]
+      }
+    },
+    {
+      "experiment_id": "EXP-010-retinotopic-refinement",
+      "status": "sampling_validation_incomplete",
+      "predecessor": "EXP-009-retinotopic-eye",
+      "frozen_commit": "05723e64868b0975d6eda7967636c5e68a28a1d3",
+      "question": "Does temporal sensor refinement make the broader measured-grid representation numerically trustworthy under EXP-009's unchanged assumptions?",
+      "result": "The fixed 1-to-0.5ms candidate improves translations to 4.95%/6.06% but still fails; discrepancies concentrate near possible blocker visibility.",
+      "report": "reports/EXP-010-retinotopic-refinement.md",
+      "record": "experiments/EXP-010-retinotopic-refinement/record.json",
+      "primary_figure": "figures/EXP-010-retinotopic-refinement.png",
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-010-retinotopic-refinement",
+      "verification": {
+        "kind": "exact_replay",
+        "tests": [
+          "tests/test_retinotopy_diagnostics.py"
+        ],
+        "replay_command": [
+          "scripts/run_exp010_refinement.py",
+          "--check-record",
+          "--sensors",
+          "{sensors}",
+          "--reference",
+          "{reference}"
+        ]
+      }
+    }
+  ]
+}
