@@ -330,6 +330,73 @@
           "redistributed": false
         }
       ]
+    },
+    {
+      "name": "EXP-009 primary retinotopy registration and T4 field reference",
+      "files": [
+        {
+          "path": "data/exp009_retinotopy/eyemap.RData",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/eyemap.RData",
+          "bytes": 182218,
+          "sha256": "c3f63c69afdc3f381cdafabb1d376b8e25ec5a71bce67550ae42fcdd79cf618e",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp009_retinotopy/T4_RF_pred.RData",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/T4_RF_pred.RData",
+          "bytes": 147396,
+          "sha256": "2d986c95d8f54da7dd0801530c7cb6c17577e08fae8d9e8f7434f8fe3fa2e6cb",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp009_retinotopy/med_ixy.RData",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/med_ixy.RData",
+          "bytes": 2337,
+          "sha256": "4c2430e8e2b8e488d2d26643e141b1622d46b464ea3f43b016d0cb0b27bd5ff7",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp009_retinotopy/proc_eyemap.R",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/proc_eyemap.R",
+          "bytes": 16098,
+          "sha256": "35c0d8d48a67ea6bd11237464f01a6e87f13146e07baef7ad863ec1e8795df6d",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp009_retinotopy/proc_T4.R",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/proc_T4.R",
+          "bytes": 17506,
+          "sha256": "ebc78bb6224a935337021b46b419d4a7b118025e6e931168dc811ed4fed14ec3",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp009_retinotopy/Fig_4.R",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/Fig_4.R",
+          "bytes": 43765,
+          "sha256": "febcdc468fd4e6707ded2e7f04712855327de629705bcf4cf899b8bbf8bdc8bc",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp009_retinotopy/ED_fig_7.R",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/ED_fig_7.R",
+          "bytes": 9349,
+          "sha256": "2c6081b5bd282d2b344d762a605806faab253436ceb9676b043bb219d748a94c",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp009_retinotopy/eyemap_func.R",
+          "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/eyemap_func.R",
+          "bytes": 27327,
+          "sha256": "d139cd26ef5aa2ef60b54236b399a1eaef8cc3ce0c95d7026884d34c68d948ac",
+          "redistributed": false
+        },
+        {
+          "path": "data/exp009_retinotopy/reference.npz",
+          "bytes": 96403,
+          "sha256": "57dbc7f5e1f23eda8456080c423c399cd749d74f29dab8f314bab9e036af2608",
+          "redistributed": false
+        }
+      ]
     }
   ]
 }

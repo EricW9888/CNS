@@ -1,0 +1,195 @@
+{
+  "experiment_id": "EXP-009-retinotopic-eye",
+  "baseline_commit": "af2cb05",
+  "question": "Does a broader measured-grid local-direction representation replace the central-local approximation while preserving the frozen sensory-to-descending chain?",
+  "source_commit": "99d2a43123db636cedb55af9ff31a59657e7d17e",
+  "primary_doi": "10.1038/s41586-025-09276-5",
+  "source_files": [
+    {
+      "path": "data/exp009_retinotopy/eyemap.RData",
+      "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/eyemap.RData",
+      "bytes": 182218,
+      "sha256": "c3f63c69afdc3f381cdafabb1d376b8e25ec5a71bce67550ae42fcdd79cf618e",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp009_retinotopy/T4_RF_pred.RData",
+      "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/T4_RF_pred.RData",
+      "bytes": 147396,
+      "sha256": "2d986c95d8f54da7dd0801530c7cb6c17577e08fae8d9e8f7434f8fe3fa2e6cb",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp009_retinotopy/med_ixy.RData",
+      "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/data/med_ixy.RData",
+      "bytes": 2337,
+      "sha256": "4c2430e8e2b8e488d2d26643e141b1622d46b464ea3f43b016d0cb0b27bd5ff7",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp009_retinotopy/proc_eyemap.R",
+      "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/proc_eyemap.R",
+      "bytes": 16098,
+      "sha256": "35c0d8d48a67ea6bd11237464f01a6e87f13146e07baef7ad863ec1e8795df6d",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp009_retinotopy/proc_T4.R",
+      "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/proc_T4.R",
+      "bytes": 17506,
+      "sha256": "ebc78bb6224a935337021b46b419d4a7b118025e6e931168dc811ed4fed14ec3",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp009_retinotopy/Fig_4.R",
+      "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/Fig_4.R",
+      "bytes": 43765,
+      "sha256": "febcdc468fd4e6707ded2e7f04712855327de629705bcf4cf899b8bbf8bdc8bc",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp009_retinotopy/ED_fig_7.R",
+      "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/ED_fig_7.R",
+      "bytes": 9349,
+      "sha256": "2c6081b5bd282d2b344d762a605806faab253436ceb9676b043bb219d748a94c",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp009_retinotopy/eyemap_func.R",
+      "url": "https://raw.githubusercontent.com/reiserlab/eyemap_T4/99d2a43123db636cedb55af9ff31a59657e7d17e/eyemap_func.R",
+      "bytes": 27327,
+      "sha256": "d139cd26ef5aa2ef60b54236b399a1eaef8cc3ce0c95d7026884d34c68d948ac",
+      "redistributed": false
+    },
+    {
+      "path": "data/exp009_retinotopy/reference.npz",
+      "bytes": 96403,
+      "sha256": "57dbc7f5e1f23eda8456080c423c399cd749d74f29dab8f314bab9e036af2608",
+      "redistributed": false
+    }
+  ],
+  "frozen_files": [
+    {
+      "path": "experiments/EXP-008-compound-eye/specification.json",
+      "sha256": "e8e1f9ed5e5870d2f2cbe5f56ad8110d48f65db9d7390a8d632d2aecceb1a329"
+    },
+    {
+      "path": "experiments/EXP-008-compound-eye/record.json",
+      "sha256": "41a0031e939234bba495ef80b9bf9255b56cdd7040cc59bade2da984d625dfa2"
+    },
+    {
+      "path": "src/compound_eye.py",
+      "sha256": "693df5222cae3508e49891274e8854bf0c6b2e26b20c260af624e504a2fd4abf"
+    },
+    {
+      "path": "scripts/run_exp008_eye.py",
+      "sha256": "b2e0684edc5ee3944ff25e578e485e77d44cbda96ec7ab9817be75ae65d678db"
+    },
+    {
+      "path": "scripts/prepare_exp008_eye.py",
+      "sha256": "7da37fab7b0f13538715c0404afd3633019f797d50a11f842a2c29bf7da7ab07"
+    },
+    {
+      "path": "data/body-annotations.feather",
+      "sha256": "2177e246113e4cfbf1e7772ec37c6da1955ff22e8063d0b1f833101f99a9a3b2"
+    },
+    {
+      "path": "data/optic-column-type-assignments-v1.0.xlsx",
+      "sha256": "d4af1cacb751036f7e84bfecc9bec79ca010066ac066559c29b566003ec080d3"
+    }
+  ],
+  "anatomical_mapping": "literal author right-lens -> female FAFB Mi1 column index map, 778 registered axes; NOT MaleCNS body IDs",
+  "source_registered_grid_minus_EXP008_grid": [
+    1,
+    0
+  ],
+  "MaleCNS_identity_evidence": {
+    "motion_annotation_count": 13580,
+    "motion_assignedOlHex1_nonmissing": 0,
+    "motion_assignedOlHex2_nonmissing": 0,
+    "workbook_rows": 892,
+    "workbook_eye_prefixes": [
+      "ME_R"
+    ],
+    "workbook_columns": [
+      "column",
+      "L1",
+      "R7",
+      "R7_type",
+      "R8",
+      "R8_type",
+      "column_type",
+      "aMe12_branch",
+      "Tm5a_branch",
+      "Notes"
+    ],
+    "interpretation": "available workbook is right-eye L1/R7/R8 organization, not a T4/T5 address table; no female-measured-eye to MaleCNS body registration supplied"
+  },
+  "direction_basis": "measured complete six-neighbor grid: b=unit_tangent(mean(slots 2,3)-mean(slots 0,5)); d=unit_tangent(slot4-slot1); a=-b,c=-d. Zero-based slots have primary p,q offsets (1,0),(1,1),(0,1),(-1,0),(-1,-1),(0,-1). No azimuth/elevation cardinal projection or symmetry enforcement.",
+  "direction_provenance": "Zhao Fig.4C compares T4b with local +h; ED Fig.7 compares T4d with -v; proc_T4.R constructs antiparallel a/b and c/d. Right field is anatomy-predicted and registered to the measured female eye. Applying the same measured-grid rule to the left eye and T5 is an explicit class-level provisional extension, not measured physiology.",
+  "photoreceptor_boundary": "facet-axis scalar light treated as retinotopic visual-axis proxy; R1-R6 rhabdomere axes and neural superposition are NOT reconstructed; no photoreceptor, lamina or medulla body added",
+  "upstream_anatomy_source": "https://doi.org/10.7554/eLife.24394; retinotopic ON/OFF pathway constraints do not uniquely specify the missing individual cross-dataset sensory map",
+  "optics_scene_and_pose": "reuse exact frozen EXP-008 world and bilateral sensor geometry/5-degree optics/poses; recorded scalar-light replay validated against frozen trace digests and direct ray sampling; no RGB camera, semantics, flow or requested direction enters neural kernels",
+  "parameters": {
+    "dt_ms": 0.5,
+    "pixel_degrees": 2.25,
+    "side_pixels": 16,
+    "wavelength_degrees": 18.0,
+    "speed_degrees_s": 45.0,
+    "mean_luminance": 0.5,
+    "contrast": 0.5,
+    "highpass_tau_ms": 50.0,
+    "delay_tau_ms": 15.0,
+    "emission_tau_ms": 10.0,
+    "LPi_tau_ms": 20.0,
+    "chemical_gain": 0.5,
+    "onset_ms": 2000.0,
+    "offset_ms": 4000.0,
+    "duration_ms": 6000.0
+  },
+  "sensor_dt_ms": 2.0,
+  "conditions": {
+    "static": [
+      0.0,
+      0.0
+    ],
+    "yaw_positive_Z": [
+      45.0,
+      0.0
+    ],
+    "yaw_negative_Z": [
+      -45.0,
+      0.0
+    ],
+    "translation_positive_X": [
+      0.0,
+      1.0
+    ],
+    "translation_negative_X": [
+      0.0,
+      -1.0
+    ]
+  },
+  "local_dynamics": "a'= (I-a)/50ms; q=(max(I-a,0),max(a-I,0)); d'=(q-d)/15ms; C_j=d_neighbor_j*q_center-q_neighbor_j*d_center; r_b=(C0+C5-C2-C3)/4; r_d=(C1-C4)/2; e'= (max((-r_b,+r_b,-r_d,+r_d),0)-e)/10ms. Explicit Euler dt=0.5ms; output before update; adaptation starts at first light sample.",
+  "adapter": "equal measured-neighborhood mean AFTER local rectification/emission within each eye, ON/OFF and a/b/c/d; all local traces retained at sensor-coincident times. Lossy shared-population adapter required by unchanged EXP-005; NOT individual MaleCNS retinotopy, wide-field RF reconstruction or connectivity-derived spatial weights.",
+  "local_storage_dt_ms": 2.0,
+  "storage": "float64 local emissions at 2ms; full shared channels and downstream at 0.5ms; no scientific interpolation",
+  "acceptance": {
+    "geometry": "exact source registered viewing axes and medulla/lens grid addresses; preserve all measured lens positions/asymmetries; complete same-eye reciprocal neighborhoods only",
+    "source_orientation": "every comparable right-eye grid direction in same tangent hemiplane as source T4 prediction (positive dot product); report p50/p95/max angles, no fitted orientation correction. This is a deliberately weak sanity invariant, not quantitative functional-field equivalence.",
+    "local": "static and uniform flicker null; contrast inversion exchanges ON/OFF; known scalar traveling patterns reverse a/b or c/d preference; exact causal prefixes/determinism; independent scalar reference equals vector kernel",
+    "coverage": "all complete measured neighborhoods (no output-selected aperture); report omitted edge facets and absent anatomy",
+    "numerical": "convex sensory filters; frozen LPi/central contraction and zero-input decay at full/half dt, same surviving operators in disconnections",
+    "timestep_stage_relative_error": 0.05,
+    "spatial_sampling": "discrete measured graph has no continuous resolution parameter; report two p-parity subset pooling sensitivities descriptively, do not invent finer facets or force agreement",
+    "downstream": "evaluate only after local geometry/source/numerical gates; nonzero ON/OFF, HS/H2 and both DNs for moving conditions; causal disconnections exactly null; no DN-based fitting or gain rescaling",
+    "biology": "preserve frozen EXP-004/005 discrepancies; unequal rotation/translation retinal speeds and uncalibrated activity prohibit a new yaw-selectivity or calcium-agreement claim"
+  },
+  "controls": [
+    "full",
+    "eye_to_retinotopy_disconnected",
+    "retinotopy_to_T4_T5_disconnected",
+    "visual_to_central_disconnected"
+  ],
+  "freeze": "sensory choices fixed from source anatomy and local invariants before EXP-009 downstream output; no fitting/search; baseline model parameters unchanged"
+}

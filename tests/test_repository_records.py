@@ -14,7 +14,8 @@ def test_all_experiment_records_are_valid_and_uniquely_identified():
         assert record["status"]
         records.append(record)
     identifiers = [record["experiment_id"] for record in records]
-    assert len(records) == 11
+    assert len(records) == 12
+    assert "EXP-009-retinotopic-eye" in identifiers
     assert len(identifiers) == len(set(identifiers))
 
 
