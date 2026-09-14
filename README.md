@@ -25,6 +25,9 @@ selected descending pathways, with reproducible model results and provisional
 interfaces. Local optic-column inputs are modeled through
 [T4 motion neurons](https://elifesciences.org/articles/24394); EXP-005 also connects
 explicit binocular stimuli through T4/T5, HS/H2 and central intermediates to DNp15.
+EXP-008 supplies measured bilateral compound-eye samples from a controlled 3D
+world through a provisional central-local readout. The broader EXP-009/010
+representation remains numerically unvalidated for translation.
 EXP-006 extends that frozen chain to identified neck motor neurons and a
 provisional open-loop head-torque interface.
 It is not yet a whole-fly or whole-CNS simulation and does not establish
@@ -34,14 +37,21 @@ biologically interpretable steering behavior.
 
 ## Current direction
 
-[EXP-007](reports/EXP-007-CvNA2-motor-boundary.md) establishes the motor-calibration
-evidence boundary: published CvNA2 movement is quantified, but identified
-DNp15-to-CvNA recruitment and posture-conditioned motor calibration remain
-unresolved. EXP-006's torque interface remains explicitly uncalibrated.
-The next build direction is improving EXP-005's provisional sensory boundary
-with a 3D-world-to-compound-eye interface while motor calibration awaits
-additional physiology. The motor boundary does not yet justify sensory-loop
-closure or steering claims; EXP-004's failure to reproduce the
+[EXP-008](reports/EXP-008-compound-eye.md) establishes the measured compound-eye
+sensory boundary. [EXP-009](reports/EXP-009-retinotopic-eye.md) introduces broader
+local-direction sampling, but fails translation refinement.
+[EXP-010](reports/EXP-010-retinotopic-refinement.md)'s fixed finer temporal
+sampling improves the errors to 4.95% / 6.06%; the unchanged 5% criterion still
+fails. The discrepancy localizes to blocker-intersecting acceptance cones,
+consistent with occlusion / optical sampling sensitivity at a hard visibility
+boundary. Numerical validation and individual measured-eye-to-MaleCNS
+registration remain separate unresolved requirements.
+
+[EXP-007](reports/EXP-007-CvNA2-motor-boundary.md)'s motor-calibration boundary
+also remains: DNp15-to-CvNA recruitment and posture-conditioned calibration
+await additional physiology, and EXP-006's torque interface is uncalibrated.
+These results do not justify sensory-loop closure or steering claims;
+EXP-004's failure to reproduce the
 [published recurrent enhancement](https://doi.org/10.1038/s41593-025-01948-9) remains
 part of the frozen evidence.
 
@@ -63,6 +73,9 @@ interpretation fails.
 | [EXP-005 continuous sensory-to-DNp15 chain](reports/EXP-005-sensory-to-DNp15.md) | Explicit binocular luminance stimuli propagate through provisional ON/OFF motion channels, identified T4/T5 projections, HS/H2 and central intermediates to both DNp15 cells. Visual disconnection abolishes descending activity. The limited transformation comparison passes, but the recurrent-mechanism comparison still fails; early vision remains an approximation. |
 | [EXP-006 neck-motor/open-loop physical boundary](reports/EXP-006-DNp15-neck-motor.md) | Identified DNp15-to-CvNA1/CvNA2 connections drive a provisional torque interface with small, opposite-signed head-azimuth changes and causal disconnection controls. This is not calibrated muscle physiology, whole-body yaw, walking steering or closed-loop behavior. |
 | [EXP-007 CvNA2 motor-calibration boundary](reports/EXP-007-CvNA2-motor-boundary.md) | Primary CvNA2 activation curves provide a quantitative movement target with explicit digitization uncertainty. DNp15-to-CvNA recruitment and a posture-conditioned motor transform remain unidentified, so the data do not calibrate or replace EXP-006's torque bridge. |
+| [EXP-008 measured compound-eye boundary](reports/EXP-008-compound-eye.md) | Controlled 3D scenes produce light samples at 857 left / 852 right measured facet directions. A provisional 65 L / 66 R central-local readout propagates to both DNp15 cells; individual facet-to-MaleCNS registration remains unresolved. |
+| [EXP-009 broader local-direction representation](reports/EXP-009-retinotopic-eye.md) | A 1,500-neighborhood measured-grid representation introduces local direction channels, but translation refinement errors of 6.98% / 9.27% exceed the predeclared 5% criterion. It does not validate full-eye retinotopy. |
+| [EXP-010 temporal refinement and spatial sensitivity](reports/EXP-010-retinotopic-refinement.md) | The fixed 1 ms-to-0.5 ms successor improves translation errors to 4.95% / 6.06%, without passing the unchanged 5% criterion. Error energy concentrates near blocker-intersecting acceptance cones; numerical sensitivity and biological registration remain distinct blockers, not downstream instability or biological failure. |
 
 The concise cross-experiment state is maintained in [project
 status](reports/RESEARCH_PROGRESS.md). Machine-readable parameters and results
@@ -149,6 +162,10 @@ No neuPrint credential belongs in this repository. Current materializers use
 the public `male-cns:v1.0` endpoint.
 
 ## Reproduce experiments
+
+The [experiment registry](experiments/registry.json) lists canonical verification
+commands; the [experiment workflow](docs/experiment-workflow.md) distinguishes
+saved-input replay from production runs and historical invariant checks.
 
 EXP-001:
 

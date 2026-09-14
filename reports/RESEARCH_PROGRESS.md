@@ -1,4 +1,4 @@
-# CNS experimental progress — 2026-09-13
+# CNS experimental progress — 2026-09-14
 
 ## Current state
 
@@ -7,6 +7,10 @@ identified neck-motor extension with a causal open-loop physical head effect,
 alongside local visual-motion results and informative negative results. CvNA2
 activation now has an extracted quantitative movement target, but DNp15-to-CvNA
 recruitment and posture-conditioned motor calibration remain unresolved.
+Measured bilateral compound-eye sampling now connects a controlled 3D world to
+the frozen sensory chain through a provisional central-local readout. The
+broader local-direction representation does not yet pass translation
+refinement, and individual measured-eye-to-MaleCNS registration is unresolved.
 It does not yet have a biologically calibrated direction result, a validated
 recurrent yaw-selective DNp15 transformation, calibrated head control, or
 biologically interpretable embodied steering or closed-loop behavior.
@@ -56,16 +60,42 @@ biologically interpretable embodied steering or closed-loop behavior.
   motor activation cannot supply the missing DN recruitment transfer.
   Saved EXP-006 motor controls replay exactly without changing the bridge or
   adding a body run.
+- [EXP-008](EXP-008-compound-eye.md) establishes a measured compound-eye sensory
+  boundary: 857 left / 852 right facet directions sample controlled 3D scenes.
+  A provisional 65 L / 66 R central-local motion readout propagates to both
+  DNp15 cells. The observer camera never supplies neural input; this is not
+  individual facet-to-MaleCNS registration or full-eye retinotopy.
+- [EXP-009](EXP-009-retinotopic-eye.md) introduces a broader 1,500-neighborhood
+  measured-grid local-direction representation. Translation refinement errors
+  are 6.98% / 9.27%, above the predeclared 5% criterion. Successful propagation
+  does not validate that interface.
+- [EXP-010](EXP-010-retinotopic-refinement.md) preserves the fixed 1 ms-to-0.5 ms
+  successor result: +X improves to 4.95%, while −X remains 6.06%. The unchanged
+  5% criterion fails, so the refined candidate is not validated downstream.
+  In the original EXP-009 discrepancy, 99.4% / 86.3% of local error energy is
+  in neighborhoods whose acceptance cones can intersect the foreground blocker.
+  Blocker removal nearly eliminates the absolute hotspots; higher optical
+  quadrature reduces them, while a common lens origin does not. These diagnostics
+  support occlusion / optical sampling sensitivity at a hard visibility boundary,
+  not a biological failure or downstream-network instability.
+  Same-specimen male optic-lobe tables establish released body/column assignments
+  and Mi1–T4 correspondences, but do not establish individual measured-eye-to-
+  MaleCNS registration. That biological blocker is independent of refinement.
 
 ## Reproducibility foundation
 
 The repository contains machine-readable records and human-readable reports for
-each experiment, compact figures for EXP-002 and EXP-004 through EXP-007,
-SHA-256 provenance for 75 source/materialization artifacts, and graph contracts
+each experiment, compact figures for EXP-002 and EXP-004 through EXP-010,
+SHA-256 provenance for 94 source/materialization artifacts, and graph contracts
 for 24 local bundles.
 Fast tests cover model invariants, exact batch/online equivalence, event
 composition, materialization integrity, sparse projection semantics, diffusive
 coupling, stability helpers, result comparisons, and repository policy.
+The [registry](../experiments/registry.json) provides canonical verification
+entrypoints, and [machine evidence](../experiments/evidence.json) ties selected
+results to record fields and tests. The [experiment workflow](../docs/experiment-workflow.md)
+defines predeclaration, local validation, controls, replay and freezing without
+a workflow engine.
 
 Downloaded data, local graph bundles, generated traces, videos, caches,
 environments, and credentials remain outside Git. The tracked manifest provides
@@ -99,11 +129,13 @@ performance](../docs/implementation.md) for methods and remaining limits.
 
 ## Current direction
 
-EXP-005 through EXP-007 are frozen evidence. The next build direction is
-improving the provisional visual-stimulus boundary with a sensory interface
-from a 3D world to bilateral compound eyes, keeping rendering, eye optics and
-early-vision approximations explicit before passing activity into the existing
-neural chain.
+EXP-005 through EXP-010 are frozen evidence. EXP-008 establishes the measured
+3D-world-to-compound-eye boundary; EXP-009/010 leave broader local-direction
+sampling numerically unvalidated for translation. The sensory frontier is
+resolving optical sampling sensitivity at the blocker boundary and, separately,
+individual measured-eye-to-MaleCNS registration. The earlier same-specimen
+optic-lobe release supplies body/column evidence, not the missing coordinate
+registration chain. No further candidate was chosen to cross the 5% threshold.
 EXP-004's H2/H2rn/DNp15 mismatches and failure to reproduce recurrent enhancement
 remain unresolved; upstream integration does not remove those limitations.
 
