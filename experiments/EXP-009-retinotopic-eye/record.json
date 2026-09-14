@@ -1,11 +1,11 @@
 {
   "experiment_id": "EXP-009-retinotopic-eye",
   "status": "retinotopic_chain_validation_incomplete",
-  "specification_sha256": "9afb6f577ab32e7b4424573e8e96561249e2f48c34d8dc74c7ac8407e275c4e5",
+  "specification_sha256": "efc6777a1eda1d808d8eb3a555308aa08030495429c06bb27213e7ce0512adb4",
   "implementation_sha256": {
     "src/retinotopic_eye.py": "0e4e94ca4c3d9b11fba4b2322948012c7dd815bf42f324ef7369261f3590679b",
-    "scripts/prepare_exp009_retinotopy.py": "33ea18da178e8e5b420ad7dc75b0178c85c7a5cb3eb2782bf63c44acee64b9f6",
-    "scripts/run_exp009_retinotopy.py": "16e02bdeb20b1ac6c46ee4a4c7652da1fd3b334910b67626547da984c3e1b666"
+    "scripts/prepare_exp009_retinotopy.py": "a155390ad12839f63ab03e3546427b90b13dab65dcc578a180181c7b06985c5b",
+    "scripts/run_exp009_retinotopy.py": "0c739b8b4f6ae9dcedad1e3f80a1c7541b47700b191bb1fa6a459d243840476e"
   },
   "environment": {
     "python": "3.11.9",

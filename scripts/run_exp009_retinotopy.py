@@ -23,7 +23,7 @@ import scipy
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.prepare_exp008_eye import evidence_sha256
-from scripts.prepare_exp009_retinotopy import SPEC
+from scripts.prepare_exp009_retinotopy import SPEC, frozen_entry_digest
 from scripts.run_exp005_sensory import load_specification, relative_error
 from scripts.run_exp008_eye import held_light, load_frozen_eye, replay_sensor, summarize, trace_digest
 from src.binocular_physiology import BinocularNetwork, PhysiologyParameters, POPULATIONS
@@ -40,7 +40,7 @@ def load_resolved():
     spec = json.loads(SPEC.read_text(encoding="utf8"))
     for entry in spec["frozen_files"]+spec["source_files"]:
         path = ROOT/entry["path"]
-        if evidence_sha256(path) != entry["sha256"]:
+        if frozen_entry_digest(entry) != entry["sha256"]:
             raise ValueError(f"frozen evidence differs: {entry['path']}")
     eye_spec, geometry = load_frozen_eye()
     with np.load(ROOT/spec["source_files"][-1]["path"], allow_pickle=False) as data:

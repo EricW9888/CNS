@@ -275,6 +275,7 @@ def test_record_keeps_failed_local_refinement_separate_from_propagation():
 
 def test_record_source_and_frozen_source_fingerprints():
     from scripts.prepare_exp008_eye import evidence_sha256
+    from scripts.prepare_exp009_retinotopy import frozen_entry_digest
     from src.provenance import sha256_file
     spec_path = ROOT/"experiments/EXP-009-retinotopic-eye/specification.json"
     spec = json.loads(spec_path.read_text())
@@ -284,7 +285,7 @@ def test_record_source_and_frozen_source_fingerprints():
         assert evidence_sha256(ROOT/path) == digest
     for entry in spec["frozen_files"]:
         if not entry["path"].startswith("data/"):
-            assert evidence_sha256(ROOT/entry["path"]) == entry["sha256"]
+            assert frozen_entry_digest(entry) == entry["sha256"]
     for entry in spec["source_files"][:-1]:
         assert spec["source_commit"] in entry["url"]
         assert entry["redistributed"] is False
@@ -310,3 +311,23 @@ def test_observer_eye_grouping_uses_metadata_not_assumed_lens_order():
     order = eye_display_order(left)
     np.testing.assert_array_equal(order, [1, 3, 4, 0, 2])
     assert left[order[:3]].all() and not left[order[3:]].any()
+
+
+def test_legacy_record_newlines_are_portable_without_relaxing_content_hash(tmp_path):
+    import hashlib
+    from scripts.prepare_exp009_retinotopy import frozen_entry_digest
+    relative = "experiments/EXP-008-compound-eye/record.json"
+    path = tmp_path/relative
+    path.parent.mkdir(parents=True)
+    lf = b'{\n  "unchanged_value": 1\n}\n'
+    entry = {"path": relative, "sha256_method": "utf8_with_lf_newlines"}
+    expected = hashlib.sha256(lf).hexdigest()
+    for content in (lf, lf.replace(b'\n', b'\r\n')):
+        path.write_bytes(content)
+        assert frozen_entry_digest(entry, root=tmp_path) == expected
+    path.write_bytes(lf.replace(b': 1', b': 2'))
+    assert frozen_entry_digest(entry, root=tmp_path) != expected
+    with pytest.raises(ValueError):
+        frozen_entry_digest({"path": "experiments/other/record.json", "sha256_method": "utf8_with_lf_newlines"}, root=tmp_path)
+    with pytest.raises(ValueError):
+        frozen_entry_digest({"path": relative, "sha256_method": "unknown"}, root=tmp_path)

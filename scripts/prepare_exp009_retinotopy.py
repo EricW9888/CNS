@@ -7,6 +7,7 @@ into CNS implementation. Optional extraction dependency is the existing rdata.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -25,6 +26,24 @@ FOLDER = ROOT/"data/exp009_retinotopy"
 SPEC = ROOT/"experiments/EXP-009-retinotopic-eye/specification.json"
 SOURCES = ["data/eyemap.RData", "data/T4_RF_pred.RData", "data/med_ixy.RData",
            "proc_eyemap.R", "proc_T4.R", "Fig_4.R", "ED_fig_7.R", "eyemap_func.R"]
+
+
+def frozen_entry_digest(entry, *, root=ROOT):
+    """Explicit legacy newline policy, never generic JSON reserialization.
+
+    EXP-008 generated its Windows record with CRLF, while its Git attribute
+    stores LF. Normalize only that named legacy record and Python source.
+    Every other scientific record, specification and array remains exact-byte.
+    """
+    path = root/entry["path"]
+    method = entry.get("sha256_method", "existing_evidence_policy")
+    if method == "utf8_with_lf_newlines":
+        if entry["path"] != "experiments/EXP-008-compound-eye/record.json":
+            raise ValueError("legacy newline normalization outside named predecessor record")
+        return hashlib.sha256(path.read_text(encoding="utf8").encode("utf8")).hexdigest()
+    if method != "existing_evidence_policy":
+        raise ValueError("unknown frozen fingerprint method")
+    return evidence_sha256(path)
 
 
 def extract_reference(eye, field, medulla, geometry):
@@ -111,11 +130,20 @@ def main():
     frozen = ["experiments/EXP-008-compound-eye/specification.json", "experiments/EXP-008-compound-eye/record.json",
               "src/compound_eye.py", "scripts/run_exp008_eye.py", "scripts/prepare_exp008_eye.py",
               "data/body-annotations.feather", "data/optic-column-type-assignments-v1.0.xlsx"]
+    frozen_entries = []
+    for f in frozen:
+        entry = {"path": f}
+        if f == "experiments/EXP-008-compound-eye/record.json":
+            entry["sha256_method"] = "utf8_with_lf_newlines"
+        entry["sha256"] = frozen_entry_digest(entry)
+        # Preserve the compact existing order: path, SHA, optional method.
+        frozen_entries.append({"path": f, "sha256": entry["sha256"],
+                               **({"sha256_method": entry["sha256_method"]} if "sha256_method" in entry else {})})
     specification = {
         "experiment_id": "EXP-009-retinotopic-eye", "baseline_commit": "af2cb05",
         "question": "Does a broader measured-grid local-direction representation replace the central-local approximation while preserving the frozen sensory-to-descending chain?",
         "source_commit": COMMIT, "primary_doi": "10.1038/s41586-025-09276-5",
-        "source_files": entries, "frozen_files": [{"path": f, "sha256": evidence_sha256(ROOT/f)} for f in frozen],
+        "source_files": entries, "frozen_files": frozen_entries,
         "anatomical_mapping": "literal author right-lens -> female FAFB Mi1 column index map, 778 registered axes; NOT MaleCNS body IDs",
         "source_registered_grid_minus_EXP008_grid": [1, 0],
         "MaleCNS_identity_evidence": identity_evidence,

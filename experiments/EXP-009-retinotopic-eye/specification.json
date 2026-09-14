@@ -75,7 +75,8 @@
     },
     {
       "path": "experiments/EXP-008-compound-eye/record.json",
-      "sha256": "41a0031e939234bba495ef80b9bf9255b56cdd7040cc59bade2da984d625dfa2"
+      "sha256": "43d8f43cb07bf8830b23af8dcf6c2a26e656605a2d6ff5e2fdb9b020f21e916c",
+      "sha256_method": "utf8_with_lf_newlines"
     },
     {
       "path": "src/compound_eye.py",

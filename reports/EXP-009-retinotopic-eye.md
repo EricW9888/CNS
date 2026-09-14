@@ -236,3 +236,9 @@ central body state. Primary/processed author arrays, R provenance and bulk
 results remain ignored and SHA256-pinned; no GPL author implementation is
 copied or relabeled as CNS code. Only original implementation, compact records,
 tests, this report and its figure are promoted.
+
+The predecessor EXP-008 record uses an explicitly named UTF-8/LF fingerprint:
+its original Windows-generated local copy used CRLF while Git stores LF. This
+normalization changes no JSON content and does not reserialize values. Python
+source follows the existing canonical-LF convention; all other scientific JSON
+and arrays retain exact-byte fingerprints. Historical files are not rewritten.
