@@ -278,6 +278,25 @@
           "{reference}"
         ]
       }
+    },
+    {
+      "experiment_id": "EXP-011-acceptance-convergence",
+      "status": "negative_partial_numerical_result",
+      "predecessor": "EXP-010-retinotopic-refinement",
+      "frozen_commit": "847b45e3e4a60abeb4ab66ac7a23580d638a5499",
+      "question": "Can the existing full-eye measured-grid sensory interface be made numerically convergent under the exact same biological and scene assumptions?",
+      "result": "The strict 1e-4 physical-light production/reference gate fails in all five conditions; downstream LPi/HS/H2/DNp15 evaluation was not performed.",
+      "report": null,
+      "record": "experiments/EXP-011-acceptance-convergence/record.json",
+      "primary_figure": "figures/EXP-011-acceptance-convergence.png",
+      "canonical_verify_command": "python scripts/verify_experiment.py EXP-011-acceptance-convergence",
+      "verification": {
+        "kind": "historical_invariants",
+        "tests": [
+          "tests/test_acceptance_integral.py",
+          "tests/test_experiment_registry.py::test_registry_and_headline_evidence_cover_frozen_results"
+        ]
+      }
     }
   ]
 }

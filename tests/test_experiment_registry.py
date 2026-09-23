@@ -11,9 +11,18 @@ from scripts.verify_experiment import (ROOT, evidence_assertion, integrity,
 
 def test_registry_and_headline_evidence_cover_frozen_results():
     entries = validate_registry()
-    assert len(entries) == 13
+    assert len(entries) == 14
     assert entries["EXP-009-retinotopic-eye"]["status"] == "retinotopic_chain_validation_incomplete"
     assert entries["EXP-010-retinotopic-refinement"]["status"] == "sampling_validation_incomplete"
+    exp011 = entries["EXP-011-acceptance-convergence"]
+    assert exp011["status"] == "negative_partial_numerical_result"
+    assert exp011["predecessor"] == "EXP-010-retinotopic-refinement"
+    assert exp011["report"] is None
+    record = json.loads(repository_path(exp011["record"]).read_text())
+    assert record["predeclared_criteria"]["maximum_physical_light_absolute_error"] == 1e-4
+    assert record["result"]["physical_light_gate_failed_all_conditions"] is True
+    assert record["result"]["downstream_evaluation"] is False
+    assert record["result"]["LPi_HS_H2_DNp15"] == "unevaluated"
     for entry in entries.values():
         assert integrity(entry, allow_missing=True)["replay"] == "not_executed"
 
