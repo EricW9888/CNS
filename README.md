@@ -26,8 +26,9 @@ interfaces. Local optic-column inputs are modeled through
 [T4 motion neurons](https://elifesciences.org/articles/24394); EXP-005 also connects
 explicit binocular stimuli through T4/T5, HS/H2 and central intermediates to DNp15.
 EXP-008 supplies measured bilateral compound-eye samples from a controlled 3D
-world through a provisional central-local readout. The broader EXP-009/010
-representation remains numerically unvalidated for translation.
+world through a provisional central-local readout. EXP-009/010 introduce a
+broader measured-grid representation, while EXP-011 freezes the result that its
+strict physical-light convergence criterion is not met.
 EXP-006 extends that frozen chain to identified neck motor neurons and a
 provisional open-loop head-torque interface.
 It is not yet a whole-fly or whole-CNS simulation and does not establish
@@ -46,6 +47,14 @@ fails. The discrepancy localizes to blocker-intersecting acceptance cones,
 consistent with occlusion / optical sampling sensitivity at a hard visibility
 boundary. Numerical validation and individual measured-eye-to-MaleCNS
 registration remain separate unresolved requirements.
+
+[EXP-011](experiments/EXP-011-acceptance-convergence/record.json) tests numerical
+convergence of that measured-grid sensory interface without changing the scene,
+biology or downstream model. Its local relative convergence checks pass, but
+the strict `1e-4` production/reference physical-light criterion fails in every
+condition. The frozen negative numerical result does not establish failure of
+the biological organism architecture; downstream LPi/HS/H2/DNp15 activity was
+not evaluated.
 
 [EXP-007](reports/EXP-007-CvNA2-motor-boundary.md)'s motor-calibration boundary
 also remains: DNp15-to-CvNA recruitment and posture-conditioned calibration
@@ -76,6 +85,7 @@ interpretation fails.
 | [EXP-008 measured compound-eye boundary](reports/EXP-008-compound-eye.md) | Controlled 3D scenes produce light samples at 857 left / 852 right measured facet directions. A provisional 65 L / 66 R central-local readout propagates to both DNp15 cells; individual facet-to-MaleCNS registration remains unresolved. |
 | [EXP-009 broader local-direction representation](reports/EXP-009-retinotopic-eye.md) | A 1,500-neighborhood measured-grid representation introduces local direction channels, but translation refinement errors of 6.98% / 9.27% exceed the predeclared 5% criterion. It does not validate full-eye retinotopy. |
 | [EXP-010 temporal refinement and spatial sensitivity](reports/EXP-010-retinotopic-refinement.md) | The fixed 1 ms-to-0.5 ms successor improves translation errors to 4.95% / 6.06%, without passing the unchanged 5% criterion. Error energy concentrates near blocker-intersecting acceptance cones; numerical sensitivity and biological registration remain distinct blockers, not downstream instability or biological failure. |
+| [EXP-011 measured-grid numerical convergence](experiments/EXP-011-acceptance-convergence/record.json) | Under unchanged biological, scene and downstream assumptions, the local relative convergence checks pass but the strict physical-light production/reference criterion fails in all five conditions. This is a frozen negative numerical result; downstream activity was not evaluated, and it does not establish failure of the biological architecture. |
 
 The concise cross-experiment state is maintained in [project
 status](reports/RESEARCH_PROGRESS.md). Machine-readable parameters and results

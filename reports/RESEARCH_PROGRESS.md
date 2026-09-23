@@ -10,7 +10,10 @@ recruitment and posture-conditioned motor calibration remain unresolved.
 Measured bilateral compound-eye sampling now connects a controlled 3D world to
 the frozen sensory chain through a provisional central-local readout. The
 broader local-direction representation does not yet pass translation
-refinement, and individual measured-eye-to-MaleCNS registration is unresolved.
+refinement. EXP-011's stricter convergence study freezes a negative numerical
+result: local relative checks pass, but production/reference physical-light
+differences exceed the declared absolute criterion in every condition.
+Individual measured-eye-to-MaleCNS registration remains unresolved.
 It does not yet have a biologically calibrated direction result, a validated
 recurrent yaw-selective DNp15 transformation, calibrated head control, or
 biologically interpretable embodied steering or closed-loop behavior.
@@ -81,11 +84,20 @@ biologically interpretable embodied steering or closed-loop behavior.
   Same-specimen male optic-lobe tables establish released body/column assignments
   and Mi1–T4 correspondences, but do not establish individual measured-eye-to-
   MaleCNS registration. That biological blocker is independent of refinement.
+- [EXP-011](../experiments/EXP-011-acceptance-convergence/record.json) tests the
+  numerical convergence of the same measured-grid sensory interface under
+  unchanged biological, scene and downstream assumptions. The final local
+  relative convergence checks pass, but production/reference physical-light
+  differences exceed the frozen `1e-4` criterion in all five conditions
+  (`4.90e-4` to `7.40e-4`). The result is frozen as a negative partial numerical
+  result. LPi/HS/H2/DNp15 activity was not evaluated, and this does not establish
+  a failure of the biological organism architecture.
 
 ## Reproducibility foundation
 
 The repository contains machine-readable records and human-readable reports for
 each experiment, compact figures for EXP-002 and EXP-004 through EXP-010,
+plus the EXP-011 numerical summary,
 SHA-256 provenance for 94 source/materialization artifacts, and graph contracts
 for 24 local bundles.
 Fast tests cover model invariants, exact batch/online equivalence, event
@@ -129,13 +141,16 @@ performance](../docs/implementation.md) for methods and remaining limits.
 
 ## Current direction
 
-EXP-005 through EXP-010 are frozen evidence. EXP-008 establishes the measured
+EXP-005 through EXP-011 are frozen evidence. EXP-008 establishes the measured
 3D-world-to-compound-eye boundary; EXP-009/010 leave broader local-direction
-sampling numerically unvalidated for translation. The sensory frontier is
-resolving optical sampling sensitivity at the blocker boundary and, separately,
+sampling numerically unvalidated for translation. EXP-011 further shows that
+the measured-grid interface fails its strict physical-light convergence
+criterion despite passing the local relative checks. This is a numerical result,
+not a biological-organism failure, and downstream activity remains unevaluated.
+The sensory frontier is resolving that numerical boundary and, separately,
 individual measured-eye-to-MaleCNS registration. The earlier same-specimen
 optic-lobe release supplies body/column evidence, not the missing coordinate
-registration chain. No further candidate was chosen to cross the 5% threshold.
+registration chain. No further candidate was selected after the frozen result.
 EXP-004's H2/H2rn/DNp15 mismatches and failure to reproduce recurrent enhancement
 remain unresolved; upstream integration does not remove those limitations.
 
